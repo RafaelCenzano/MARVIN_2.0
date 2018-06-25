@@ -1,6 +1,8 @@
+# Imports
 import os
 import platform
 
+# Main Code
 print ('Decting Operating System')
 print ('Your os name is ' + os.name)
 print ('Your os type is ' + platform.system())

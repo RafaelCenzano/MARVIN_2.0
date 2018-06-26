@@ -4,12 +4,14 @@ r = sr.Recognizer()
 mic = sr.Microphone()
 data = ''
 
-def speak(audio_string):
-    print(audio_string)
+def speak(spokenString):
+    print(spokenString)
+    tts = gTTS(text = audioString, lang = 'en-uk')
+    tts.save('Marvin_Speak.mp3')
 
 def listen():
     with mic as source:
-        r.adjust_for_ambient_noise(source, duration=0.5)
+        r.adjust_for_ambient_noise(source, duration = 0.5)
         audio =r.listen(source)
     try:
         data = r.recognize_google(audio)

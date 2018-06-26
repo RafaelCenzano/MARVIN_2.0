@@ -1,4 +1,6 @@
 import speech_recognition as sr
+from gtts import gTTS
+import subprocess
 
 r = sr.Recognizer()
 mic = sr.Microphone()
@@ -6,8 +8,10 @@ data = ''
 
 def speak(spokenString):
     print(spokenString)
-    tts = gTTS(text = audioString, lang = 'en-uk')
+    tts = gTTS(text = spokenString, lang = 'en-uk')
     tts.save('Marvin_Speak.mp3')
+    proc = subprocess.Popen(['mpg321 Marvin_Speak.mp3'], stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True)
+    (out, err) = proc.communicate()
 
 def listen():
     with mic as source:
@@ -21,4 +25,4 @@ def listen():
     except sr.RequestError as e:
         print('The Google Speech Recognition got an error {} ').format (e)
     return data
-#print (r.recognize_google(audio))
+

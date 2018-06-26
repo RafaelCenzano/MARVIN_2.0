@@ -67,7 +67,7 @@ class calc:
  
  def __init__(self,master):
   """Constructor method"""
-  master.title('Calulator') 
+  master.title('Marvinn Calulator') 
   master.geometry()
   self.e = Entry(master)
   self.e.grid(row=0,column=0,columnspan=6,pady=3)

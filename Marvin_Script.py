@@ -38,6 +38,6 @@ while True :
         else:
         # user doesn't want to be on standby so end code session
             marvin.speak("exiting")
-        # break while loop to end the code session
-            break
+        # exit code session
+            exit()
     # end of core loop

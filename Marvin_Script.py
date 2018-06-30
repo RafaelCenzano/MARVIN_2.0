@@ -1,32 +1,43 @@
 #Imports
-import speech_recognition as sr
-import Marvin_commands as marvin
+import Marvin_Commands as marvin
 
-r = sr.Recognizer()
-mic = sr.Microphone()
-data = ''
+# run the while loop to ask user if they want to do voice commands
+while True :
+    # core loop this is the part that will be looped to check user wants to keep using voice commands
+    # it will always ask the user the prompt below when the while loop goes back to the start
+    # part that will run when while loop resets
+    marvin.speak('Would you like to do voice commands?')
+    beg_input = raw_input(": ")
+    # end of part that will run when while loop resets
+ 
+    if beg_input == 'yes':
+    # once recording data is done and marvin completed commands it will restart the loop and ask 'would you like to do voice commands'
+        while 1:
+            print('listening for commands')
+            data = marvin.listen()
+            marvin.commands(data.lower())
+    elif beg_input == "quit": # if the user just wants to end marvin
+        marvin.speak("exiting")
+        break
+    else:
+        marvin.speak("would you like to be on standby?")
+        standby = raw_input(": ")
+    
+        if standby == "yes":
+            marvin.speak("Type start to repoen voice commands or quit to exit")
+            y_n = raw_input(": ")
 
-def listen():
-    with mic as source:
-        r.pause_threshold = 1
-        #cancel out ambiet noises
-        r.adjust_for_ambient_noise(source, duration = 0.5)
-        #listen from source
-        audio = r.listen(source)
-    try:
-        #recognize audio
-        data = r.recognize_google(audio)
-        print(data)
-    except sr.UnknownValueError:
-        #when google speech recognition doesn't understand what you said
-        print('I didn\'t get that')
-    except sr.RequestError as e:
-        #when theres been an error or failed connections
-        print('The Google Speech Recognition got an error {} ').format (e)
-    return data
-
-marvin.speak('Hello my name is Marvin')
-
-command = listen()
-
-marvin.commands(command)
+            if y_n == "start":
+            # NOTE: !important! READ THIS
+            # -> exit all the if statements which will bring us back to the beginning of the loop where it will ask 'would you like to do voice commands'
+            # by running the 'continue' function you will be able to skip down to the bottom of the while loop and since there is nothing there to run it will loop back to the beginning
+                continue
+            else:
+            # break the while loop to end the code session
+                break
+        else:
+        # user doesn't want to be on standby so end code session
+            marvin.speak("exiting")
+        # break while loop to end the code session
+            break
+    # end of core loop

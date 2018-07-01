@@ -1,7 +1,13 @@
 #-*-coding: utf-8-*-
-from Tkinter import *
+from Tkinter import * # Tkinter for GUI
 #for python3 use tkinter
-import math
+import math # math for calculations
+
+
+#######################
+# File for calculator #
+#######################
+
 
 class calc:
  def getandreplace(self):
@@ -100,8 +106,10 @@ class calc:
   Button(master,text=")",width=4,command=lambda:self.action(')')).grid(row=2, column=5)
   Button(master,text="√",width=4,command=lambda:self.squareroot()).grid(row=3, column=4)
   Button(master,text="x²",width=4,command=lambda:self.square()).grid(row=3, column=5)
-#Main
+
+
+# main function
 def calculator():
   root = Tk()
-  obj=calc(root) #object instantiated
+  obj=calc(root) # object instantiated
   root.mainloop()

@@ -4,6 +4,7 @@ import webbrowser # webbrowser to open websites
 import smtplib # smtplib for sending emails
 import essentials # import speak and listen
 from calculator import calculator # import calculator code
+import webscrape
 
 
 #####################
@@ -24,14 +25,19 @@ def dataCommands(command):
         webbrowser.open(url, new = 2) # open url in browser
         print('Done!')
 
-    if 'hello' in command:
+    elif 'hello' in command:
         essentials.speak('Hello')
 
-    if 'standby' in command:
+    elif 'standby' in command:
         essentials.speak('Going on standby')
         raise MarvinCommands # raise exeption so class passes and restarts loop
 
-    if 'where is' in command:
+    elif 'youtube' in command:
+        video = command.split(" ")[1:] # split for anything after 'youtube'
+        video_joined = (" ").join(video) # joining anything that was split from after 'youtube'
+        webscrape.scrapeYoutube(video_joined)
+
+    elif 'where is' in command:
         location = command.split(" ")[2:] # split for anything after 'where is'
         location_joined = (" ").join(location) # joining anything that was split from after 'where is'
         essentials.speak('Hold on, I will show you where ' + location_joined + ' is.') # saying the location heard
@@ -39,10 +45,9 @@ def dataCommands(command):
         webbrowser.open(url, new = 2) # open url in browser
         print('Done!')
 
-    if 'open calculator' or 'run calculator' or 'calculator' in command:
+    elif 'open calculator' or 'run calculator' or 'calculator' in command:
         calculator()
 
-    if 'exit' or 'quit' in command:
+    elif 'exit' or 'quit' in command:
         essentials.speak('exiting')
         exit()
-

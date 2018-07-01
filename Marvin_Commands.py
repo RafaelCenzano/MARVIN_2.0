@@ -1,52 +1,43 @@
 #Imports
-import speech_recognition as sr
-#gtts for tts
-from gtts import gTTS
-#subprocess for playing audio
-import subprocess
-#webbrowser to open websites
-import webbrowser
-#smtplib for sending emails
-import smtplib
+import speech_recognition as sr # speech_recognition to turn speech to string
+from gtts import gTTS # gtts for text to speech
+import subprocess # subprocess for playing audio
+import webbrowser # webbrowser to open websites
+import smtplib # smtplib for sending emails
+
+#FUNCTIONS
 
 def speak(spokenString):
     print(spokenString)
-    #create string into mp3 file using gtts
-    tts = gTTS(text = spokenString, lang = 'en-uk')
+    tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts
     tts.save('Marvin_Speak.mp3')
-    #opening speak file
     proc = subprocess.Popen(['mpg321 Marvin_Speak.mp3'], stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True)
-    (out, err) = proc.communicate()
+    (out, err) = proc.communicate() # opening speak file
 
 def listen():
     r = sr.Recognizer()
-    #using microphone to detect audio
-    with sr.Microphone() as source:
-        #adjust for ambiet sounds
-        r.adjust_for_ambient_noise(source, duration = 1)
-        #listen
-        audio = r.listen(source)
-    data = ""
+    with sr.Microphone() as source: # using microphone to detect audio
+        r.adjust_for_ambient_noise(source, duration = 1) #adjust for ambiet sounds for 1 second
+        audio = r.listen(source) # listen for audio
+    data = ''
     try:
-      #recognize with google's speech recognition
-      data = r.recognize_google(audio)
-      print("You said: " + data)
+        data = r.recognize_google(audio) # recognize with google's speech recognition
+        print('You said: ' + data)
     except sr.UnknownValueError:
-      #when google api didn't understand audio
-      print("I didn\'t get that")
+        print('I didn\'t get that') # when google api didn't understand audio
     except sr.RequestError as e:
-      #when connection or Api offline
-      print("Api or connection is not working.\n The error is {0}".format(e))
+        print('Api or connection is not working.\n The error is {0}'.format(e)) # when connection or Api offline
     return data
 
 class MarvinCommands(Exception): pass
 def commands(command):
 
     if 'open reddit' in command:
-        command = command.split(" ")
-        subreddit = command[2]
-        url = ('https://www.reddit.com/r/' + subreddit)
-        webbrowser.open(url, new = 2)
+        subreddit = command.split(" ")[2:] # split for anything after 'open reddit'
+        subreddit_joined = (" ").join(subreddit) # joining anything that was split from after 'where is'
+        speak('Opening subreddit ' + subreddit_joined) # saying the subreddit page
+        url = ('https://www.reddit.com/r/' + subreddit_joined) # url with reddit page
+        webbrowser.open(url, new = 2) # open url in browser
         print('Done!')
 
     if 'hello' in command:
@@ -54,10 +45,12 @@ def commands(command):
 
     if 'standby' in command:
         speak('Going on standby')
-        raise MarvinCommands
+        raise MarvinCommands # raise exeption so class passes and restarts loop
 
-    if "where is" in command:
-        location = command.split(" ")[2:].join(" ")
-        speak("Hold on, I will show you where " + location + " is.")
-        url = ("https://www.google.nl/maps/place/" + location + "/&amp;")
-        webbrowser.open(url, new = 2)
+    if 'where is' in command:
+        location = command.split(" ")[2:] # split for anything after 'where is'
+        location_joined = (" ").join(location) # joining anything that was split from after 'where is'
+        speak('Hold on, I will show you where ' + location_joined + ' is.') # saying the location heard
+        url = ('https://www.google.nl/maps/place/' + location_joined + '/&amp;') # url with location
+        webbrowser.open(url, new = 2) # open url in browser
+        print('Done!')

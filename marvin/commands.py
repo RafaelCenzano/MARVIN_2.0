@@ -16,7 +16,6 @@ import webscrape
 
 class MarvinCommands(Exception): pass
 def dataCommands(command):
-
     if 'open reddit' in command:
         subreddit = command.split(" ")[2:] # split for anything after 'open reddit'
         subreddit_joined = (" ").join(subreddit) # joining anything that was split from after 'where is'
@@ -45,9 +44,10 @@ def dataCommands(command):
         webbrowser.open(url, new = 2) # open url in browser
         print('Done!')
 
-    elif 'open calculator' or 'run calculator' or 'calculator' in command:
-        calculator()
-
-    elif 'exit' or 'quit' in command:
+    elif 'exit' in command or 'quit' in command:
         essentials.speak('exiting')
-        exit()
+        exit() # leave program
+
+    elif 'open calculator' in command or 'run calculator' in command or 'calculator' in command:
+        calculator() # run calculator code from calculator.py
+

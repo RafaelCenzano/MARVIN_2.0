@@ -1,4 +1,4 @@
-#Imports
+# Imports
 from marvin import commands
 from marvin import essentials
 
@@ -21,7 +21,7 @@ while True :
             pass
     elif beg_input == "quit": # if the user just wants to end marvin
         essentials.speak("exiting")
-        exit()
+        exit() # exit program
     else:
         essentials.speak("Would you like to do chat commands?")
         chat_input = raw_input(': ')
@@ -32,7 +32,7 @@ while True :
                     data  = raw_input(': ')
                     commands.dataCommands(data.lower()) # check for command and lower what was just said
             except commands.MarvinCommands: # except and pass to resume stanby
-                pass
+                pass #restart loop
         else:
             essentials.speak("Would you like to be on standby?")
             standby = raw_input(": ")
@@ -40,14 +40,11 @@ while True :
                 essentials.speak("Type start to repoen voice commands or quit to exit")
                 y_n = raw_input(": ")
                 if y_n == "start":
-            # NOTE: !important! READ THIS
-            # -> exit all the if statements which will bring us back to the beginning of the loop where it will ask 'would you like to do voice commands'
-            # by running the 'continue' function you will be able to skip down to the bottom of the while loop and since there is nothing there to run it will loop back to the beginning
-                    continue
+                    continue # restart loop
                 else:
                     essentials.speak("exiting")
                     exit() # exit the while loop to end the code session
             else: # user doesn't want to be on standby so end code session
                 essentials.speak("exiting")
                 exit() # exit code session
-    # end of core loop
+# end of core loop

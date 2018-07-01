@@ -16,6 +16,7 @@ import webscrape
 
 class MarvinCommands(Exception): pass
 def dataCommands(command):
+
     if 'open reddit' in command:
         subreddit = command.split(" ")[2:] # split for anything after 'open reddit'
         subreddit_joined = (" ").join(subreddit) # joining anything that was split from after 'where is'
@@ -24,7 +25,7 @@ def dataCommands(command):
         webbrowser.open(url, new = 2) # open url in browser
         print('Done!')
 
-    elif 'hello' in command:
+    elif 'hello' in command or 'hi' in command:
         essentials.speak('Hello')
 
     elif 'standby' in command:
@@ -34,7 +35,17 @@ def dataCommands(command):
     elif 'youtube' in command:
         video = command.split(" ")[1:] # split for anything after 'youtube'
         video_joined = (" ").join(video) # joining anything that was split from after 'youtube'
+        essentials.speak('Opening first video for ' + video_joined)
         webscrape.scrapeYoutube(video_joined)
+
+    elif 'amazon' in command:
+        amazon = command.split(" ")[1:]
+        amazon_search = (" ").join(amazon)
+        essentials.speak('Searching amazon for ' + amazon_search)
+        url = ('https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + amazon_search)
+        webbrowser.open(url, new = 2)
+        webbrowser.open(webscrape.scrapeAmazon(command), new = 2)
+        print('Done!')
 
     elif 'where is' in command:
         location = command.split(" ")[2:] # split for anything after 'where is'
@@ -44,7 +55,7 @@ def dataCommands(command):
         webbrowser.open(url, new = 2) # open url in browser
         print('Done!')
 
-    elif 'exit' in command or 'quit' in command:
+    elif 'exit' in command or 'quit' in command or 'leave' in command:
         essentials.speak('exiting')
         exit() # leave program
 

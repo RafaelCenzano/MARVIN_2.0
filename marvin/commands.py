@@ -3,7 +3,7 @@ import os # to open files
 import webbrowser # webbrowser to open websites
 import smtplib # smtplib for sending emails
 import essentials # import speak and listen
-import calculator # import calculator code
+from calculator import calculator # import calculator code
 
 
 #####################
@@ -40,7 +40,7 @@ def dataCommands(command):
         print('Done!')
 
     if 'open calculator' or 'run calculator' or 'calculator' in command:
-        calculator.calculator()
+        calculator()
 
     if 'exit' or 'quit' in command:
         essentials.speak('exiting')

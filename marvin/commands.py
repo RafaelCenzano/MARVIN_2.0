@@ -25,9 +25,6 @@ def dataCommands(command):
         webbrowser.open(url, new = 2) # open url in browser
         print('Done!')
 
-    elif 'hello' in command or 'hi' in command:
-        essentials.speak('Hello')
-
     elif 'standby' in command:
         essentials.speak('Going on standby')
         raise MarvinCommands # raise exeption so class passes and restarts loop
@@ -61,4 +58,7 @@ def dataCommands(command):
 
     elif 'open calculator' in command or 'run calculator' in command or 'calculator' in command:
         calculator() # run calculator code from calculator.py
+
+    elif 'hello' in command or 'hi' in command:
+        essentials.speak('Hello')
 

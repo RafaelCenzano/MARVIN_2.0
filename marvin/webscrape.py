@@ -35,12 +35,14 @@ def requestAmazon(data):
 def scrapeAmazon(data):
     while True:
         soup = requestAmazon(data)
-        divTag = soup.find_all("div", {"class": "s-item-container"})
+        divTag = soup.find_all("div", attrs={"class": "s-item-container"})
         amazon_query_list = []
         if divTag != []:
+            aTags = tag.find_all('a', attrs={'class':'a-link-normal a-text-normal'})
             for tag in divTag:
-                aTags = tag.find_all("a", {"class": "a-link-normal a-text-normal"})
-                amazon_query_list.append(aTags)
+                tmp = tag['href']
+                #aTags = tag.find_all("a", {"class": "a-link-normal a-text-normal"})
+                amazon_query_list.append(tmp)
             amazon_returned = amazon_query_list[1]
             return amazon_returned
             break

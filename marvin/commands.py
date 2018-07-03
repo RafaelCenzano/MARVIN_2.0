@@ -34,15 +34,17 @@ def dataCommands(command):
         video_joined = (" ").join(video) # joining anything that was split from after 'youtube'
         essentials.speak('Opening first video for ' + video_joined)
         webscrape.scrapeYoutube(video_joined)
-
+'''
     elif 'amazon' in command:
         amazon = command.split(" ")[1:]
         amazon_search = (" ").join(amazon)
         essentials.speak('Searching amazon for ' + amazon_search)
         url = ('https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + amazon_search)
         webbrowser.open(url, new = 2)
-        webbrowser.open(webscrape.scrapeAmazon(command), new = 2)
-        print('Done!')
+        url2 = str(webscrape.scrapeAmazon(command))
+        print url2
+        webbrowser.open(url2, new = 2)
+        print('Done!')'''
 
     elif 'where is' in command:
         location = command.split(" ")[2:] # split for anything after 'where is'

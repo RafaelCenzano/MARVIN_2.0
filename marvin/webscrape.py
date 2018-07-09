@@ -24,34 +24,3 @@ def scrapeYoutube(data):
     watchurl = videolist[0] # take the first url
     webbrowser.open(watchurl, new = 2) # open the url
     print('Done!')
-
-def requestAmazon(data):
-    url = ('https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + data)
-    r = requests.get(url)
-    page = r.text
-    soup = bs(page, 'html.parser')
-    return soup
-
-def scrapeAmazon(data):
-    while True:
-        soup = requestAmazon(data)
-        divTag = soup.find_all("div", attrs={"class": "s-item-container"})
-        amazon_query_list = []
-        if divTag != []:
-            aTags = tag.find_all('a', attrs={'class':'a-link-normal a-text-normal'})
-            for tag in divTag:
-                tmp = tag['href']
-                #aTags = tag.find_all("a", {"class": "a-link-normal a-text-normal"})
-                amazon_query_list.append(tmp)
-            amazon_returned = amazon_query_list[1]
-            return amazon_returned
-            break
-        else:
-            essentials.speak('I ran into a problem will retry to fix the issue')
-            time.sleep(0.9)
-            rand_request = ['monitor','mice','python book','drone','rc car','rc helicopter','java book','javascript book','usb drives','usb hub','dog toys','cat toys','laptop','gaming laptop','headphones','gaming headphones']
-            requestAmazon(random.choice(rand_request))
-            time.sleep(0.5)
-            print('Almost there')
-            time.sleep(1.3)
-            continue

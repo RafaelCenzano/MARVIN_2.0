@@ -1,0 +1,10 @@
+{
+	"contacts": {
+		"recipient": {
+			"email": "email@domain.com"
+		},
+		"recipient2": {
+			"email": "email@domain.com"
+		}
+	}
+}

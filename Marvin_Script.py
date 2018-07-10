@@ -1,7 +1,7 @@
 # Imports
 from marvin import commands
 from marvin import essentials
-from json import dump
+from json import dump, load
 
 # MAIN
 while True :
@@ -15,6 +15,8 @@ while True :
  
     if beg_input == '1' or 'voice' in beg_input: # once recording data is done and marvin completed commands it will restart the loop and ask 'would you like to do voice commands'
         try:
+            with open('marvin/json/data.json', 'r') as listen_chat:
+                listen_data = load(listen_chat)
             with open('marvin/json/data.json', 'w') as outfile:
                 listen_data['listen'] = 1
                 dump(listen_data, outfile)
@@ -23,6 +25,8 @@ while True :
                 data = essentials.listen() #use listen function in commands.py
                 commands.dataCommands(data.lower()) # check for command and lower what was just said
         except commands.MarvinCommands: # except and pass to resume stanby
+            with open('marvin/json/data.json', 'r') as listen_chat:
+                listen_data = load(listen_chat)
             with open('marvin/json/data.json', 'w') as outfile:
                 listen_data['listen'] = 0
                 dump(listen_data, outfile)
@@ -32,8 +36,11 @@ while True :
         exit() # exit program
     elif beg_input == '2' or 'chat' in beg_input:
         try:
+            with open('marvin/json/data.json', 'r') as listen_chat:
+                listen_data = load(listen_chat)
             with open('marvin/json/data.json', 'w') as outfile:
                 listen_data['listen'] = 0
+                dump(listen_data, outfile)
             while 1:
                 print('Awaiting commands')
                 data  = raw_input(': ')

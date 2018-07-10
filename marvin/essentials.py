@@ -35,31 +35,31 @@ def listen():
 class MarvinEmail(Exception): pass
 def email(recipient, subject, email_message):
     #import
-    from smtplib import SMTP
-    from email.mime.text import MIMEText
-    from email.mime.multipart import MIMEMultipart
-    from json import load
+    from smtplib import SMTP # smtplib for connection and sending of email
+    from email.mime.text import MIMEText # MIMEText for formatting
+    from email.mime.multipart import MIMEMultipart # MIMEMultipart changing sender
+    from json import load # to open contacts.json to see contacts to be able to send email
 
-    with open('../pass.json', 'r') as email_user_data:
-        data = load(email_user_data)
-        email_user = data['email_address']
-        email_pass = data['email_password']
+    with open('../pass.json', 'r') as email_user_data: # open pass.json to get email password and username
+        data = load(email_user_data) # load json
+        email_user = data['email_address'] # get email address
+        email_pass = data['email_password'] # get email password
 
-    with open('marvin/json/contacts.json', 'r') as contacts_open:
-        contact_data = load(contacts_open)
-    if recipient in contact_data['contacts']:
-        recipient_email = contact_data['contacts'][recipient]['email']
-    else:
+    with open('marvin/json/contacts.json', 'r') as contacts_open: # get contact data
+        contact_data = load(contacts_open) # load contacts data
+    if recipient in contact_data['contacts']: # check if recipient in contacts
+        recipient_email = contact_data['contacts'][recipient]['email'] # get email address of recipient
+    else: # recipient not in contacts
         speak(recipient + ' is not in our contacts use the "add contacts" command to add them')
-        raise MarvinEmail
+        raise MarvinEmail # break loop and command
 
     #message area
-    msg = MIMEMultipart()
-    msg['From'] = 'Marvin'
-    msg['To'] = recipient_email
-    msg['Subject'] = subject
-    msg.attach(MIMEText(email_message,'plain'))
-    text = msg.as_string()
+    msg = MIMEMultipart() # formatting
+    msg['From'] = 'Marvin' #change sender to Marvin
+    msg['To'] = recipient_email # input recipient email
+    msg['Subject'] = subject # input subject
+    msg.attach(MIMEText(email_message,'plain')) # add body
+    text = msg.as_string() # format all text
 
     #sending code
     server = SMTP('smtp.gmail.com', 587) # connection to 587 port for gmail

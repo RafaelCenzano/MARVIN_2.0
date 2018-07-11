@@ -1,11 +1,11 @@
 {
 	"contacts": {
 		"recipient": {
-			"email":"email@domain.com"
+			"email":"email@domain.com",
 			"number":"number here"
 		},
 		"recipient2": {
-			"email":"email@domain.com"
+			"email":"email@domain.com",
 			"number":"none"
 		}
 	}

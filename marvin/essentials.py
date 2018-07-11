@@ -28,8 +28,10 @@ def listen():
         print('You said: ' + data)
     except UnknownValueError:
         print('I didn\'t get that') # when google api didn't understand audio
+        data = 'False'
     except RequestError as e:
         print('Api or connection is not working.\n The error is {0}'.format(e)) # when connection or Api offline
+        data = 'Broken'
     return data
 
 class MarvinEmail(Exception): pass
@@ -67,4 +69,4 @@ def email(recipient, subject, email_message):
     server.login(email_user, email_pass) # login with credentials
     server.sendmail(email_user, recipient_email, text) # send email
     server.quit() # quit connection
-    print('Done!') # done
+    print('Sent!') # done

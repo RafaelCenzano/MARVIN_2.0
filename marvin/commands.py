@@ -3,7 +3,7 @@ from webbrowser import open as webopen # webbrowser to open websites
 import essentials # import speak and listen
 from calculator import calculator # import calculator code
 import webscrape # import webscrape functions
-from json import load # import json load
+from json import load, dump # import json load
 
 
 #####################
@@ -52,26 +52,94 @@ def dataCommands(command):
     elif command == 'hello' or command == 'hi':
         essentials.speak('Hello')
 
+    elif command == 'add contact':
+        with open('marvin/json/data.json', 'r') as listen_data:
+            listen_chat_data = load(listen_data)
+        if listen_chat_data['listen'] == 0:
+            print('input cancel to cancel add contact')
+            essentials.speak('Who would you like to add to you contacts?')
+            add_contact = raw_input(': ')
+            if add_contact != 'quit' or add_contact != 'exit' or add_contact != 'cancel':
+                print('input cancel to cancel add contact')
+                essentials.speak('What is ' + add_contact + '\'s email?')
+                new_email = raw_input(': ')
+                if add_contact != 'quit' or add_contact != 'exit' or add_contact != 'cancel':
+                    print('input cancel to cancel add contact')
+                    essentials.speak('What is ' + add_contact + '\'s phone number?')
+                    essentials.speak('If you don\'t have it or you dont want to input respond with None')
+                    new_phone_number = raw_input(': ')
+                    if add_contact != 'quit' or add_contact != 'exit' or add_contact != 'cancel':
+                        essentials.speak('Creating contact')
+                        with open('marvin/json/contacts.json', 'r') as contact_data:
+                            new_contact_data = load(contact_data)
+                        with open('marvin/json/contacts.json', 'w') as outfile:
+                            new_contact_data['contacts'][add_contact] = {"email":new_email, "number":new_phone_number}
+                            dump(new_contact_data, outfile)
+                        print('Done!')
+                    else:
+                        essentials.speak('canceling')
+                        pass
+                else:
+                    essentials.speak('canceling')
+                    pass
+            else:
+                essentials.speak('canceling')
+                print('input cancel to cancel add contact')
+        elif listen_chat_data['listen'] == 1:
+            essentials.speak('Who would you like to add to you contacts?')
+            add_contact = essentials.listen()
+            if add_contact != 'quit' or add_contact != 'exit' or add_contact != 'cancel':
+                print('input cancel to cancel add contact')
+                essentials.speak('What is ' + add_contact + '\'s email?')
+                new_email = essentials.listen()
+                if add_contact != 'quit' or add_contact != 'exit' or add_contact != 'cancel':
+                    print('input cancel to cancel add contact')
+                    essentials.speak('What is ' + add_contact + '\'s phone number?')
+                    essentials.speak('If you don\'t have it or you dont want to input respond with None')
+                    new_phone_number = essentials.listen()
+                    if add_contact != 'quit' or add_contact != 'exit' or add_contact != 'cancel':
+                        essentials.speak('Creating contact')
+                        with open('marvin/json/contacts.json', 'r') as contact_data:
+                            new_contact_data = load(contact_data)
+                        with open('marvin/json/contacts.json', 'w') as outfile:
+                            new_contact_data['contacts'][add_contact] = {"email":new_email, "number":new_phone_number}
+                            dump(new_contact_data, outfile)
+                    else:
+                        essentials.speak('canceling')
+                        pass
+                else:
+                    essentials.speak('canceling')
+                    pass
+            else:
+                essentials.speak('canceling')
+                pass
+        else:
+            essentials.speak('A file is missing data report to issues on github')
+            pass
+
     elif command == 'send email':
         try:
             with open('marvin/json/data.json', 'r') as listen_data:
                 listen_chat_data = load(listen_data)
             if listen_chat_data['listen'] == 0:
+                print('input cancel to cancel send email')
                 essentials.speak('Who would you like to send this email to?')
-                email_recipent = raw_input(': ').lower()
+                email_recipient = raw_input(': ')
+                email_recipient_lower = email_recipient.lower()
                 essentials.speak('What is the subject of the email?')
                 email_subject = raw_input(': ')
-                essentials.speak('What is the message you would like to send to ' + email_recipent)
+                essentials.speak('What is the message you would like to send to ' + email_recipient)
                 email_body = raw_input(': ')
-                essentials.email(email_recipent, email_subject, email_body)
+                essentials.email(email_recipient_lower, email_subject, email_body)
             elif listen_chat_data['listen'] == 1:
                 essentials.speak('Who would you like to send this email to?')
-                email_recipent = essentials.listen().lower()
+                email_recipient = essentials.listen()
+                email_recipient_lower = email_recipient.lower()
                 essentials.speak('What is the subject of the email?')
                 email_subject = essentials.listen()
-                essentials.speak('What is the message you would like to send to ' + email_recipent)
+                essentials.speak('What is the message you would like to send to ' + email_recipient)
                 email_body = essentials.listen()
-                essentials.email(email_recipent, email_subject, email_body)
+                essentials.email(email_recipient_lower, email_subject, email_body)
             else:
                 essentials.speak('A file is missing data report to issues on github')
                 pass

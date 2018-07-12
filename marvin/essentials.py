@@ -51,22 +51,20 @@ def email(recipient, subject, email_message):
         contact_data = load(contacts_open) # load contacts data
     if recipient in contact_data['contacts']: # check if recipient in contacts
         recipient_email = contact_data['contacts'][recipient]['email'] # get email address of recipient
+        #message area
+        msg = MIMEMultipart() # formatting
+        msg['From'] = 'Marvin' #change sender to Marvin
+        msg['To'] = recipient_email # input recipient email
+        msg['Subject'] = subject # input subject
+        msg.attach(MIMEText(email_message,'plain')) # add body
+        text = msg.as_string() # format all text
+
+        #sending code
+        server = SMTP('smtp.gmail.com', 587) # connection to 587 port for gmail
+        server.starttls() #start connection
+        server.login(email_user, email_pass) # login with credentials
+        server.sendmail(email_user, recipient_email, text) # send email
+        server.quit() # quit connection
+        print('Sent!') # done
     else: # recipient not in contacts
         speak(recipient + ' is not in our contacts use the "add contacts" command to add them')
-        raise MarvinEmail # break loop and command
-
-    #message area
-    msg = MIMEMultipart() # formatting
-    msg['From'] = 'Marvin' #change sender to Marvin
-    msg['To'] = recipient_email # input recipient email
-    msg['Subject'] = subject # input subject
-    msg.attach(MIMEText(email_message,'plain')) # add body
-    text = msg.as_string() # format all text
-
-    #sending code
-    server = SMTP('smtp.gmail.com', 587) # connection to 587 port for gmail
-    server.starttls() #start connection
-    server.login(email_user, email_pass) # login with credentials
-    server.sendmail(email_user, recipient_email, text) # send email
-    server.quit() # quit connection
-    print('Sent!') # done

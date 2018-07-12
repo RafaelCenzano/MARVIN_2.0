@@ -119,9 +119,8 @@ def dataCommands(command):
             if listen_chat_data['listen'] == 0:
                 print('input cancel to cancel send email')
                 essentials.speak('Who would you like to send this email to?')
-                email_recipient = raw_input(': ')
+                email_recipient = raw_input(': ').lower()
                 if 'quit' 'exit' 'cancel' in email_recipient: raise ValueError
-                email_recipient_lower = email_recipient.lower()
                 print('input cancel to cancel send email')
                 essentials.speak('What is the subject of the email?')
                 email_subject = raw_input(': ')
@@ -130,19 +129,20 @@ def dataCommands(command):
                 essentials.speak('What is the message you would like to send to ' + email_recipient)
                 email_body = raw_input(': ')
                 if 'quit' 'exit' 'cancel' in email_body: raise ValueError
-                essentials.email(email_recipient_lower, email_subject, email_body)
+                thread_email = threading.Thread(target = essentials.email, args = (email_recipient, email_subject, email_body))
+                thread_email.start()
             elif listen_chat_data['listen'] == 1:
                 essentials.speak('Who would you like to send this email to?')
-                email_recipient = essentials.listen()
+                email_recipient = essentials.listen().lower()
                 if 'quit' 'exit' 'cancel' in email_recipient: raise ValueError
-                email_recipient_lower = email_recipient.lower()
                 essentials.speak('What is the subject of the email?')
                 email_subject = essentials.listen()
                 if 'quit' 'exit' 'cancel' in email_subject: raise ValueError
                 essentials.speak('What is the message you would like to send to ' + email_recipient)
                 email_body = essentials.listen()
                 if 'quit' 'exit' 'cancel' in email_body: raise ValueError
-                essentials.email(email_recipient_lower, email_subject, email_body)
+                thread_email = threading.Thread(target = essentials.email, args = (email_recipient, email_subject, email_body))
+                thread_email.start()
             else:
                 essentials.speak('A file is missing data report to issues on github')
                 raise Exception

@@ -1,6 +1,5 @@
 #-*-coding: utf-8-*-
 from Tkinter import * # Tkinter for GUI
-#for python3 use tkinter
 import math # math for calculations
 
 

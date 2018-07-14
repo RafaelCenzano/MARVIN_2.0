@@ -108,7 +108,6 @@ class calc:
 
 
 # main function
-def calculator():
-  root = Tk()
-  obj=calc(root) # object instantiated
-  root.mainloop()
+root = Tk()
+obj=calc(root) # object instantiated
+root.mainloop()

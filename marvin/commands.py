@@ -1,7 +1,6 @@
 #Imports
 from webbrowser import open as webopen # webbrowser to open websites
 import essentials # import speak and listen
-import calculator # import calculator code
 import webscrape # import webscrape functions
 from json import load, dump # import json load
 import threading
@@ -47,6 +46,14 @@ def dataCommands(command, type_of_input):
         amazon_search = (" ").join(amazon)
         essentials.speak('Searching amazon for ' + amazon_search)
         url = ('https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + amazon_search)
+        webopen(url, new = 2)
+        print('Done!')
+
+    elif 'time in' in command:
+        time_in = command.split(" ")[2:]
+        time_in_location = (" ").join(time_in)
+        essentials.speak('Showing time in '+ time_in_location)
+        url = ('https://time.is/' + time_in_location)
         webopen(url, new = 2)
         print('Done!')
 
@@ -108,7 +115,7 @@ def dataCommands(command, type_of_input):
     # Misc Commands #
 
     elif command == 'open calculator' or command == 'run calculator' or command == 'calculator':
-        thread_calculator = threading.Thread(target = calculator.calculator) # run calculator code from calculator.py
+        thread_calculator = threading.Thread(target = essentials.openCalculator) # run calculator code from calculator.py
         print('Calculator Opened!')
         thread_calculator.start()
 

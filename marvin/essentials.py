@@ -44,6 +44,10 @@ def commandInput(type_of_input):
     else:
         print('Fatal Error create Issue on Github')
 
+def openCalculator():
+    from os import system
+    system('python2.7 marvin/calculator.py')
+
 class MarvinEmail(Exception): pass
 def email(recipient, subject, email_message):
     #import

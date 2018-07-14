@@ -11,8 +11,8 @@ import random # for randomizing random request
 # File for webscraping #
 ########################
 
-def scrapeYoutube(data):
-    url = ('https://www.youtube.com/results?search_query=' + data)# combine url with search query from command
+def scrapeYoutube(search_query):
+    url = ('https://www.youtube.com/results?search_query=' + search_query)# combine url with search query from command
     r = requests.get(url) # request page
     page = r.text
     soup = bs(page, 'html.parser') # parse html

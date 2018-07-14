@@ -28,11 +28,21 @@ def listen():
         print('You said: ' + data)
     except UnknownValueError:
         print('I didn\'t get that') # when google api didn't understand audio
-        data = 'False'
+        data = 'None'
     except RequestError as e:
         print('Api or connection is not working.\n The error is {0}'.format(e)) # when connection or Api offline
         data = 'Broken'
     return data
+
+def commandInput(type_of_input):
+    if type_of_input == 1:
+        input_to_return = listen()
+        return input_to_return
+    if type_of_input == 0:
+        input_to_return = raw_input('')
+        return input_to_return
+    else:
+        print('Fatal Error create Issue on Github')
 
 class MarvinEmail(Exception): pass
 def email(recipient, subject, email_message):
@@ -42,6 +52,7 @@ def email(recipient, subject, email_message):
     from email.mime.multipart import MIMEMultipart # MIMEMultipart changing sender
     from json import load # to open contacts.json to see contacts to be able to send email
 
+    recipient_lowered = recipient.lower()
     with open('../pass.json', 'r') as email_user_data: # open pass.json to get email password and username
         data = load(email_user_data) # load json
         email_user = data['email_address'] # get email address
@@ -49,8 +60,8 @@ def email(recipient, subject, email_message):
 
     with open('marvin/json/contacts.json', 'r') as contacts_open: # get contact data
         contact_data = load(contacts_open) # load contacts data
-    if recipient in contact_data['contacts']: # check if recipient in contacts
-        recipient_email = contact_data['contacts'][recipient]['email'] # get email address of recipient
+    if recipient_lowered in contact_data['contacts']: # check if recipient in contacts
+        recipient_email = contact_data['contacts'][recipient_lowered]['email'] # get email address of recipient
         #message area
         msg = MIMEMultipart() # formatting
         msg['From'] = 'Marvin' #change sender to Marvin
@@ -65,6 +76,6 @@ def email(recipient, subject, email_message):
         server.login(email_user, email_pass) # login with credentials
         server.sendmail(email_user, recipient_email, text) # send email
         server.quit() # quit connection
-        print('Sent!') # done
+        print('Email Sent!') # done
     else: # recipient not in contacts
         speak(recipient + ' is not in our contacts use the "add contacts" command to add them')

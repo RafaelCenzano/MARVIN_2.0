@@ -1,3 +1,4 @@
 *.mp3
 *.pyc
 marvin/json/contacts.json
+marvin/json/pass.json

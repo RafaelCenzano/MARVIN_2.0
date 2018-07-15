@@ -1,4 +1,0 @@
-run 
-sudo python setup.py
-this will download and set up all files needed for MARVIN_2.0
-If there are any issues bring them to https://github.com/SavageCoder77/MARVIN_2.0

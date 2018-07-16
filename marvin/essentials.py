@@ -44,6 +44,39 @@ def commandInput(type_of_input):
     else:
         print('Fatal Error create Issue on Github')
 
+def ADMIN():
+    from json import load, dump
+    from codecs import encode
+    from hashlib import sha512
+    from os import system
+    while True:
+        print('\nOnly use ADMIN acount for administrative tasks')
+        print('\n######## ADMIN MENU ########\n\n1. Create New User\n2. Update Marvin\n3. Leave ADMIN Menu')
+        ADMIN_input = raw_input('>')
+        if ADMIN_input == '1' or 'user' in ADMIN_input.lower():
+            print('You will choose a username and password for the new user\nType a User')
+            new_user = raw_input('>')
+            with open('marvin/json/pass.json', 'r') as login_data:
+                new_user_data = load(login_data)
+            search_login = new_user_data['logins']
+            if new_user in search_login:
+                print('This user exists already')
+            else:
+                print('\nType a password for the new user')
+                new_user_pass = raw_input('>')
+                new_user_pass_encrypted = sha512(new_user_pass + new_user).hexdigest()
+                print('Creating User')
+                with open('marvin/json/pass.json', 'w') as outfile:
+                    new_user_data['logins'][new_user] = {"pass":new_user_pass_encrypted}
+                    dump(new_user_data, outfile)
+                print('New user created')
+        elif ADMIN_input == '2' or 'update' in ADMIN_input.lower():
+            ('Checking for Update')
+            system('git pull')
+        elif ADMIN_input == '3' or 'exit' in ADMIN_inputor or 'leave' in ADMIN_input or 'quit' in ADMIN_input:
+            ('Exiting ADMIN MENU')
+            break
+
 def openCalculator():
     from os import system
     system('python2.7 marvin/calculator.py')

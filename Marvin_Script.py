@@ -21,13 +21,13 @@ while True:
             print('\n##############\nIncorrect User\n##############\n')
         else:
             break
-    print('Please Type Username')
-    login_pass = raw_input('>')
-    new_login = encode(login_pass, 'rot13')
+    new_login = encode(login_usr, 'rot13')
     print('Please Type Password')
     login_pass = raw_input('>')
     login_pass2 = sha512(login_pass + new_login).hexdigest()
-    if login_pass2 == new_login_data['logins'][login_usr]['pass'] and new_login == new_login_data['logins'][login_usr]['usr']:
+    if login_pass2 == new_login_data['logins'][login_usr]['pass']:
+        if login_usr == 'ADMIN':
+            essentials.ADMIN()
         break
     else:
         print('\n#####################\nIncorrect Credentials\n#####################\n')

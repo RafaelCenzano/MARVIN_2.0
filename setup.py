@@ -24,7 +24,7 @@ with open('marvin/json/contacts.json', 'w') as outfile1:
     var = {'contacts':{'example':{"email":"email@domain.com","number":"number here"}}}
     dump(var, outfile1)
 with open('marvin/json/pass.json', 'w') as outfile2:
-    var1 = {'logins':{'ADMIN':{"usr":"NQZVA","pass":pass_new}}}
+    var1 = {'logins':{'ADMIN':{"pass":pass_new}}}
     dump(var1, outfile2)
 
 if check_os == 'Linux':

@@ -101,8 +101,9 @@ def dataCommands(command, type_of_input):
             essentials.speak('Creating contact')
             with open('marvin/json/contacts.json', 'r') as contact_data:
                 new_contact_data = load(contact_data) # read data
+            add_contact_lowered = add_contact.lower()
             with open('marvin/json/contacts.json', 'w') as outfile:
-                new_contact_data['contacts'][add_contact] = {"email":new_email, "number":new_phone_number} # new data to add
+                new_contact_data['contacts'][add_contact_lowered] = {"email":new_email, "number":new_phone_number} # new data to add
                 dump(new_contact_data, outfile) # add data
             print('Contact Created!')
         except Exception as e:

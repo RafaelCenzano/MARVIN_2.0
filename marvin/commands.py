@@ -3,7 +3,7 @@ from webbrowser import open as webopen # webbrowser to open websites
 import essentials # import speak and listen
 import webscrape # import webscrape functions
 from json import load, dump # import json load
-import threading
+from threading import Thread
 
 
 #####################
@@ -70,10 +70,24 @@ def dataCommands(command, type_of_input):
 
     # Sending based Commands
 
+    elif command == 'contact list' or command == 'contacts':
+        with open('marvin/json/contacts.json', 'r') as contact_data_list:
+            list_contact_data = load(contact_data_list)
+        contact_list = list_contact_data['contacts']
+        essentials.speak('Opening contact list for you now')
+        for c in contact_list:
+            c_letters = list(c)
+            c_letter_first = c_letters[0]
+            c_letters_rest = c_letters[1:]
+            c_letters_rest_joined = ("").join(c_letters_rest)
+            c_letter_first_upper = str(c_letter_first.upper())
+            print(c_letter_first_upper + c_letters_rest_joined)
+
     elif command == 'add contact' or command == 'new contact':
         try:
             print('input cancel to cancel add contact') # cancel message
             essentials.speak('Who would you like to add to you contacts?')
+            print('First name please')
             add_contact = essentials.commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == add_contact or 'exit' == add_contact or'cancel' == add_contact: raise ValueError # check message for cancel
             print('input cancel to cancel add contact') # cancel message
@@ -108,7 +122,7 @@ def dataCommands(command, type_of_input):
             essentials.speak('What is the message you would like to send to ' + email_recipient)
             email_body = essentials.commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == email_body or 'exit' == email_body or 'cancel' == email_body: raise ValueError # check message for cancel
-            thread_email = threading.Thread(target = essentials.email, args = (email_recipient, email_subject, email_body))
+            thread_email = Thread(target = essentials.email, args = (email_recipient, email_subject, email_body))
             thread_email.start()
         except Exception as e:
             print('cancelling')
@@ -116,7 +130,7 @@ def dataCommands(command, type_of_input):
     # Misc Commands #
 
     elif command == 'open calculator' or command == 'run calculator' or command == 'calculator':
-        thread_calculator = threading.Thread(target = essentials.openCalculator) # run calculator code from calculator.py
+        thread_calculator = Thread(target = essentials.openCalculator) # run calculator code from calculator.py
         print('Calculator Opened!') # open message
         thread_calculator.start() # start 2nd thread with calulator so you can run commands along with the calculator open
 

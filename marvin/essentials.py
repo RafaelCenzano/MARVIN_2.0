@@ -90,7 +90,7 @@ def email(recipient, subject, email_message):
     from json import load # to open contacts.json to see contacts to be able to send email
 
     recipient_lowered = recipient.lower()
-    with open('../pass.json', 'r') as email_user_data: # open pass.json to get email password and username
+    with open('marvin/json/pass.json', 'r') as email_user_data: # open pass.json to get email password and username
         data = load(email_user_data) # load json
         email_user = data['email_address'] # get email address
         email_pass = data['email_password'] # get email password
@@ -100,8 +100,9 @@ def email(recipient, subject, email_message):
     if recipient_lowered in contact_data['contacts']: # check if recipient in contacts
         recipient_email = contact_data['contacts'][recipient_lowered]['email'] # get email address of recipient
         #message area
+        marvin_name = ('Marvin <' + email_user + '>')
         msg = MIMEMultipart() # formatting
-        msg['From'] = 'Marvin' #change sender to Marvin
+        msg['From'] = marvin_name
         msg['To'] = recipient_email # input recipient email
         msg['Subject'] = subject # input subject
         msg.attach(MIMEText(email_message,'plain')) # add body

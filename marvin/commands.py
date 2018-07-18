@@ -13,7 +13,6 @@ from threading import Thread
 
 #COMMANDS
 
-calculator_thread_on = False
 class MarvinCommands(Exception): pass
 def dataCommands(command, type_of_input):
 
@@ -25,6 +24,14 @@ def dataCommands(command, type_of_input):
         subreddit_joined = (" ").join(subreddit) # joining anything that was split from after 'open reddit'
         essentials.speak('Opening subreddit ' + subreddit_joined) # saying the subreddit page
         url = ('https://www.reddit.com/r/' + subreddit_joined) # url with reddit page
+        webopen(url, new = 2) # open url in browser
+        print('Done!')
+
+    elif 'google search' in command:
+        gsearch = command.split(" ")[2:] # split for anything after 'google search'
+        gsearch_joined = (" ").join(gsearch)  # joining anything that was split from after 'google search'
+        essentials.speak('Opening Google search for ' + gsearch_joined) # saying what it will open
+        url = ('https://www.google.com/search?q=' + gsearch_joined + '&rlz=1C5CHFA_enUS770US770&oq=' + gsearch_joined + '&aqs=chrome..69i57.1173j0j8&sourceid=chrome&ie=UTF-8') # url with search
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
@@ -71,17 +78,26 @@ def dataCommands(command, type_of_input):
     # Sending based Commands
 
     elif command == 'contact list' or command == 'contacts':
-        with open('marvin/json/contacts.json', 'r') as contact_data_list:
-            list_contact_data = load(contact_data_list)
-        contact_list = list_contact_data['contacts']
-        essentials.speak('Opening contact list for you now')
-        for c in contact_list:
-            c_letters = list(c)
-            c_letter_first = c_letters[0]
-            c_letters_rest = c_letters[1:]
-            c_letters_rest_joined = ("").join(c_letters_rest)
-            c_letter_first_upper = str(c_letter_first.upper())
-            print(c_letter_first_upper + c_letters_rest_joined)
+        essentials.contactList()
+
+    elif command == 'delete contact':
+        try:
+            essentials.contactList()
+            print('input cancel to cancel delete contact') # cancel message
+            essentials.speak('Who would you like to delete from your contacts?')
+            delete_contact = essentials.commandInput(type_of_input) # function for listen or raw_input
+            if 'quit' == delete_contact or 'exit' == delete_contact or 'cancel' == delete_contact: raise ValueError # check message for cancel
+            with open('marvin/json/contacts.json', 'r') as contact_del_list:
+                del_contact_data = load(contact_del_list)
+                del_list = del_contact_data['contacts']
+            if delete_contact not in del_list: 
+                print('User does not exist')
+                raise ValueError
+            with open('marvin/json/contacts.json', 'w') as outfile:
+                removed_contact = 
+                dump(removed_contact, outfile)
+        except Exception as e:
+            print('cancelling')
 
     elif command == 'add contact' or command == 'new contact':
         try:

@@ -77,6 +77,19 @@ def ADMIN():
             ('Exiting ADMIN MENU')
             break
 
+def contactList():
+    with open('marvin/json/contacts.json', 'r') as contact_data_list:
+        list_contact_data = load(contact_data_list)
+        contact_list = list_contact_data['contacts']
+    speak('Opening contact list for you now')
+    for c in contact_list:
+        c_letters = list(c)
+        c_letter_first = c_letters[0]
+        c_letters_rest = c_letters[1:]
+        c_letters_rest_joined = ("").join(c_letters_rest)
+        c_letter_first_upper = str(c_letter_first.upper())
+        print(c_letter_first_upper + c_letters_rest_joined)
+
 def openCalculator():
     from os import system
     system('python2.7 marvin/calculator.py')

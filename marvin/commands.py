@@ -27,9 +27,13 @@ def dataCommands(command, type_of_input):
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
+    elif 'rotten tomatoes' in command:
+        rotten_search = command.split(" ")[2:] # split for anything after 'rotten tomatoes'
+        webscrape.scrapeRottentomatoes(rotten_search)
+
     elif 'google search' in command:
         gsearch = command.split(" ")[2:] # split for anything after 'google search'
-        gsearch_joined = (" ").join(gsearch)  # joining anything that was split from after 'google search'
+        gsearch_joined = (" ").join(gsearch) # joining anything that was split from after 'google search'
         essentials.speak('Opening Google search for ' + gsearch_joined) # saying what it will open
         url = ('https://www.google.com/search?q=' + gsearch_joined + '&rlz=1C5CHFA_enUS770US770&oq=' + gsearch_joined + '&aqs=chrome..69i57.1173j0j8&sourceid=chrome&ie=UTF-8') # url with search
         webopen(url, new = 2) # open url in browser

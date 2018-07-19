@@ -2,7 +2,7 @@
 # File for essential functions #
 ################################
 
-
+class MarvinEssentials(Exception): pass
 def speak(spokenString):
     #Imports
     from gtts import gTTS # gtts for text to speech
@@ -77,11 +77,9 @@ def ADMIN():
             ('Exiting ADMIN MENU')
             break
 
-def contactList():
-    with open('marvin/json/contacts.json', 'r') as contact_data_list:
-        list_contact_data = load(contact_data_list)
-        contact_list = list_contact_data['contacts']
-    speak('Opening contact list for you now')
+def listofcontacts(contact_list):
+    import time
+    time.sleep(0.7)
     for c in contact_list:
         c_letters = list(c)
         c_letter_first = c_letters[0]
@@ -90,11 +88,27 @@ def contactList():
         c_letter_first_upper = str(c_letter_first.upper())
         print(c_letter_first_upper + c_letters_rest_joined)
 
+def contactList():
+    from threading import Thread
+    from json import load
+    with open('marvin/json/contacts.json', 'r') as contact_data_list:
+        list_contact_data = load(contact_data_list)
+        contact_list = list_contact_data['contacts']
+    if not contact_list['contacts']:
+        print('No contacts use the add contacts command to add some')
+        raise MarvinEssentials
+    elif not contact_list:
+        print('Fatal Error\nMissing data make sure that you ran setup.py before running this script')
+        raise MarvinEssentials
+    else:
+        thread_list_contact = Thread(target = listofcontacts, args=contact_list)
+        thread_list_contact.start()
+        speak('Opening contact list for you now')
+
 def openCalculator():
     from os import system
     system('python2.7 marvin/calculator.py')
 
-class MarvinEmail(Exception): pass
 def email(recipient, subject, email_message):
     #import
     from smtplib import SMTP # smtplib for connection and sending of email

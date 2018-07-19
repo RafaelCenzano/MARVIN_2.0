@@ -80,22 +80,23 @@ def dataCommands(command, type_of_input):
     elif command == 'contact list' or command == 'contacts':
         essentials.contactList()
 
-    elif command == 'delete contact':
+    elif command == 'delete contact' or command == 'remove contact':
         try:
             essentials.contactList()
             print('input cancel to cancel delete contact') # cancel message
             essentials.speak('Who would you like to delete from your contacts?')
-            delete_contact = essentials.commandInput(type_of_input) # function for listen or raw_input
-            if 'quit' == delete_contact or 'exit' == delete_contact or 'cancel' == delete_contact: raise ValueError # check message for cancel
+            delete_contact = essentials.commandInput(type_of_input).lower() # function for listen or raw_input
+            print(delete_contact)
+            if 'quit' == delete_contact.lower() or 'exit' == delete_contact.lower() or 'cancel' == delete_contact.lower(): raise ValueError # check message for cancel
             with open('marvin/json/contacts.json', 'r') as contact_del_list:
                 del_contact_data = load(contact_del_list)
-                del_list = del_contact_data['contacts']
-            if delete_contact not in del_list: 
+            print(del_contact_data)
+            if delete_contact.lower() not in del_contact_data['contacts']: 
                 print('User does not exist')
                 raise ValueError
+            del del_contact_data['contacts'][delete_contact]
             with open('marvin/json/contacts.json', 'w') as outfile:
-                removed_contact = 
-                dump(removed_contact, outfile)
+                dump(del_contact_data, outfile)
         except Exception as e:
             print('cancelling')
 
@@ -105,15 +106,15 @@ def dataCommands(command, type_of_input):
             essentials.speak('Who would you like to add to you contacts?')
             print('First name please')
             add_contact = essentials.commandInput(type_of_input) # function for listen or raw_input
-            if 'quit' == add_contact or 'exit' == add_contact or'cancel' == add_contact: raise ValueError # check message for cancel
+            if 'quit' == add_contact.lower() or 'exit' == add_contact.lower() or'cancel' == add_contact.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel add contact') # cancel message
             essentials.speak('What is ' + add_contact + '\'s email?')
             new_email = essentials.commandInput(type_of_input) # function for listen or raw_input
-            if 'quit' == new_email or 'exit' == new_email or 'cancel' == new_email: raise ValueError # check message for cancel
+            if 'quit' == new_email.lower() or 'exit' == new_email.lower() or 'cancel' == new_email.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel add contact') # cancel message
             essentials.speak('What is ' + add_contact + '\'s phone number? If you don\'t have it or you dont want to input respond with None')
             new_phone_number = essentials.commandInput(type_of_input) # function for listen or raw_input
-            if 'quit' == new_phone_number or 'exit' == new_phone_number or 'cancel' == new_phone_number: raise ValueError # check message for cancel
+            if 'quit' == new_phone_number.lower() or 'exit' == new_phone_number.lower() or 'cancel' == new_phone_number.lower(): raise ValueError # check message for cancel
             essentials.speak('Creating contact')
             with open('marvin/json/contacts.json', 'r') as contact_data:
                 new_contact_data = load(contact_data) # read data
@@ -130,15 +131,15 @@ def dataCommands(command, type_of_input):
             print('input cancel to cancel send email') # cancel message
             essentials.speak('Who would you like to send this email to?')
             email_recipient = essentials.commandInput(type_of_input) # function for listen or raw_input
-            if 'quit' == email_recipient or 'exit' == email_recipient or 'cancel' == email_recipient: raise ValueError # check message for cancel
+            if 'quit' == email_recipient.lower() or 'exit' == email_recipient.lower() or 'cancel' == email_recipient.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel send email') # cancel message
             essentials.speak('What is the subject of the email?')
             email_subject = essentials.commandInput(type_of_input) # function for listen or raw_input
-            if 'quit' == email_subject or 'exit' == email_subject or 'cancel' == email_subject: raise ValueError # check message for cancel
+            if 'quit' == email_subject.lower() or 'exit' == email_subject.lower() or 'cancel' == email_subject.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel send email') # cancel message
             essentials.speak('What is the message you would like to send to ' + email_recipient)
             email_body = essentials.commandInput(type_of_input) # function for listen or raw_input
-            if 'quit' == email_body or 'exit' == email_body or 'cancel' == email_body: raise ValueError # check message for cancel
+            if 'quit' == email_body.lower() or 'exit' == email_body.lower() or 'cancel' == email_body.lower(): raise ValueError # check message for cancel
             thread_email = Thread(target = essentials.email, args = (email_recipient, email_subject, email_body))
             thread_email.start()
         except Exception as e:

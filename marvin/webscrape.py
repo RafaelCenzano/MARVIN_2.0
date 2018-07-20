@@ -33,8 +33,15 @@ def scrapeRottentomatoes(search_query):
     page = r.text
     soup = bs(page, 'html.parser') # parse html
     vids = soup.findAll('span', attrs={'class':'meter-value superPageFontColor'}) # search for class meter-value superPageFontColor in html from page
-    needed = vids[0]
-    
-
-
-scrapeRottentomatoes('Avengers Infinity War')
+    raiting = vids[0].getText()
+    essentials.speak('Rotten Tomatoes gave '+ search_query + ' ' + raiting)
+    people_score = soup.findAll('span', attrs={'class':'superPageFontColor', 'style':'vertical-align:top'})
+    score = people_score[0].getText()
+    want_or_like = soup.findAll('div', attrs={'class':'smaller bold hidden-xs superPageFontColor'})
+    like_or_want = want_or_like[0].getText()
+    if like_or_want == 'liked it':
+        essentials.speak(score + ' of people liked ' + search_query)
+    elif like_or_want == 'want to see':
+        essentials.speak(score + ' want to see ' + search_query)
+    else:
+        print('Error\nI web scraped the wrong data or Rotten Tomatoes changed their format please report this issue immediatly so we can fix it')

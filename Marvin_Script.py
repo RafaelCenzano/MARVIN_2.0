@@ -4,10 +4,14 @@ from marvin import essentials
 from json import load
 from codecs import encode
 from hashlib import sha512
+import os
 
 
 # LOGIN
-with open('marvin/json/pass.json', 'r') as login_data:
+contact_path = os.path.join('marvin','json','contacts.join')
+pass_path = os.path.join('marvin','json','pass.join')
+
+with open(pass_path, 'r') as login_data:
     new_login_data = load(login_data)
 search_login = new_login_data['logins']
 while True:
@@ -27,7 +31,7 @@ while True:
     login_pass2 = sha512(login_pass + new_login).hexdigest()
     if login_pass2 == new_login_data['logins'][login_usr]['pass']:
         if login_usr == 'ADMIN':
-            essentials.ADMIN()
+            essentials.ADMIN(contact_path, pass_path)
         break
     else:
         print('\n#####################\nIncorrect Credentials\n#####################\n')
@@ -46,7 +50,7 @@ while True:
             while 1:
                 print('Awaiting commands')
                 data = essentials.listen() #use listen function in commands.py
-                commands.dataCommands(data.lower(), 1) # check for command and lower what was just said
+                commands.dataCommands(data.lower(), 1, pass_path, contact_path) # check for command and lower what was just said
         except commands.MarvinCommands: # except and pass to resume stanby
             pass # restart loop
     elif beg_input == '2' or 'chat' in beg_input:
@@ -54,7 +58,7 @@ while True:
             while 1:
                 print('Awaiting commands')
                 data = raw_input('')
-                commands.dataCommands(data.lower(), 0) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
+                commands.dataCommands(data.lower(), 0, pass_path, contact_path) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
         except commands.MarvinCommands: # except and pass to resume stanby
             pass #restart loop
     elif beg_input == '3' or 'standby' in beg_input: # standby no recording

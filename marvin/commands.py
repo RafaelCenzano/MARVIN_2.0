@@ -14,7 +14,7 @@ from threading import Thread
 #COMMANDS
 
 class MarvinCommands(Exception): pass
-def dataCommands(command, type_of_input):
+def dataCommands(command, type_of_input, pass_path, contact_path):
 
 
     # Website Commands #
@@ -82,24 +82,24 @@ def dataCommands(command, type_of_input):
     # Sending based Commands
 
     elif command == 'contact list' or command == 'contacts':
-        essentials.contactList()
+        essentials.contactList(contact_path)
 
     elif command == 'delete contact' or command == 'remove contact':
         try:
-            essentials.contactList()
+            essentials.contactList(contact_path)
             print('input cancel to cancel delete contact') # cancel message
             essentials.speak('Who would you like to delete from your contacts?')
             delete_contact = essentials.commandInput(type_of_input).lower() # function for listen or raw_input
             print(delete_contact)
             if 'quit' == delete_contact.lower() or 'exit' == delete_contact.lower() or 'cancel' == delete_contact.lower(): raise ValueError # check message for cancel
-            with open('marvin/json/contacts.json', 'r') as contact_del_list:
+            with open(contact_path, 'r') as contact_del_list:
                 del_contact_data = load(contact_del_list)
             print(del_contact_data)
             if delete_contact.lower() not in del_contact_data['contacts']: 
                 print('User does not exist')
                 raise ValueError
             del del_contact_data['contacts'][delete_contact]
-            with open('marvin/json/contacts.json', 'w') as outfile:
+            with open(contact_path, 'w') as outfile:
                 dump(del_contact_data, outfile)
         except Exception as e:
             print('cancelling')
@@ -120,10 +120,10 @@ def dataCommands(command, type_of_input):
             new_phone_number = essentials.commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == new_phone_number.lower() or 'exit' == new_phone_number.lower() or 'cancel' == new_phone_number.lower(): raise ValueError # check message for cancel
             essentials.speak('Creating contact')
-            with open('marvin/json/contacts.json', 'r') as contact_data:
+            with open(contact_path, 'r') as contact_data:
                 new_contact_data = load(contact_data) # read data
             add_contact_lowered = add_contact.lower()
-            with open('marvin/json/contacts.json', 'w') as outfile:
+            with open(contact_path, 'w') as outfile:
                 new_contact_data['contacts'][add_contact_lowered] = {"email":new_email, "number":new_phone_number} # new data to add
                 dump(new_contact_data, outfile) # add data
             print('Contact Created!')
@@ -144,7 +144,7 @@ def dataCommands(command, type_of_input):
             essentials.speak('What is the message you would like to send to ' + email_recipient)
             email_body = essentials.commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == email_body.lower() or 'exit' == email_body.lower() or 'cancel' == email_body.lower(): raise ValueError # check message for cancel
-            thread_email = Thread(target = essentials.email, args = (email_recipient, email_subject, email_body))
+            thread_email = Thread(target = essentials.email, args = (email_recipient, email_subject, email_body, pass_path, contact_path))
             thread_email.start()
         except Exception as e:
             print('cancelling')

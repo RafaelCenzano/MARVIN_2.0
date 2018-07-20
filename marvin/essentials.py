@@ -44,7 +44,7 @@ def commandInput(type_of_input):
     else:
         print('Fatal Error create Issue on Github')
 
-def ADMIN():
+def ADMIN(contact_path, pass_path):
     from json import load, dump
     from codecs import encode
     from hashlib import sha512
@@ -56,7 +56,7 @@ def ADMIN():
         if ADMIN_input == '1' or 'user' in ADMIN_input.lower():
             print('You will choose a username and password for the new user\nType a User')
             new_user = raw_input('>')
-            with open('marvin/json/pass.json', 'r') as login_data:
+            with open(contact_path, 'r') as login_data:
                 new_user_data = load(login_data)
             search_login = new_user_data['logins']
             if new_user in search_login:
@@ -66,7 +66,7 @@ def ADMIN():
                 new_user_pass = raw_input('>')
                 new_user_pass_encrypted = sha512(new_user_pass + new_user).hexdigest()
                 print('Creating User')
-                with open('marvin/json/pass.json', 'w') as outfile:
+                with open(pass_path, 'w') as outfile:
                     new_user_data['logins'][new_user] = {"pass":new_user_pass_encrypted}
                     dump(new_user_data, outfile)
                 print('New user created')
@@ -88,10 +88,10 @@ def listofcontacts(contact_list):
         c_letter_first_upper = str(c_letter_first.upper())
         print(c_letter_first_upper + c_letters_rest_joined)
 
-def contactList():
+def contactList(contact_path):
     from threading import Thread
     from json import load
-    with open('marvin/json/contacts.json', 'r') as contact_data_list:
+    with open(contact_path, 'r') as contact_data_list:
         list_contact_data = load(contact_data_list)
         contact_list = list_contact_data['contacts']
     if not contact_list['contacts']:
@@ -109,7 +109,7 @@ def openCalculator():
     from os import system
     system('python2.7 marvin/calculator.py')
 
-def email(recipient, subject, email_message):
+def email(recipient, subject, email_message, pass_path, contact_path):
     #import
     from smtplib import SMTP # smtplib for connection and sending of email
     from email.mime.text import MIMEText # MIMEText for formatting
@@ -117,12 +117,12 @@ def email(recipient, subject, email_message):
     from json import load # to open contacts.json to see contacts to be able to send email
 
     recipient_lowered = recipient.lower()
-    with open('marvin/json/pass.json', 'r') as email_user_data: # open pass.json to get email password and username
+    with open(pass_path, 'r') as email_user_data: # open pass.json to get email password and username
         data = load(email_user_data) # load json
         email_user = data['email_address'] # get email address
         email_pass = data['email_password'] # get email password
 
-    with open('marvin/json/contacts.json', 'r') as contacts_open: # get contact data
+    with open(contact_path, 'r') as contacts_open: # get contact data
         contact_data = load(contacts_open) # load contacts data
     if recipient_lowered in contact_data['contacts']: # check if recipient in contacts
         recipient_email = contact_data['contacts'][recipient_lowered]['email'] # get email address of recipient

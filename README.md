@@ -57,7 +57,7 @@ amazon {amazon search}  _|_ will open amazon's search of you input
 time in {location} _|_ will open the time in your location on time.is
 
 
-contact list will {alias = contacts} _|_ show you contacts  
+contact list {alias = contacts} _|_  will show you contacts  
 
 
 add contact {alias = new contact} _|_ will allow you to create any contact  

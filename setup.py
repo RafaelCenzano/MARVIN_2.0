@@ -25,6 +25,14 @@ print('Creating needed files')
 contacts_path = os.path.join('marvin','json','contacts.join')
 pass_path = os.path.join('marvin','json','pass.join')
 
+print('We need your email to be able to send emails')
+print('\n#####\nYou will need to change an email setting that allows less secure apps\n#####\n')
+print('\nIf you dont want the email function type none')
+print('Please type email address')
+email_usr = raw_input('>')
+print('Please type email password')
+email_pass = raw_input('>')
+
 try:
     with open('Os.json', 'w') as outfile:
         var2 = {"Marvin_Release":"0.0.1","Os_data":{"OS":check_os,"os_release":os_release}}
@@ -33,10 +41,10 @@ try:
         var = {"contacts":{"example":{"email":"email@domain.com","number":"number here"}}}
         dump(var, outfile1)
     with open(pass_path, 'w') as outfile2:
-        var1 = {"logins":{"ADMIN":{"pass":pass_new}}}
+        var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
         dump(var1, outfile2)
 except Exception as e:
-    print('We ran into a problem\nPlease report this issue ' + str(e))
+    print('We ran into a problem\nPlease report this issue ' + str(e) + '\nFiles couldn\'t be created properly')
     exit()
 
 if check_os == 'Linux':

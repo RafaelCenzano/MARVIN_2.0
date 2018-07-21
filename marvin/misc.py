@@ -35,7 +35,8 @@ def ADMIN(contact_path, pass_path):
                         print('Make your password over 5 characters please')
                     else:
                         break
-                new_user_pass_encrypted = sha512(new_user_pass + new_user).hexdigest()
+                new_login = encode(new_user, 'rot13')
+                new_user_pass_encrypted = sha512(new_user_pass + new_login).hexdigest()
                 print('Creating User')
                 with open(pass_path, 'w') as outfile:
                     new_user_data['logins'][new_user] = {"pass":new_user_pass_encrypted}

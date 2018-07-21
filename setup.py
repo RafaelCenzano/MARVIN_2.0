@@ -22,8 +22,8 @@ print ('Your os version is ' + os_release)
 
 print('Creating needed files')
 
-contacts_path = os.path.join('marvin','json','contacts.join')
-pass_path = os.path.join('marvin','json','pass.join')
+contacts_path = os.path.join('marvin','json','contacts.json')
+pass_path = os.path.join('marvin','json','pass.json')
 
 print('We need your email to be able to send emails')
 print('\n#####\nYou will need to change an email setting that allows less secure apps\n#####\n')

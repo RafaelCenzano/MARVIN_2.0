@@ -45,7 +45,6 @@ try:
         dump(var1, outfile2)
 except Exception as e:
     print('We ran into a problem\nPlease report this issue ' + str(e) + '\nFiles couldn\'t be created properly')
-    exit()
 
 if check_os == 'Linux':
     try:
@@ -53,7 +52,6 @@ if check_os == 'Linux':
         os.system('sudo apt-get install python-tk')
     except Exception as e:
         print('We ran into a problem\nPlease report this issue ' + str(e))
-        exit()
 elif check_os == 'Darwin':
     try:
         print('We need to install Homebrew so that we can install portaudio')
@@ -62,14 +60,11 @@ elif check_os == 'Darwin':
         os.system('brew install portaudio')
     except Exception as e:
         print('We ran into a problem\nPlease report this issue ' + str(e))
-        exit()
 elif check_os == 'Windows': pass
 else:
     print ('We dont have a way to set up Marvin on your Operating System.\nIf this is a mistake make sure to report it as an issue at https://github.com/SavageCoder77/MARVIN_2.0')
-    exit()
 try:
     system('pip install -r requirements.txt')
     print('\n\nAll files and installs completed\nYou can now run Marvin with Marvin_Script.py')
 except Exception as e:
     print('We ran into a problem\nPlease report this issue ' + str(e))
-    exit()

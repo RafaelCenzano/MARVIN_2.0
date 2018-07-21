@@ -52,6 +52,7 @@ if check_os == 'Linux':
         os.system('sudo apt-get install python-tk')
     except Exception as e:
         print('We ran into a problem\nPlease report this issue ' + str(e))
+        
 elif check_os == 'Darwin':
     try:
         print('We need to install Homebrew so that we can install portaudio')
@@ -63,8 +64,5 @@ elif check_os == 'Darwin':
 elif check_os == 'Windows': pass
 else:
     print ('We dont have a way to set up Marvin on your Operating System.\nIf this is a mistake make sure to report it as an issue at https://github.com/SavageCoder77/MARVIN_2.0')
-try:
-    system('pip install -r requirements.txt')
-    print('\n\nAll files and installs completed\nYou can now run Marvin with Marvin_Script.py')
-except Exception as e:
-    print('We ran into a problem\nPlease report this issue ' + str(e))
+system('pip install -r requirements.txt')
+print('\n\nAll files and installs completed\nYou can now run Marvin with Marvin_Script.py')

@@ -68,7 +68,7 @@ def ADMIN(contact_path, pass_path):
                 print('This User doesn\'t exist')
         elif ADMIN_input == '3' or 'update' in ADMIN_input.lower():
             ('Checking for Update')
-            with open(pass_path, 'r') as marvin_v:
+            with open('Os.json', 'r') as marvin_v:
                 marvin_ver = load(marvin_v)
                 marvin_version = marvin_ver['Marvin_Release']
             if marvin_version != '0.0.2':

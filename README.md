@@ -34,3 +34,48 @@ This project is licensed under the terms of the MIT license. See the LICENSE fil
 
 ## Commands
 Full list of all commands and description of what the command does
+
+
+open reddit {subreddit} _|_ will open the subreddit that you input
+
+
+rotten tomatoes {movie} _|_ will tell you the rotten tomatoes raiting, IMDb raiting, and audience score of the movie you input
+
+
+google search {search}  _|_ will open the google search of your search
+
+
+where is {location} _|_ will open your location in google maps
+
+
+youtube {video name} _|_ will open the first video that shows up for your video name
+
+
+amazon {amazon search}  _|_ will open amazon's search of you input
+
+
+time in {location} _|_ will open the time in your location on time.is
+
+
+contact list will {alias = contacts} _|_ show you contacts  
+
+
+add contact {alias = new contact} _|_ will allow you to create any contact  
+
+
+remove contact {alias = delete contact} _|_ will allow you to remove any contact you have
+
+
+send email _|_ will allow you to send an email as long as you input correct credentials during setup.py. Use ADMIN to correct or add email credentials
+
+
+open calculator {alias = run calculator} _|_ opens a GUI calculator in a parralel thread allowing for commands at the same time
+
+
+standby _|_ stops input of commands
+
+
+logout {alias = relog} _|_ allows you to log in with a different User
+
+
+exit {alias = quit} _|_ exits the program

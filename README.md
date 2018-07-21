@@ -3,7 +3,7 @@
 ![alt text](https://img.shields.io/github/stars/SavageCoder77/MARVIN_2.0.svg)
 ![alt text](https://img.shields.io/github/forks/SavageCoder77/MARVIN_2.0.svg)
 ![alt text](https://img.shields.io/github/issues/SavageCoder77/MARVIN_2.0.svg)
-![alt text](https://img.shields.io/badge/Marvin%20Version-0.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/Marvin%20Version-0.0.2-brightgreen.svg)
 
 ## Table of Contents
 1. [Description](#description)

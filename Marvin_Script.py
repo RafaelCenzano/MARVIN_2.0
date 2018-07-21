@@ -1,6 +1,7 @@
 # Imports
 from marvin import commands
 from marvin import essentials
+from marvin import misc
 from json import load
 from codecs import encode
 from hashlib import sha512
@@ -33,7 +34,8 @@ while True:
             login_pass2 = sha512(login_pass + new_login).hexdigest()
             if login_pass2 == new_login_data['logins'][login_usr]['pass']:
                 if login_usr == 'ADMIN':
-                    essentials.ADMIN(contact_path, pass_path)
+                    misc.ADMIN(contact_path, pass_path)
+                    raise commands.MarvinRelog
                 break
             else:
                 print('\n#####################\nIncorrect Credentials\n#####################\n')
@@ -64,13 +66,16 @@ while True:
                 except commands.MarvinCommands: # except and pass to resume stanby
                     pass #restart loop
             elif beg_input == '3' or 'standby' in beg_input: # standby no recording
-                essentials.speak("Type start to reopen commands or quit to exit")
-                y_n = raw_input('>')
-                if 's' in y_n:
-                    pass # restart loop
-                else:
-                    essentials.speak('exiting')
-                    exit() # exit program
+                while True:
+                    print("Type start to reopen commands or quit to exit")
+                    y_n = raw_input('>')
+                    if 'start' in y_n:
+                        break # restart loop
+                    elif 'quit' in y_n.lower() or 'leave' in y_n.lower() or 'exit' in y_n.lower():
+                        essentials.speak('exiting')
+                        exit() # exit program
+                    else:
+                        pass
             elif beg_input == '4' or 'quit' in beg_input or 'exit' in beg_input: # if the user just wants to end marvin
                 essentials.speak('closing program')
                 exit() # exit program

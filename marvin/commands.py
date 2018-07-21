@@ -5,6 +5,7 @@ import webscrape # import webscrape functions
 from json import load, dump # import json load
 from threading import Thread
 import os
+import misc
 
 
 #####################
@@ -100,11 +101,11 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
     # Sending based Commands
 
     elif command == 'contact list' or command == 'contacts':
-        essentials.contactList(contact_path)
+        misc.contactList(contact_path)
 
     elif command == 'delete contact' or command == 'remove contact':
         try:
-            essentials.contactList(contact_path)
+            misc.contactList(contact_path)
             print('input cancel to cancel delete contact') # cancel message
             essentials.speak('Who would you like to delete from your contacts?')
             delete_contact = essentials.commandInput(type_of_input).lower() # function for listen or raw_input
@@ -122,7 +123,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
 
     elif command == 'add contact' or command == 'new contact':
         try:
-            essentials.contactList(contact_path)
+            misc.contactList(contact_path)
             print('input cancel to cancel add contact') # cancel message
             essentials.speak('Who would you like to add to you contacts?')
             print('First name please')
@@ -149,7 +150,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
 
     elif command == 'send email':
         try:
-            essentials.contactList(contact_path)
+            misc.contactList(contact_path)
             print('input cancel to cancel send email') # cancel message
             essentials.speak('Who would you like to send this email to?')
             email_recipient = essentials.commandInput(type_of_input) # function for listen or raw_input
@@ -170,7 +171,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
     # Misc Commands #
 
     elif command == 'open calculator' or command == 'run calculator' or command == 'calculator':
-        thread_calculator = Thread(target = essentials.openCalculator) # run calculator code from calculator.py
+        thread_calculator = Thread(target = misc.openCalculator) # run calculator code from calculator.py
         print('Calculator Opened!') # open message
         thread_calculator.start() # start 2nd thread with calulator so you can run commands along with the calculator open
 

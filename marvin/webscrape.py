@@ -39,6 +39,9 @@ def scrapeRottentomatoes(search_query):
     score = people_score[0].getText()
     want_or_like = soup.findAll('div', attrs={'class':'smaller bold hidden-xs superPageFontColor'})
     like_or_want = want_or_like[0].getText()
+    pg_up = soup.findAll('li', attrs={'class':'meta-row clearfix'})
+    up_pg = pg_up[0].getText()
+    essentials.speak(search_query + ' got a IMDb ' + up_pg)
     if like_or_want == 'liked it':
         essentials.speak(score + ' of people liked ' + search_query)
     elif like_or_want == 'want to see':

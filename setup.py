@@ -64,5 +64,5 @@ elif check_os == 'Darwin':
 elif check_os == 'Windows': pass
 else:
     print ('We dont have a way to set up Marvin on your Operating System.\nIf this is a mistake make sure to report it as an issue at https://github.com/SavageCoder77/MARVIN_2.0')
-system('pip install -r requirements.txt')
+os.system('pip install -r requirements.txt')
 print('\n\nAll files and installs completed\nYou can now run Marvin with Marvin_Script.py')

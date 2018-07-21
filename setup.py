@@ -35,7 +35,7 @@ email_pass = raw_input('>')
 
 try:
     with open('Os.json', 'w') as outfile:
-        var2 = {"Marvin_Release":"0.0.1","Os_data":{"OS":check_os,"os_release":os_release}}
+        var2 = {"Marvin_Release":"0.0.2","Os_data":{"OS":check_os,"os_release":os_release}}
         dump(var2, outfile)
     with open(contacts_path, 'w') as outfile1:
         var = {"contacts":{"example":{"email":"email@domain.com","number":"number here"}}}

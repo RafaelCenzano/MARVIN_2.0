@@ -4,6 +4,7 @@ import essentials # import speak and listen
 import webscrape # import webscrape functions
 from json import load, dump # import json load
 from threading import Thread
+import os
 
 
 #####################
@@ -14,6 +15,7 @@ from threading import Thread
 #COMMANDS
 
 class MarvinCommands(Exception): pass
+class MarvinRelog(Exception): pass
 def dataCommands(command, type_of_input, pass_path, contact_path):
 
 
@@ -29,7 +31,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
 
     elif 'rotten tomatoes' in command:
         rotten_search = command.split(" ")[2:] # split for anything after 'rotten tomatoes'
-        webscrape.scrapeRottentomatoes(rotten_search)
+        rotten_joined = (" ").join(rotten_search)
+        webscrape.scrapeRottentomatoes(rotten_joined)
 
     elif 'google search' in command:
         gsearch = command.split(" ")[2:] # split for anything after 'google search'
@@ -79,6 +82,21 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         essentials.speak('exiting')
         exit() # leave program
 
+    elif command == 'relog' or command == 'logout' or command == 'log out':
+        essentials.speak('logging out')
+        raise MarvinRelog
+
+    elif command == 'ls' or command == 'dir':
+        with open('Os.json', 'r') as os_data:
+            os_system_data = load(os_data)
+        os_system = os_system_data['Os_data']['OS']
+        if os_system == 'Linux':
+            os.system('ls')
+        elif os_system == 'Darwin':
+            os.system('ls')
+        elif os_system == 'Windows':
+            os.system('dir')
+
     # Sending based Commands
 
     elif command == 'contact list' or command == 'contacts':
@@ -90,11 +108,9 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             print('input cancel to cancel delete contact') # cancel message
             essentials.speak('Who would you like to delete from your contacts?')
             delete_contact = essentials.commandInput(type_of_input).lower() # function for listen or raw_input
-            print(delete_contact)
             if 'quit' == delete_contact.lower() or 'exit' == delete_contact.lower() or 'cancel' == delete_contact.lower(): raise ValueError # check message for cancel
             with open(contact_path, 'r') as contact_del_list:
                 del_contact_data = load(contact_del_list)
-            print(del_contact_data)
             if delete_contact.lower() not in del_contact_data['contacts']: 
                 print('User does not exist')
                 raise ValueError
@@ -144,7 +160,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             essentials.speak('What is the message you would like to send to ' + email_recipient)
             email_body = essentials.commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == email_body.lower() or 'exit' == email_body.lower() or 'cancel' == email_body.lower(): raise ValueError # check message for cancel
-            thread_email = Thread(target = essentials.email, args = (email_recipient, email_subject, email_body, pass_path, contact_path))
+            thread_email = Thread(target = essentials.email, args = (email_recipient, email_subject, email_body, pass_path, contact_path,))
             thread_email.start()
         except Exception as e:
             print('cancelling')

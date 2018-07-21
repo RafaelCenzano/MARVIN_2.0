@@ -62,8 +62,14 @@ def ADMIN(contact_path, pass_path):
             if new_user in search_login:
                 print('This user exists already')
             else:
-                print('\nType a password for the new user')
-                new_user_pass = raw_input('>')
+                while True:
+                    print('\nType a password for the new user thats over 5 characters')
+                    new_user_pass = raw_input('>')
+                    if len(new_user_pass) <= 5:
+                        print('Make your password over 5 characters please')
+                        pass
+                    else:
+                        break
                 new_user_pass_encrypted = sha512(new_user_pass + new_user).hexdigest()
                 print('Creating User')
                 with open(pass_path, 'w') as outfile:
@@ -77,8 +83,8 @@ def ADMIN(contact_path, pass_path):
             ('Exiting ADMIN MENU')
             break
 
+import time
 def listofcontacts(contact_list):
-    import time
     time.sleep(0.7)
     for c in contact_list:
         c_letters = list(c)
@@ -94,14 +100,14 @@ def contactList(contact_path):
     with open(contact_path, 'r') as contact_data_list:
         list_contact_data = load(contact_data_list)
         contact_list = list_contact_data['contacts']
-    if not contact_list['contacts']:
+    if not list_contact_data['contacts']:
         print('No contacts use the add contacts command to add some')
         raise MarvinEssentials
-    elif not contact_list:
+    elif not list_contact_data:
         print('Fatal Error\nMissing data make sure that you ran setup.py before running this script')
         raise MarvinEssentials
     else:
-        thread_list_contact = Thread(target = listofcontacts, args=contact_list)
+        thread_list_contact = Thread(target = listofcontacts, args = (contact_list,))
         thread_list_contact.start()
         speak('Opening contact list for you now')
 

@@ -15,7 +15,7 @@ import webscrape
 def ADMIN(contact_path, pass_path):
     while True:
         print('\nOnly use ADMIN acount for administrative tasks')
-        print('\n######## ADMIN MENU ########\n\n1. Create New User\n2. Delete a User\n3. Update Marvin\n4. Leave ADMIN Menu')
+        print('\n######## ADMIN MENU ########\n\n1. Create New User\n2. Delete a User\n3. Update Marvin\n4. Leave ADMIN Menu\n5. Exit program')
         ADMIN_input = raw_input('>')
         if ADMIN_input == '1' or 'user' in ADMIN_input.lower():
             with open(pass_path, 'r') as login_data:
@@ -74,17 +74,22 @@ def ADMIN(contact_path, pass_path):
                 marvin_ver = load(marvin_v)
                 marvin_version = marvin_ver['Marvin_Release']
             online_marvin_version = webscrape.getVersion()
-            print(online_marvin_version)
-            if ('\n' + marvin_version + '\n') != online_marvin_version:
+            if str(marvin_version) != str(online_marvin_version):
                 print('Update found')
                 system('git pull')
                 print('You will now have to reopen Marvin to make sure the changes went through')
+                with open('Os.json', 'w') as outfile:
+                    marvin_ver['Marvin_Release'] = '0.0.3'
+                    dump(marvin_ver, outfile)
                 exit()
             else:
-                print('You are up to date')
+                print('No update found\nYou are up to date')
         elif ADMIN_input == '4' or 'exit' in ADMIN_input or 'leave' in ADMIN_input or 'quit' in ADMIN_input:
-            ('Exiting ADMIN MENU')
+            print('Exiting ADMIN MENU')
             break
+        elif ADMIN_input == '5':
+            print('Exiting program')
+            exit()
 
 def listofcontacts(contact_list, type_):
     wait(0.7)

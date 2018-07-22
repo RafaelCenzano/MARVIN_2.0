@@ -52,3 +52,13 @@ def scrapeRottentomatoes(search_query):
             print('Error\nI web scraped the wrong data or Rotten Tomatoes changed their format please report this issue immediatly so we can fix it')
     except Exception as e:
         essentials.speak('I ran into a problem\nThe name of the movie was probably input incorrectly')
+
+def getVersion():
+    url = ('https://github.com/SavageCoder77/MARVIN_2.0/blob/master/marvin/json/marvin_version.txt')
+    r = requests.get(url) # request page
+    page = r.text
+    soup = bs(page, 'html.parser') # parse html
+    vids = soup.findAll('td', attrs={'id':'LC1', 'class':'blob-code blob-code-inner js-file-line'}) # search for class meter-value superPageFontColor in html from page
+    version_marvin = vids[0].getText()
+    print('Marvin Version ' + str(version_marvin))
+    return version_marvin

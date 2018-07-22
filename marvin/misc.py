@@ -6,6 +6,7 @@ from json import load, dump
 from codecs import encode
 from hashlib import sha512
 import essentials
+import webscrape
 
 ###############################
 # File for miscellaneous code #
@@ -72,18 +73,20 @@ def ADMIN(contact_path, pass_path):
             with open('Os.json', 'r') as marvin_v:
                 marvin_ver = load(marvin_v)
                 marvin_version = marvin_ver['Marvin_Release']
-            if marvin_version != '0.0.2':
+            online_marvin_version = webscrape.getVersion()
+            print(online_marvin_version)
+            if ('\n' + marvin_version + '\n') != online_marvin_version:
                 print('Update found')
                 system('git pull')
                 print('You will now have to reopen Marvin to make sure the changes went through')
                 exit()
             else:
                 print('You are up to date')
-        elif ADMIN_input == '4' or 'exit' in ADMIN_inputor or 'leave' in ADMIN_input or 'quit' in ADMIN_input:
+        elif ADMIN_input == '4' or 'exit' in ADMIN_input or 'leave' in ADMIN_input or 'quit' in ADMIN_input:
             ('Exiting ADMIN MENU')
             break
 
-def listofcontacts(contact_list):
+def listofcontacts(contact_list, type_):
     wait(0.7)
     for c in contact_list:
         c_letters = list(c)
@@ -92,21 +95,26 @@ def listofcontacts(contact_list):
         c_letters_rest_joined = ("").join(c_letters_rest)
         c_letter_first_upper = str(c_letter_first.upper())
         print(c_letter_first_upper + c_letters_rest_joined)
+        if type_ != 1:
+            email_c = contact_list[c]['email']
+            if type_ != 'email':
+                phone_c = contact_list[c]['number']
+                print('    ' + email_c + '\n    ' + phone_c + '\n')
+            else:
+                print('    ' + email_c + '\n')
 
-def contactList(contact_path):
+def contactList(contact_path, type_):
     with open(contact_path, 'r') as contact_data_list:
         list_contact_data = load(contact_data_list)
         contact_list = list_contact_data['contacts']
     if not list_contact_data['contacts']:
         print('No contacts use the add contacts command to add some')
-        raise MarvinEssentials
     elif not list_contact_data:
         print('Fatal Error\nMissing data make sure that you ran setup.py before running this script')
-        raise MarvinEssentials
     else:
-        thread_list_contact = Thread(target = listofcontacts, args = (contact_list,))
+        thread_list_contact = Thread(target = listofcontacts, args = (contact_list, type_,))
         thread_list_contact.start()
-        essentials.speak('Opening contact list for you now')
+        essentials.speak('Opening contact list for you now\n')
 
 def openCalculator():
     system('python2.7 marvin/calculator.py')

@@ -101,11 +101,11 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
     # Sending based Commands
 
     elif command == 'contact list' or command == 'contacts':
-        misc.contactList(contact_path)
+        misc.contactList(contact_path, 0)
 
     elif command == 'delete contact' or command == 'remove contact':
         try:
-            misc.contactList(contact_path)
+            misc.contactList(contact_path, 1)
             print('input cancel to cancel delete contact') # cancel message
             essentials.speak('Who would you like to delete from your contacts?')
             delete_contact = essentials.commandInput(type_of_input).lower() # function for listen or raw_input
@@ -123,7 +123,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
 
     elif command == 'add contact' or command == 'new contact':
         try:
-            misc.contactList(contact_path)
+            misc.contactList(contact_path, 1)
             print('input cancel to cancel add contact') # cancel message
             essentials.speak('Who would you like to add to you contacts?')
             print('First name please')
@@ -150,7 +150,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
 
     elif command == 'send email':
         try:
-            misc.contactList(contact_path)
+            misc.contactList(contact_path, 'email')
             print('input cancel to cancel send email') # cancel message
             essentials.speak('Who would you like to send this email to?')
             email_recipient = essentials.commandInput(type_of_input) # function for listen or raw_input

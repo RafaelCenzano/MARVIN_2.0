@@ -15,7 +15,7 @@ import webscrape
 def ADMIN(contact_path, pass_path):
     while True:
         print('\nOnly use ADMIN acount for administrative tasks')
-        print('\n######## ADMIN MENU ########\n\n1. Create New User\n2. Delete a User\n3. Update Marvin\n4. Leave ADMIN Menu\n5. Exit program')
+        print('\n######## ADMIN MENU ########\n\n1. Create New User\n2. Delete a User\n3. Update Marvin\n4. Marvin Information\n5. Leave ADMIN Menu\n6. Exit program')
         ADMIN_input = raw_input('>')
         if ADMIN_input == '1' or 'user' in ADMIN_input.lower():
             with open(pass_path, 'r') as login_data:
@@ -50,7 +50,7 @@ def ADMIN(contact_path, pass_path):
             print('Showing all Users')
             for x in search_login:
                 print(x)
-            print('What user do you want to delete')
+            print('\nWhat user do you want to delete')
             del_user = raw_input('>')
             if del_user == 'ADMIN':
                 print('Can\'t delete this user')
@@ -84,10 +84,37 @@ def ADMIN(contact_path, pass_path):
                 exit()
             else:
                 print('No update found\nYou are up to date')
-        elif ADMIN_input == '4' or 'exit' in ADMIN_input.lower() or 'leave' in ADMIN_input.lower() or 'quit' in ADMIN_input.lower():
+        elif ADMIN_input == '4' or 'info' in ADMIN_input.lower():
+            print('''
+MIT License
+
+Copyright (c) 2018 Rafael Cenzano
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.''')
+            wait(2)
+            print('\n\nMarvin is a home assistant that was created by Rafael Cenzano and some help from Capillen Leen\n\n')
+            wait(2)
+            print('Marvin can do a wide range of things but would also like to have other people helping to develope the program')
+        elif ADMIN_input == '5' or 'exit' in ADMIN_input.lower() or 'leave' in ADMIN_input.lower() or 'quit' in ADMIN_input.lower():
             print('Exiting ADMIN MENU')
             break
-        elif ADMIN_input == '5':
+        elif ADMIN_input == '6':
             print('Exiting program')
             exit()
 

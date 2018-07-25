@@ -1,5 +1,5 @@
 # Imports
-from os import system
+from os import system, path
 from time import sleep as wait
 from threading import Thread
 from json import load, dump
@@ -79,12 +79,12 @@ def ADMIN(contact_path, pass_path):
                 system('git pull')
                 print('You will now have to reopen Marvin to make sure the changes went through')
                 with open('Os.json', 'w') as outfile:
-                    marvin_ver['Marvin_Release'] = '0.0.3'
+                    marvin_ver['Marvin_Release'] = online_marvin_version
                     dump(marvin_ver, outfile)
                 exit()
             else:
                 print('No update found\nYou are up to date')
-        elif ADMIN_input == '4' or 'exit' in ADMIN_input or 'leave' in ADMIN_input or 'quit' in ADMIN_input:
+        elif ADMIN_input == '4' or 'exit' in ADMIN_input.lower() or 'leave' in ADMIN_input.lower() or 'quit' in ADMIN_input.lower():
             print('Exiting ADMIN MENU')
             break
         elif ADMIN_input == '5':
@@ -121,5 +121,6 @@ def contactList(contact_path, type_):
         thread_list_contact.start()
         essentials.speak('Opening contact list for you now\n')
 
+calculator_path = path.join('marvin','calculator.py')
 def openCalculator():
-    system('python2.7 marvin/calculator.py')
+    system('python2.7 ' + calculator_path)

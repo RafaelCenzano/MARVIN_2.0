@@ -4,7 +4,6 @@ import requests # to request page url code
 import webbrowser # webbrowser to open websites
 import time # for pause between requests
 import essentials # import speak and listen
-import random # for randomizing random request
 
 
 ########################

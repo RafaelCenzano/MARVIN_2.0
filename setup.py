@@ -38,7 +38,7 @@ try:
         var2 = {"Marvin_Release":"0.0.2","Os_data":{"OS":check_os,"os_release":os_release}}
         dump(var2, outfile)
     with open(contacts_path, 'w') as outfile1:
-        var = {"contacts":{"example":{"email":"email@domain.com","number":"number here"}}}
+        var = {"contacts":{},"nicks":{}}
         dump(var, outfile1)
     with open(pass_path, 'w') as outfile2:
         var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}

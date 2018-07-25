@@ -67,11 +67,13 @@ def email(recipient, subject, email_message, pass_path, contact_path):
         text = msg.as_string() # format all text
 
         #sending code
-        server = SMTP('smtp.gmail.com', 587) # connection to 587 port for gmail
-        server.starttls() #start connection
-        server.login(email_user, email_pass) # login with credentials
-        server.sendmail(email_user, recipient_email, text) # send email
-        server.quit() # quit connection
+        smtp_server = SMTP('smtp.gmail.com', 587) # connection to 587 port for gmail
+        smtp_server.ehlo_or_helo_if_needed()
+        smtp_server.starttls() #start connection
+        smtp_server.ehlo_or_helo_if_needed()
+        smtp_server.login(email_user, email_pass) # login with credentials
+        smtp_server.sendmail(email_user, recipient_email, text) # send email
+        smtp_server.quit() # quit connection
         print('Email Sent!') # done
     else: # recipient not in contacts
         speak(recipient + ' is not in our contacts use the "add contacts" command to add them')

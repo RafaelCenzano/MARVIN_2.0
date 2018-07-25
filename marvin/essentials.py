@@ -15,8 +15,8 @@ class MarvinEssentials(Exception): pass
 def speak(spokenString):
     print(spokenString)
     tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts
-    tts.save('Marvin_Speak.mp3')
-    proc = Popen(['mpg321 Marvin_Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True)
+    tts.save('Speak.mp3')
+    proc = Popen(['mpg321 Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True)
     (out, err) = proc.communicate() # opening speak file
 
 def listen():

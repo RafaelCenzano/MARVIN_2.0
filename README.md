@@ -23,14 +23,14 @@ python2.7 setup.py
 ```
 
 ## Usage
-To start Marvin you run:
+To start Marvin you run if your in linux and mac:
 ```
-python2.7 Marvin_Script.py
+marvin
 ```
 From there you login with a User. If its your first time running Marvin you have to login with ADMIN to create a new User to login and use Marvin's [commands](#commands). After you login you read the instructions on screen and you should be able to run any [commands](#commands).
 
 ## License
-This project is licensed under the terms of the MIT license. See the LICENSE file.
+This project is licensed under the terms of the Apache2.0 license. See the LICENSE file.
 
 ## Commands
 Full list of all commands and description of what the command does

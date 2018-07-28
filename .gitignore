@@ -3,3 +3,8 @@
 marvin/json/contacts.json
 marvin/json/pass.json
 Os.json
+
+marvin-env/bin
+marvin-env/include
+marvin-env/lib
+marvin-env/pip-selfcheck.json

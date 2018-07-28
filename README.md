@@ -3,7 +3,7 @@
 ![alt text](https://img.shields.io/github/stars/SavageCoder77/MARVIN_2.0.svg)
 ![alt text](https://img.shields.io/github/forks/SavageCoder77/MARVIN_2.0.svg)
 ![alt text](https://img.shields.io/github/issues/SavageCoder77/MARVIN_2.0.svg)
-![alt text](https://img.shields.io/badge/Marvin%20Version-0.0.3-brightgreen.svg)
+![alt text](https://img.shields.io/badge/Marvin%20Version-0.0.4-brightgreen.svg)
 
 ## Table of Contents
 1. [Description](#description)
@@ -57,7 +57,7 @@ amazon {amazon search}  _|_ will open amazon's search of you input
 time in {location} _|_ will open the time in your location on time.is
 
 
-contact list {alias = contacts} _|_  will show you contacts  
+contact list {alias = contacts} _|_ will show you contacts  
 
 
 add contact {alias = new contact} _|_ will allow you to create any contact  

@@ -46,23 +46,56 @@ try:
 except Exception as e:
     print('We ran into a problem\nPlease report this issue ' + str(e) + '\nFiles couldn\'t be created properly')
 
+print('Start installs')
+os.system('pip install virtualenv')
+os.system('virtualenv marvin-env')
+
+path = os.getcwd()
+
 if check_os == 'Linux':
-    try:
-        print('\nGoing to install tkinter for GUI')
-        os.system('sudo apt-get install python-tk')
-    except Exception as e:
-        print('We ran into a problem\nPlease report this issue ' + str(e))
-        
+    os.system('chmod 755 marvin_run.sh')
+    alias = 'alias marvin="' + path + '/marvin_run.sh"'
+    homefolder = os.path.expanduser('~')
+    bashrc = os.path.abspath('%s/.bashrc' % homefolder)
+    with open(bashrc, 'r') as f:
+        lines = f.readlines()
+        if alias not in lines:
+            out = open(bashrc, 'a')
+            out.write(alias)
+            out.close()
+        else:
+            print('Please delete your alias command marvin in your .bashrc file')
+            exit()
+    os.system('source ' + bashrc)
+    print('\nGoing to install tkinter for GUI')
+    os.system('sudo apt-get install python-tk')
+    os.system('cp /usr/lib/python2.7/dist-packages/tk* marvin-env/lib/python2.7/site-packages/')
+    os.system('chmod 755 installs.sh')
+    os.system('./installs.sh')
+
 elif check_os == 'Darwin':
-    try:
-        print('We need to install Homebrew so that we can install portaudio')
-        os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
-        print('Installing portaudio')
-        os.system('brew install portaudio')
-    except Exception as e:
-        print('We ran into a problem\nPlease report this issue ' + str(e))
+    os.system('chmod 755 marvin_run.sh')
+    alias = 'alias marvin="' + path + '/marvin_run.sh"'
+    homefolder = os.path.expanduser('~')
+    bashrc = os.path.abspath('%s/.bash_profile' % homefolder)
+    with open(bashrc, 'r') as f:
+        lines = f.readlines()
+        if alias not in lines:
+            out = open(bashrc, 'a')
+            out.write(alias)
+            out.close()
+        else:
+            print('Please delete your alias command marvin in your .bashrc file')
+            exit()
+    os.system('source ' + bashrc)
+    print('We need to install Homebrew so that we can install portaudio')
+    os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
+    print('Installing portaudio')
+    os.system('brew install portaudio')
+    os.system('chmod 755 installs.sh')
+    os.system('./installs.sh')
+
 elif check_os == 'Windows': pass
 else:
     print ('We dont have a way to set up Marvin on your Operating System.\nIf this is a mistake make sure to report it as an issue at https://github.com/SavageCoder77/MARVIN_2.0')
-os.system('pip install -r requirements.txt')
-print('\n\nAll files and installs completed\nYou can now run Marvin with Marvin_Script.py')
+print('\n\nAll files and installs completed\nYou can now run Marvin with the command marvin')

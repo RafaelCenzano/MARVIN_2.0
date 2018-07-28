@@ -2,7 +2,8 @@
 *.pyc
 marvin/json/contacts.json
 marvin/json/pass.json
-Os.json
+.Os.json
+marvin_run.sh
 
 marvin-env/bin
 marvin-env/include

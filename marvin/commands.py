@@ -88,7 +88,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         raise MarvinRelog
 
     elif command == 'ls' or command == 'dir':
-        with open('Os.json', 'r') as os_data:
+        with open('.Os.json', 'r') as os_data:
             os_system_data = load(os_data)
         os_system = os_system_data['Os_data']['OS']
         if os_system == 'Linux':

@@ -6,6 +6,8 @@ from json import load, dump # import json load
 from threading import Thread
 import os
 import misc
+import time
+from datetime import datetime
 
 
 #####################
@@ -169,6 +171,17 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             print('cancelling')
 
     # Misc Commands #
+    elif command == 'what time is it':
+        essentials.speak('The time is ' + datetime.now().strftime('%-I:%M %p'))
+
+    elif command == 'what is the date':
+        essentials.speak('The date is ' + datetime.now().strftime('%A %B %-d %Y'))
+
+    elif command == "day of the week":
+        essentials.speak(datetime.now().strftime('%A'))
+
+    elif command == "week number":
+        essentials.speak(datetime.now().strftime('%W'))
 
     elif command == 'open calculator' or command == 'run calculator' or command == 'calculator':
         thread_calculator = Thread(target = misc.openCalculator) # run calculator code from calculator.py

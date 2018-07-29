@@ -139,9 +139,15 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             essentials.speak('What is ' + add_contact + '\'s phone number? If you don\'t have it or you dont want to input respond with None')
             new_phone_number = essentials.commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == new_phone_number.lower() or 'exit' == new_phone_number.lower() or 'cancel' == new_phone_number.lower(): raise ValueError # check message for cancel
-            essentials.speak('Creating contact')
+            essentials.speak('Does this contact have a nickname you like to add? If they don\'t have one typer none')
+            nick = essentials.commandInput(type_of_input) # function for listen or raw_input
+            nick_lower = nick.lower()
+            if 'quit' == nick_lower or 'exit' == nick_lower or 'cancel' == nick_lower: raise ValueError # check message for cancel
             with open(contact_path, 'r') as contact_data:
                 new_contact_data = load(contact_data) # read data
+            if 'none' != nick_lower:
+                new_contact_data['nicks'][nick_lower] = {"real_name":add_contact_lowered}
+            essentials.speak('Creating contact')
             add_contact_lowered = add_contact.lower()
             with open(contact_path, 'w') as outfile:
                 new_contact_data['contacts'][add_contact_lowered] = {"email":new_email, "number":new_phone_number} # new data to add
@@ -187,6 +193,11 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         thread_calculator = Thread(target = misc.openCalculator) # run calculator code from calculator.py
         print('Calculator Opened!') # open message
         thread_calculator.start() # start 2nd thread with calulator so you can run commands along with the calculator open
+
+    elif command == 'open stopwatch' or command == 'run stopwatch' or command == 'stopwatch':
+        thread_stopwatch = Thread(target = misc.openStopwatch) # run calculator code from calculator.py
+        print('Stopwatch Opened!') # open message
+        thread_stopwatch.start() # start 2nd thread with calulator so you can run commands along with the calculator open
 
     elif command == 'hello' or command == 'hi':
         essentials.speak('Hello!')

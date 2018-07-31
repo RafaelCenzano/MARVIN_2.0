@@ -4,14 +4,10 @@ marvin/json/contacts.json
 marvin/json/pass.json
 Os.json
 marvin_run.sh
+marvin/rest-server/start_rest.sh
 
 marvin-env/bin
 marvin-env/include
 marvin-env/lib
 marvin-env/pip-selfcheck.json
 marvin-env/.Python
-marvin/rest-server/rest-server-env/.Python
-marvin/rest-server/rest-server-env/bin
-marvin/rest-server/rest-server-env/include
-marvin/rest-server/rest-server-env/lib
-marvin/rest-server/rest-server-env/pip-selfcheck.json

@@ -52,7 +52,7 @@ while True:
             if beg_input == '1' or 'voice' in beg_input: # once recording data is done and marvin completed commands it will restart the loop and ask 'would you like to do voice commands'
                 try:
                     while 1:
-                        print('Awaiting commands')
+                        print('\nAwaiting commands')
                         data = essentials.listen() #use listen function in commands.py
                         commands.dataCommands(data.lower(), 1, pass_path, contact_path) # check for command and lower what was just said
                 except commands.MarvinCommands: # except and pass to resume stanby
@@ -60,7 +60,7 @@ while True:
             elif beg_input == '2' or 'chat' in beg_input:
                 try:
                     while 1:
-                        print('Awaiting commands')
+                        print('\nAwaiting commands')
                         data = raw_input('')
                         commands.dataCommands(data.lower(), 0, pass_path, contact_path) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
                 except commands.MarvinCommands: # except and pass to resume stanby

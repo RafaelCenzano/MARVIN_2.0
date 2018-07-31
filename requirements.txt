@@ -4,4 +4,3 @@ SpeechRecognition==3.8.1
 beautifulsoup4==4.6.0
 pyaudio==0.2.11
 flask==1.0.2
-connexion==1.5.2

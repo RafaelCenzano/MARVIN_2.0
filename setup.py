@@ -16,14 +16,15 @@ while True:
 
 def unix_linux():
     path = os.getcwd()
-    marvin_script_path = (path + '/Marvin_Script.py')
-    marvin_env_path = (path + '/marvin-env/bin/activate')
     os.system('chmod 755 .installs.sh')
     os.system('./.installs.sh')
-    env = ('source ' + marvin_env_path)
-    script = ('python2.7 ' + marvin_script_path)
+    os.system('chmod 755 marvin/rest-server/start_rest.sh')
+    os.system('chmod 755 marvin_run.sh')
+    env = ('source ' + path + '/marvin-env/bin/activate')
+    script = (path + '/marvin-env/bin/python2.7 ' + path + '/Marvin_Script.py')
     cd = ('cd ' + path)
     out2 = open('marvin_run.sh', 'a')
+    out3.write('#!/bin/bash')
     out2.write('\n')
     out2.write(env)
     out2.write('\n')
@@ -33,6 +34,19 @@ def unix_linux():
     out2.write('\n')
     out2.write('deactivate')
     out2.close()
+    script2 = (path + '/marvin-env/bin/python2.7 ' + path + '/marvin/rest-server/rest-server.py')
+    cd2 = ('cd ' + path + '/marvin/rest-server')
+    out3 = open('marvin/rest-server/start_rest.sh', 'a')
+    out3.write('#!/bin/bash')
+    out3.write('\n')
+    out3.write(env)
+    out3.write('\n')
+    out3.write(cd2)
+    out3.write('\n')
+    out3.write(script2)
+    out3.write('\n')
+    out3.write('deactivate')
+    out3.close()
 
 check_os = system()
 os_release = release()
@@ -71,7 +85,6 @@ os.system('pip install virtualenv')
 os.system('virtualenv marvin-env')
 
 if check_os == 'Linux':
-    os.system('chmod 755 marvin_run.sh')
     alias = 'alias marvin="' + path + '/marvin_run.sh"'
     homefolder = os.path.expanduser('~')
     bashrc = os.path.abspath('%s/.bashrc' % homefolder)
@@ -90,7 +103,6 @@ if check_os == 'Linux':
     os.system('cp /usr/lib/python2.7/dist-packages/tk* marvin-env/lib/python2.7/site-packages/')
 
 elif check_os == 'Darwin':
-    os.system('chmod 755 marvin_run.sh')
     alias = ('alias marvin="' + path + '/marvin_run.sh"')
     homefolder = os.path.expanduser('~')
     bashrc = os.path.abspath('%s/.bash_profile' % homefolder)

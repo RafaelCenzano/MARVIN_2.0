@@ -37,6 +37,16 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         rotten_joined = (" ").join(rotten_search)
         webscrape.scrapeRottentomatoes(rotten_joined)
 
+    elif 'imdb' in command:
+        IMDb_search = command.split(" ")[1:] # split for anything after 'rotten tomatoes'
+        IMDb_joined = (" ").join(IMDb_search)
+        webscrape.IMDb(IMDb_joined)
+
+    elif 'imdb rating' in command:
+        IMDb_search = command.split(" ")[2:] # split for anything after 'imdb rating'
+        IMDb_joined = (" ").join(IMDb_search)
+        webscrape.IMDb(IMDb_joined)
+
     elif 'google search' in command:
         gsearch = command.split(" ")[2:] # split for anything after 'google search'
         gsearch_joined = (" ").join(gsearch) # joining anything that was split from after 'google search'
@@ -139,7 +149,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             essentials.speak('What is ' + add_contact + '\'s phone number? If you don\'t have it or you dont want to input respond with None')
             new_phone_number = essentials.commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == new_phone_number.lower() or 'exit' == new_phone_number.lower() or 'cancel' == new_phone_number.lower(): raise ValueError # check message for cancel
-            essentials.speak('Does this contact have a nickname you like to add? If they don\'t have one typer none')
+            essentials.speak('Does this contact have a nickname you like to add? If they don\'t have one type none')
             nick = essentials.commandInput(type_of_input) # function for listen or raw_input
             nick_lower = nick.lower()
             if 'quit' == nick_lower or 'exit' == nick_lower or 'cancel' == nick_lower: raise ValueError # check message for cancel

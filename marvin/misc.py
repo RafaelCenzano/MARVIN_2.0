@@ -18,6 +18,7 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
         print('\nOnly use ADMIN acount for administrative tasks') # message to remind you can't use marvins command without a real user
         print('\n######## ADMIN MENU ########\n\n1. Create New User\n2. Delete a User\n3. Update Marvin\n4. Leave ADMIN Menu\n5. Exit program') # show options
         ADMIN_input = raw_input('>') # prompt for input
+
         if ADMIN_input == '1' or 'user' in ADMIN_input.lower(): # check if user wants to create a user
             with open(pass_path, 'r') as login_data: # open user info
                 new_user_data = load(login_data) # parse user info
@@ -44,6 +45,7 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
                     new_user_data['logins'][new_user] = {"pass":new_user_pass_encrypted} # new user data
                     dump(new_user_data, outfile) # add new user data
                 print('New user created') # new user added messgae
+
         elif ADMIN_input == '2' or 'delete' in ADMIN_input.lower(): # check if user wants to delete a user
             with open(pass_path, 'r') as login_data: # open file to find exisiting users
                 new_user_data = load(login_data) # parse data
@@ -72,6 +74,7 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
                     dump(new_user_data, outfile) # add updated file
             else: # no user found 
                 print('This User doesn\'t exist') # no user found message
+
         elif ADMIN_input == '3' or 'update' in ADMIN_input.lower(): # check if user want to update
             ('Checking for Update') # checking message
             with open('.Os.json', 'r') as marvin_v: # open .Os.json to see marvin version
@@ -87,10 +90,12 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
                     dump(marvin_ver, outfile) # add new version number
                 exit() # exit to restart
             else: # versions match
-                print('No update found\nYou are up to date') # versions match message
+                print('No update found\n##############\nYou are up to date') # versions match message
+
         elif ADMIN_input == '4' or 'exit' in ADMIN_input.lower() or 'leave' in ADMIN_input.lower() or 'quit' in ADMIN_input.lower(): # check if user wants to leave Menu
             print('Exiting ADMIN MENU') # exit menu message
             break # break loop to leave ADMIN MENU
+
         elif ADMIN_input == '5': # if you want to exit
             print('Exiting program') # exit message
             exit() # close program

@@ -24,7 +24,7 @@ def unix_linux():
     script = (path + '/marvin-env/bin/python2.7 ' + path + '/Marvin_Script.py')
     cd = ('cd ' + path)
     out2 = open('marvin_run.sh', 'a')
-    out3.write('#!/bin/bash')
+    out2.write('#!/bin/bash')
     out2.write('\n')
     out2.write(env)
     out2.write('\n')

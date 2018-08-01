@@ -18,8 +18,6 @@ path = os.getcwd()
 def unix_linux():
     os.system('chmod 755 .installs.sh')
     os.system('./.installs.sh')
-    os.system('chmod 755 marvin/rest-server/start_rest.sh')
-    os.system('chmod 755 marvin_run.sh')
     env = ('source ' + path + '/marvin-env/bin/activate')
     script = (path + '/marvin-env/bin/python2.7 ' + path + '/Marvin_Script.py')
     cd = ('cd ' + path)
@@ -47,6 +45,8 @@ def unix_linux():
     out3.write('\n')
     out3.write('deactivate')
     out3.close()
+    os.system('chmod 755 marvin/rest-server/start_rest.sh')
+    os.system('chmod 755 marvin_run.sh')
 
 check_os = system()
 os_release = release()

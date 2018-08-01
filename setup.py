@@ -14,8 +14,8 @@ while True:
         pass_new = sha512(new_pass + 'NQZVA').hexdigest()
         break
 
+path = os.getcwd()
 def unix_linux():
-    path = os.getcwd()
     os.system('chmod 755 .installs.sh')
     os.system('./.installs.sh')
     os.system('chmod 755 marvin/rest-server/start_rest.sh')

@@ -100,7 +100,6 @@ if check_os == 'Linux':
     os.system('source ' + bashrc)
     print('\nGoing to install tkinter for GUI')
     os.system('sudo apt-get install python-tk')
-    os.system('cp /usr/lib/python2.7/dist-packages/tk* marvin-env/lib/python2.7/site-packages/')
 
 elif check_os == 'Darwin':
     alias = ('alias marvin="' + path + '/marvin_run.sh"')

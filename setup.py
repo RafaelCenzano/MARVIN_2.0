@@ -92,6 +92,7 @@ if check_os == 'Linux':
         lines = f.readlines()
         if alias in lines:
             print('Please delete your alias command marvin in your .bashrc file')
+            out.close()
             exit()
         else:
             out = open(bashrc, 'a')
@@ -110,6 +111,7 @@ elif check_os == 'Darwin':
         lines = f.readlines()
         if alias in lines:
             print('Please delete your alias command marvin in your .bashrc file')
+            out.close()
             exit()
         else:
             out = open(bashrc, 'a')

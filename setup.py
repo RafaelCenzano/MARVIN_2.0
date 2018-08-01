@@ -100,6 +100,7 @@ if check_os == 'Linux':
     os.system('source ' + bashrc)
     print('\nGoing to install tkinter for GUI')
     os.system('sudo apt-get install python-tk')
+    unix_linux()
 
 elif check_os == 'Darwin':
     alias = ('alias marvin="' + path + '/marvin_run.sh"')
@@ -119,6 +120,7 @@ elif check_os == 'Darwin':
     os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
     print('Installing portaudio')
     os.system('brew install portaudio')
+    unix_linux()
 
 elif check_os == 'Windows': pass
 else:

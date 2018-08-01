@@ -91,8 +91,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         essentials.speak('Going on standby')
         raise MarvinCommands # raise exeption so class passes and restarts loop
 
-    elif command == 'exit' or command == 'quit' or command == 'leave':
-        essentials.speak('exiting')
+    elif command == 'exit' or command == 'quit' or command == 'leave' or command == 'close':
+        essentials.speak('Shutting down')
         exit() # leave program
 
     elif command == 'relog' or command == 'logout' or command == 'log out':

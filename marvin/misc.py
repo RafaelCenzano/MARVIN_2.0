@@ -131,11 +131,13 @@ def contactList(contact_path, type_):
         speak('Opening contact list for you now\n') # speak
 
 def openCalculator():
+    python_path = path.join('marvin-env','bin','python2.7') # get path for any os
     calculator_path = path.join('marvin','calculator.py') # get path for any os
-    calculator = Popen(['python2.7 ' + calculator_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
+    calculator = Popen([python_path + ' ' + calculator_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
     (out, err) = calculator.communicate() # opening calculator file
 
 def openStopwatch():
+    python_path = path.join('marvin-env','bin','python2.7') # get path for any os
     stopwatch_path = path.join('marvin','stopwatch.py') # get path for any os
-    stopwatch = Popen(['python2.7 ' + stopwatch_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
+    stopwatch = Popen([python_path + ' ' + stopwatch_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
     (out, err) = stopwatch.communicate() # opening stopwatch file

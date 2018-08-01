@@ -8,6 +8,7 @@ marvin/rest-server/start_rest.sh
 
 marvin-env/bin/*
 !marvin-env/bin/python2.7
+!marvin-env/bin/python
 marvin-env/include
 marvin-env/lib
 marvin-env/pip-selfcheck.json

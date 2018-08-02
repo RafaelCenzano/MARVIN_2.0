@@ -72,8 +72,8 @@ print('Please type email password')
 email_pass = raw_input('>')
 
 try:
-    with open('.Os.json', 'w') as outfile:
-        var2 = {"Marvin_Release":"0.0.2","Os_data":{"OS":check_os,"os_release":os_release}}
+    with open('Os.json', 'w') as outfile:
+        var2 = {"Marvin_Release":"0.0.2","Os_data":{"OS":check_os,"os_release":os_release},"apps":{"IOS":"INACTIVE"}}
         dump(var2, outfile)
     with open(contacts_path, 'w') as outfile1:
         var = {"contacts":{},"nicks":{}}

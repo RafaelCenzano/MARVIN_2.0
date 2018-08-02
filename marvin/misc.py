@@ -3,6 +3,7 @@ from os import system, path # for getting paths for any os and system for runnin
 from time import sleep as wait # to have a pause
 from json import load, dump # parse and add json data
 from codecs import encode # to create new passwords
+import socket # import socket to get ip address
 from hashlib import sha512 # to create new passwords
 from threading import Thread # thread to maximize efficency of marvin
 from webscrape import getVersion # webscrape version
@@ -13,10 +14,22 @@ from subprocess import Popen, PIPE # to run GUI with terminal command
 # File for miscellaneous code #
 ###############################
 
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
 def ADMIN(contact_path, pass_path): # ADMIN MENU
     while True: # loop for MENU so you don't have to keep reopening it
         print('\nOnly use ADMIN acount for administrative tasks') # message to remind you can't use marvins command without a real user
-        print('\n######## ADMIN MENU ########\n\n1. Create New User\n2. Delete a User\n3. Update Marvin\n4. Leave ADMIN Menu\n5. Exit program') # show options
+        print('\n######## ADMIN MENU ########\n\n1. Create New User     2. Delete a User\n3. Update Marvin      4. Marvin APPS\n5. Leave ADMIN Menu    6. Exit program') # show options
         ADMIN_input = raw_input('>') # prompt for input
 
         if ADMIN_input == '1' or 'user' in ADMIN_input.lower(): # check if user wants to create a user
@@ -38,6 +51,17 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
                         print('Make your password over 5 characters please') # more characters message
                     else: # password over 5 characters
                         break # break loop
+                while True: # loop until correct passward
+                    print('\nType your ADMIN password again to confirm this action') # ask for admin password
+                    login_pass = raw_input('>') # input password
+                    login_pass2 = sha512(login_pass + 'NQZVA').hexdigest() # hash password to match if in file
+                    if login_pass2 == new_user_data['logins']['ADMIN']['pass']: # check if password matches
+                        break # leave loop
+                    else: # password doesn't match
+                        print('Incorect Credentials') # wrong password message
+                        i = i + 1 # add tries
+                        if i >= 5: # if over 5 tries
+                            exit() # exit
                 new_login = encode(new_user, 'rot13') # encode user name
                 new_user_pass_encrypted = sha512(new_user_pass + new_login).hexdigest() # hash password
                 print('Creating User') # print creating messsage
@@ -77,7 +101,7 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
 
         elif ADMIN_input == '3' or 'update' in ADMIN_input.lower(): # check if user want to update
             ('Checking for Update') # checking message
-            with open('.Os.json', 'r') as marvin_v: # open .Os.json to see marvin version
+            with open('Os.json', 'r') as marvin_v: # open .Os.json to see marvin version
                 marvin_ver = load(marvin_v) # parse data
                 marvin_version = marvin_ver['Marvin_Release'] # get local marvin version
             online_marvin_version = getVersion() # get online marvin version
@@ -85,18 +109,31 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
                 print('Update found') # found message
                 system('git pull') # pull from github
                 print('You will now have to reopen Marvin to make sure the changes went through') # restart message
-                with open('.Os.json', 'w') as outfile: # open .Os.json to change marvin version
+                with open('Os.json', 'w') as outfile: # open .Os.json to change marvin version
                     marvin_ver['Marvin_Release'] = online_marvin_version # change marvin version
                     dump(marvin_ver, outfile) # add new version number
                 exit() # exit to restart
             else: # versions match
                 print('No update found\n##############\nYou are up to date') # versions match message
 
-        elif ADMIN_input == '4' or 'exit' in ADMIN_input.lower() or 'leave' in ADMIN_input.lower() or 'quit' in ADMIN_input.lower(): # check if user wants to leave Menu
+        elif ADMIN_input == '4' or 'app' in ADMIN_input:
+            print('\nshowing apps:\n')
+            with open('Os.json', 'r') as marvin_a: # open .Os.json to see marvin version
+                marvin_apps = load(marvin_a) # parse data
+            print('IOS app : ' + marvin_apps['apps']['IOS'])
+            print('\nWould you like to enable any apps?')
+            app_input = raw_input('>').lower()
+            if app_input == 'yes' or 'y' in app_input:
+                print('\nWhich app would you like to activate')
+                app_active = raw_input('>').lower()
+                if app_active == 'ios' or app_active == 'apple':
+                    get_ip()
+
+        elif ADMIN_input == '5' or 'exit' in ADMIN_input.lower() or 'leave' in ADMIN_input.lower() or 'quit' in ADMIN_input.lower(): # check if user wants to leave Menu
             print('Exiting ADMIN MENU') # exit menu message
             break # break loop to leave ADMIN MENU
 
-        elif ADMIN_input == '5': # if you want to exit
+        elif ADMIN_input == '4': # if you want to exit
             print('Exiting program') # exit message
             exit() # close program
 

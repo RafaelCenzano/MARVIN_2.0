@@ -16,11 +16,16 @@ while True:
 
 path = os.getcwd()
 def unix_linux():
+    os.system('pip install virtualenv')
+    os.system('virtualenv --python=/usr/bin/python2.7 marvin-env')
     os.system('chmod 755 .installs.sh')
     os.system('./.installs.sh')
     env = ('source ' + path + '/marvin-env/bin/activate')
     script = (path + '/marvin-env/bin/python2.7 ' + path + '/Marvin_Script.py')
     cd = ('cd ' + path)
+    script2 = (path + '/marvin-env/bin/python2.7 ' + path + '/marvin/rest-server/rest-server.py')
+    cd2 = ('cd ' + path + '/marvin/rest-server')
+    # marvin script start file
     out2 = open('marvin_run.sh', 'a')
     out2.write('#!/bin/bash')
     out2.write('\n')
@@ -32,8 +37,7 @@ def unix_linux():
     out2.write('\n')
     out2.write('deactivate')
     out2.close()
-    script2 = (path + '/marvin-env/bin/python2.7 ' + path + '/marvin/rest-server/rest-server.py')
-    cd2 = ('cd ' + path + '/marvin/rest-server')
+    # rest server start file
     out3 = open('marvin/rest-server/start_rest.sh', 'a')
     out3.write('#!/bin/bash')
     out3.write('\n')
@@ -81,8 +85,6 @@ except Exception as e:
     print('We ran into a problem\nPlease report this issue ' + str(e) + '\nFiles couldn\'t be created properly')
 
 print('Start installs')
-os.system('pip install virtualenv')
-os.system('virtualenv marvin-env')
 
 if check_os == 'Linux':
     alias = 'alias marvin="' + path + '/marvin_run.sh"'
@@ -109,13 +111,12 @@ elif check_os == 'Darwin':
     with open(bashrc, 'r') as f:
         lines = f.readlines()
         if alias in lines:
-            print('Please delete your alias command marvin in your .bashrc file')
-            exit()
+            print('Please delete your alias command marvin in your ~/.bash_profile file')
         else:
             out = open(bashrc, 'a')
             out.write(alias)
             out.close()
-    os.system('source ' + bashrc)
+            os.system('source ' + bashrc)
     print('We need to install Homebrew so that we can install portaudio')
     os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
     print('Installing portaudio')

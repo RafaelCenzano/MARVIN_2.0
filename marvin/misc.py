@@ -29,7 +29,7 @@ def get_ip():
 def ADMIN(contact_path, pass_path): # ADMIN MENU
     while True: # loop for MENU so you don't have to keep reopening it
         print('\nOnly use ADMIN acount for administrative tasks') # message to remind you can't use marvins command without a real user
-        print('\n######## ADMIN MENU ########\n\n1. Create New User     2. Delete a User\n3. Update Marvin      4. Marvin APPS\n5. Leave ADMIN Menu    6. Exit program') # show options
+        print('\n######## ADMIN MENU ########\n\n1. Create New User     2. Delete a User\n3. Update Marvin        4. Marvin APPS\n5. Leave ADMIN Menu    6. Exit program') # show options
         ADMIN_input = raw_input('>') # prompt for input
 
         if ADMIN_input == '1' or 'user' in ADMIN_input.lower(): # check if user wants to create a user

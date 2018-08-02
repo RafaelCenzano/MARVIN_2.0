@@ -16,7 +16,7 @@ while True:
 
 path = os.getcwd()
 def unix_linux():
-    os.system('pip install virtualenv')
+    os.system('pip install virtualenv==16.0.0')
     os.system('virtualenv --python=/usr/bin/python2.7 marvin-env')
     os.system('chmod 755 .installs.sh')
     os.system('./.installs.sh')

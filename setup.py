@@ -3,6 +3,7 @@ import os
 from platform import system, release
 from json import dump
 from hashlib import sha512
+from marvin import webscrape
 
 # Main Code
 while True:
@@ -71,9 +72,10 @@ email_usr = raw_input('>')
 print('Please type email password')
 email_pass = raw_input('>')
 
+marvin_version = webscrape.getVersion()
 try:
     with open('Os.json', 'w') as outfile:
-        var2 = {"Marvin_Release":"0.0.2","Os_data":{"OS":check_os,"os_release":os_release},"apps":{"IOS":"INACTIVE"}}
+        var2 = {"Marvin_Release":marvin_version,"Os_data":{"OS":check_os,"os_release":os_release},"apps":{"IOS":"INACTIVE"}}
         dump(var2, outfile)
     with open(contacts_path, 'w') as outfile1:
         var = {"contacts":{},"nicks":{}}

@@ -8,7 +8,7 @@ def page_not_found(e):
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html'), "html home page"
 
 @app.route("/hello")
 def hello():

@@ -137,6 +137,17 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
             print('Exiting program') # exit message
             exit() # close program
 
+def checkcontact(contact_path, name):
+    with open(contact_path, 'r') as check_name:
+        name_check = load(check_name)
+        name_low = name.lower()
+        if name_low in name_check['contacts']
+            return 'contact found'
+        elif name_low in name_check['nicks']
+            real_name = ['nicks'][name_low]['real_name']
+            return 
+
+
 def listofcontacts(contact_list, type_):
     wait(0.7) # delay so it starts speaking first
     for c in contact_list: # loop for however many contacts

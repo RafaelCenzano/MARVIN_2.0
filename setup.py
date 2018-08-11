@@ -3,7 +3,6 @@ import os
 from platform import system, release
 from json import dump
 from hashlib import sha512
-from marvin import webscrape
 
 # Main Code
 while True:
@@ -52,6 +51,11 @@ def unix_linux():
     out3.close()
     os.system('chmod 755 marvin/rest-server/start_rest.sh')
     os.system('chmod 755 marvin_run.sh')
+    os.system('chmod 755 setup.sh')
+    os.system('./setup.sh')
+    with open(pass_path, 'w') as outfile2:
+        var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
+        dump(var1, outfile2)
 
 check_os = system()
 os_release = release()
@@ -61,7 +65,6 @@ print ('Your os version is ' + os_release)
 
 print('Creating needed files')
 
-contacts_path = os.path.join('marvin','json','contacts.json')
 pass_path = os.path.join('marvin','json','pass.json')
 
 print('We need your email to be able to send emails')
@@ -71,20 +74,6 @@ print('Please type email address')
 email_usr = raw_input('>')
 print('Please type email password')
 email_pass = raw_input('>')
-
-marvin_version = webscrape.getVersion()
-try:
-    with open('Os.json', 'w') as outfile:
-        var2 = {"Marvin_Release":marvin_version,"Os_data":{"OS":check_os,"os_release":os_release},"apps":{"IOS":"INACTIVE"}}
-        dump(var2, outfile)
-    with open(contacts_path, 'w') as outfile1:
-        var = {"contacts":{},"nicks":{}}
-        dump(var, outfile1)
-    with open(pass_path, 'w') as outfile2:
-        var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
-        dump(var1, outfile2)
-except Exception as e:
-    print('We ran into a problem\nPlease report this issue ' + str(e) + '\nFiles couldn\'t be created properly')
 
 print('Start installs')
 

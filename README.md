@@ -25,11 +25,14 @@ For Windows you will need to type the whole path to your python2.7 most likely C
 
 
 ## Usage
-To start Marvin you run if your in linux and mac:
+To start Marvin you run if your in Linux and MacOS terminal:
 ```
 marvin
 ```
 From there you login with a User. If its your first time running Marvin you have to login with ADMIN to create a new User to login and use Marvin's [commands](#commands). After you login you read the instructions on screen and you should be able to run any [commands](#commands).
+
+
+Removing Files that are no longer needed you will go into the ADMIN acount and run cleanup Marvin function.
 
 ## License
 This project is licensed under the terms of the Apache2.0 license. See the LICENSE file.

@@ -115,7 +115,22 @@ elif check_os == 'Darwin':
     unix_linux()
 
 elif check_os == 'Windows':
-    
+    python_path = os.path.join('C:','\\Python27','python.exe')
+    if os.path.isfile(python_path) == False:
+        print("Python2.7 not installed or is not in the default location. Please input your path to python.exe in your Python27 folder. \nExample:\nC:\\Documents\\Programming\\Python27\\python.exe\n\nIf you do not have python installed please close the program and install it here: https://www.python.org/ftp/python/2.7.15/python-2.7.15.msi and install it in the default location")
+        python_path = raw_input('>')
+        if os.path.isfile(python_path) == False:
+            print('Please install python2.7 here: https://www.python.org/ftp/python/2.7.15/python-2.7.15.msi')
+            exit()
+    print('Python found\nNow installing pip package installer')
+    os.system(python_path + ' get-pip.py --no-warn-script-location')
+    python_path_list = python_path.split("\\")
+    python_path_list.remove('python.exe')
+    fixed_python_path = ("\\").join(python_path_list)
+    pip_path = (fixed_python_path + '\\Scripts\\pip.exe')
+    os.system(pip_path + ' install virtualenv==16.0.0')
+    os.system('virtualenv --python=' + python_path + ' marvin-env')
+    out = open('installs.bat', 'a')
 else:
     print ('We dont have a way to set up Marvin on your Operating System.\nIf this is a mistake make sure to report it as an issue at https://github.com/SavageCoder77/MARVIN_2.0')
 print('\n\nAll files and installs completed\nYou can now run Marvin with the command marvin')

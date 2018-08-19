@@ -21,6 +21,8 @@ This project uses has a setup.py that should work on MAC, Windows, and most Linu
 git clone https://github.com/SavageCoder77/MARVIN_2.0.git
 python2.7 setup.py
 ```
+For Windows you will need to type the whole path to your python2.7 most likely C:\Python27 if you installed it in the default location
+
 
 ## Usage
 To start Marvin you run if your in linux and mac:

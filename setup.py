@@ -114,7 +114,8 @@ elif check_os == 'Darwin':
     os.system('brew install portaudio')
     unix_linux()
 
-elif check_os == 'Windows': pass
+elif check_os == 'Windows':
+    
 else:
     print ('We dont have a way to set up Marvin on your Operating System.\nIf this is a mistake make sure to report it as an issue at https://github.com/SavageCoder77/MARVIN_2.0')
 print('\n\nAll files and installs completed\nYou can now run Marvin with the command marvin')

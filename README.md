@@ -18,12 +18,13 @@ Marvin2.0 is a python program that can open websites and do simple webscrape tas
 ## Installation
 You need python2.7 and pip.
 
+Make sure to run the setup.py in the MARVIN2.0 directory
+
 This project uses has a setup.py that should work on MAC, Windows, and most Linux distributions:
 ```
 git clone https://github.com/SavageCoder77/MARVIN_2.0.git
 python2.7 setup.py
 ```
-For Windows you will need to type the whole path to your python2.7 most likely C:\Python27 if you installed it in the default location
 
 ## Usage
 To start Marvin you run if your in Linux and MacOS terminal:

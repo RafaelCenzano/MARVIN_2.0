@@ -131,7 +131,7 @@ elif check_os == 'Windows':
     os.system(pip_path + ' install virtualenv==16.0.0')
     os.system('virtualenv --python=' + python_path + ' marvin-env')
     out = open('installs.bat', 'w')
-    out.write('@ech off')
+    out.write('@echo off')
     out.write('\n')
     out.write('marvin-env\\Scripts\\activate')
     out.write('\n')

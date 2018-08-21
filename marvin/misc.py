@@ -14,22 +14,26 @@ from subprocess import Popen, PIPE # to run GUI with terminal command
 # File for miscellaneous code #
 ###############################
 
+# Functions
+
+# Function to get ip of local device on network no 127.0.0.1
 def get_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # defining socket
     try:
         # doesn't even have to be reachable
-        s.connect(('10.255.255.255', 1))
-        IP = s.getsockname()[0]
-    except:
-        IP = '127.0.0.1'
-    finally:
-        s.close()
-    return IP
+        s.connect(('10.255.255.255', 1)) # connect
+        IP = s.getsockname()[0] # get ip
+    except: # when no ip found
+        IP = '127.0.0.1' # local ip to return if no ip found
+    finally: # at end of code
+        s.close() # close connection
+    return IP # return that was found
 
+# Function to show ADMIN Menu
 def ADMIN(contact_path, pass_path): # ADMIN MENU
     while True: # loop for MENU so you don't have to keep reopening it
         print('\nOnly use ADMIN acount for administrative tasks') # message to remind you can't use marvins command without a real user
-        print('\n######## ADMIN MENU ########\n\n1. Create New User     2. Delete a User\n3. Update Marvin        4. Marvin APPS\n5. Leave ADMIN Menu    6. Exit program') # show options
+        print('\n######## ADMIN MENU ########\n\n1. Create New User     2. Delete a User\n3. Update Marvin       4. Marvin APPS\n5. Leave ADMIN Menu    6. Exit program') # show options
         ADMIN_input = raw_input('>') # prompt for input
 
         if ADMIN_input == '1' or 'user' in ADMIN_input.lower(): # check if user wants to create a user
@@ -136,16 +140,17 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
         elif ADMIN_input == '4': # if you want to exit
             print('Exiting program') # exit message
             exit() # close program
-
+'''
 def checkcontact(contact_path, name):
     with open(contact_path, 'r') as check_name:
         name_check = load(check_name)
         name_low = name.lower()
-        if name_low in name_check['contacts']
-            return 'contact found'
-        elif name_low in name_check['nicks']
-            real_name = ['nicks'][name_low]['real_name']
-            return 
+    if name_low in name_check['contacts']
+        return 'contact found'
+    elif name_low in name_check['nicks']
+        real_name = ['nicks'][name_low]['real_name']
+        return 
+'''
 
 
 def listofcontacts(contact_list, type_):

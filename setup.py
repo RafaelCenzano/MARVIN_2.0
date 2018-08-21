@@ -1,7 +1,7 @@
 # Imports
 import os
 from platform import system, release
-from json import dump
+from json import dump, load
 from hashlib import sha512
 
 # Main Code
@@ -15,7 +15,7 @@ while True:
         break
 
 path = os.getcwd()
-def unix_linux():
+def unix_linux(pass_path):
     os.system('pip install virtualenv==16.0.0')
     os.system('virtualenv --python=/usr/bin/python2.7 marvin-env')
     os.system('chmod 755 .installs.sh')
@@ -56,6 +56,7 @@ def unix_linux():
     with open(pass_path, 'w') as outfile2:
         var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
         dump(var1, outfile2)
+    print('\n\nAll files and installs completed\nYou can now run Marvin with the command marvin')
 
 check_os = system()
 os_release = release()
@@ -75,7 +76,7 @@ email_usr = raw_input('>')
 print('Please type email password')
 email_pass = raw_input('>')
 
-print('Start installs')
+print('Starting installs')
 
 if check_os == 'Linux':
     alias = 'alias marvin="' + path + '/marvin_run.sh"'
@@ -93,7 +94,7 @@ if check_os == 'Linux':
     os.system('source ' + bashrc)
     print('\nGoing to install tkinter for GUI')
     os.system('sudo apt-get install python-tk')
-    unix_linux()
+    unix_linux(pass_path)
 
 elif check_os == 'Darwin':
     alias = ('alias marvin="' + path + '/marvin_run.sh"')
@@ -112,7 +113,7 @@ elif check_os == 'Darwin':
     os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
     print('Installing portaudio')
     os.system('brew install portaudio')
-    unix_linux()
+    unix_linux(pass_path)
 
 elif check_os == 'Windows':
     python_path = os.path.join('C:','\\Python27','python.exe')
@@ -122,23 +123,27 @@ elif check_os == 'Windows':
         if os.path.isfile(python_path) == False:
             print('Please install python2.7 here: https://www.python.org/ftp/python/2.7.15/python-2.7.15.msi')
             exit()
-    print('Python found\nNow installing pip package installer')
-    os.system(python_path + ' get-pip.py --no-warn-script-location')
     python_path_list = python_path.split("\\")
     python_path_list.remove('python.exe')
     fixed_python_path = ("\\").join(python_path_list)
     pip_path = (fixed_python_path + '\\Scripts\\pip.exe')
-    os.system(pip_path + ' install virtualenv==16.0.0')
-    os.system('virtualenv --python=' + python_path + ' marvin-env')
-    out = open('installs.bat', 'w')
-    out.write('@echo off')
-    out.write('\n')
-    out.write('marvin-env\\Scripts\\activate')
-    out.write('\n')
-    out.write(pip_path + ' install -r requirements.txt')
-    out.write('\n')
-    out.write('deactivate')
+    if os.path.isfile(pip_path) == False:
+        print('You need to install pip. \nDownload the pip install file here: https://bootstrap.pypa.io/get-pip.py and run it with python')
+        exit()
+    os.system(pip_path + ' install -r requirements.txt')
+    with open(pass_path, 'w') as outfile2:
+        var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
+        dump(var1, outfile2)
+    os.system(path + '\\marvin-env\\Scripts\\python.exe marvin\\create_files.py')
+    with open('Os.json', 'r') as os_data:
+        os_data_loaded = load(os_data)
+    with open('Os.json', 'w') as outfile:
+        os_data_loaded = {"python_path":python_path}
+        dump(os_data_loaded, outfile)
+    out = open('marvin.bat', 'w')
+    out.write('@echo off\n')
+    out.write(python_path + ' ' + path + '\\Marvin_Script.py')
     out.close()
+    print('\n\nAll files and installs completed\nYou can now run Marvin by typing marvin in this folder or add this ' + path + ' to a new line in your path enviorment variable')
 else:
     print ('We dont have a way to set up Marvin on your Operating System.\nIf this is a mistake make sure to report it as an issue at https://github.com/SavageCoder77/MARVIN_2.0')
-print('\n\nAll files and installs completed\nYou can now run Marvin with the command marvin')

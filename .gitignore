@@ -5,6 +5,7 @@ marvin/json/pass.json
 Os.json
 marvin_run.sh
 marvin/rest-server/start_rest.sh
+marvin.bat
 
 marvin-env/*
 !marvin-env/marvin-env.txt

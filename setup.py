@@ -131,8 +131,6 @@ elif check_os == 'Windows':
         print('You need to install pip. \nDownload the pip install file here: https://bootstrap.pypa.io/get-pip.py and run it with python')
         exit()
     os.system(pip_path + ' install -r requirements.txt')
-    if os.path.isfile(fixed_python_path + '\\Lib\\site-packages\\__init__.py') == False:
-        os.system('echo.>' + fixed_python_path + '\\Lib\\site-packages\\__init__.py')
     with open(pass_path, 'w') as outfile2:
         var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
         dump(var1, outfile2)

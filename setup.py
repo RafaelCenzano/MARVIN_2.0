@@ -144,8 +144,9 @@ elif check_os == 'Windows':
         dump(os_data_loaded, outfile)
     out = open('marvin.bat', 'w')
     out.write('@echo off\n')
+    out.write('cd ' + path)
     out.write(python_path + ' ' + path + '\\Marvin_Script.py')
     out.close()
-    print('\n\nAll files and installs completed\nYou can now run Marvin by typing marvin in this folder or add this ' + path + ' to a new line in your path enviorment variable')
+    print('\n\nAll files and installs completed\nYou can now run Marvin by typing marvin in this folder or add this ' + path + ' to a new line in your path enviorment variable and type marvin')
 else:
     print ('We dont have a way to set up Marvin on your Operating System.\nIf this is a mistake make sure to report it as an issue at https://github.com/SavageCoder77/MARVIN_2.0')

@@ -1,7 +1,11 @@
 # Imports
+import misc
+from wave import open as play # play wav file
 from json import load # to open contacts.json to see contacts to be able to send email
 from gtts import gTTS # gtts for text to speech
 from smtplib import SMTP # smtplib for connection and sending of email
+from pyaudio import PyAudio # play wav file
+from platform import system # find os type
 from subprocess import Popen, PIPE # subprocess for playing audio
 from email.mime.text import MIMEText # MIMEText for formatting
 from email.mime.multipart import MIMEMultipart # MIMEMultipart changing sender
@@ -15,9 +19,23 @@ class MarvinEssentials(Exception): pass # class for breaking loops in Marvin_Scr
 def speak(spokenString):
     print(spokenString) # string to speak
     tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts
-    tts.save('Speak.mp3') # save gtts audio as Speak.mp3
-    proc = Popen(['mpg321 Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True) # Popen command with terminal command arguments
-    (out, err) = proc.communicate() # opening speak file
+    if system() == 'Windows':
+        tts.save('Speak.wav') # save gtts as wav
+        chunk = 1024 # define stream chunk
+        f = play(r"Speak.wav","rb") # open a wav format music
+        p = PyAudio() # instantiate PyAudio
+        stream = PyAudio().open(format = PyAudio().get_format_from_width(f.getsampwidth()), channels = f.getnchannels(), rate = f.getframerate(), output = True)
+        data = f.readframes(chunk) # read data
+        while data: # play stream
+            stream.write(data)
+            data = f.readframes(chunk)
+        stream.stop_stream() # stop stream
+        stream.close() # close stream
+        PyAudio().terminate() # close PyAudio
+    else:
+        tts.save('Speak.mp3') # save gtts audio as Speak.mp3
+        proc = Popen(['mpg321 Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True) # Popen command with terminal command arguments
+        (out, err) = proc.communicate() # opening speak file
 
 def listen():
     r = Recognizer() # less writing
@@ -45,16 +63,13 @@ def commandInput(type_of_input):
         return input_to_return # return text input
 
 def email(recipient, subject, email_message, pass_path, contact_path):
-    recipient_lowered = recipient.lower() # lower recipent for matching in contacts
     with open(pass_path, 'r') as email_user_data: # open pass.json to get email password and username
         data = load(email_user_data) # load json
         email_user = data['email_address'] # get email address
         email_pass = data['email_password'] # get email password
-
-    with open(contact_path, 'r') as contacts_open: # get contact data
-        contact_data = load(contacts_open) # load contacts data
-    if recipient_lowered in contact_data['contacts']: # check if recipient in contacts
-        recipient_email = contact_data['contacts'][recipient_lowered]['email'] # get email address of recipient
+    user = misc.checkcontact(contact_path, recipient)
+    if user != 'None':
+        recipient_email = contact_data['contacts'][user]['email'] # get email address of recipient
         #message area
         marvin_name = ('Marvin <' + email_user + '>')
         msg = MIMEMultipart() # formatting
@@ -75,3 +90,5 @@ def email(recipient, subject, email_message, pass_path, contact_path):
         print('Email Sent!') # done
     else: # recipient not in contacts
         speak(recipient + ' is not in our contacts use the "add contacts" command to add them') # user not found message
+
+speak('Hello my name is marvin')

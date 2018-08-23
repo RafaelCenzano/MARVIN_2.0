@@ -5,6 +5,7 @@ from json import load, dump # parse and add json data
 from codecs import encode # to create new passwords
 import socket # import socket to get ip address
 from hashlib import sha512 # to create new passwords
+from platform import system # find os type
 from threading import Thread # thread to maximize efficency of marvin
 from webscrape import getVersion # webscrape version
 from essentials import speak # speak to user
@@ -137,22 +138,23 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
             print('Exiting ADMIN MENU') # exit menu message
             break # break loop to leave ADMIN MENU
 
-        elif ADMIN_input == '4': # if you want to exit
+        elif ADMIN_input == '6': # if you want to exit
             print('Exiting program') # exit message
             exit() # close program
-'''
+
 def checkcontact(contact_path, name):
     with open(contact_path, 'r') as check_name:
         name_check = load(check_name)
-        name_low = name.lower()
-    if name_low in name_check['contacts']
-        return 'contact found'
-    elif name_low in name_check['nicks']
+    name_low = name.lower()
+    if name_low in name_check['contacts']:
+        return name
+    elif name_low in name_check['nicks']:
         real_name = ['nicks'][name_low]['real_name']
-        return 
-'''
+        return real_name
+    else:
+        return 'None'
 
-
+# Function to show contacts with variables to determine what extra information to show
 def listofcontacts(contact_list, type_):
     wait(0.7) # delay so it starts speaking first
     for c in contact_list: # loop for however many contacts
@@ -170,6 +172,7 @@ def listofcontacts(contact_list, type_):
             else: # only email
                 print('    ' + email_c + '\n') # print only email
 
+# Function to open contact file and help sort for what information needed from listofcontacts()
 def contactList(contact_path, type_):
     with open(contact_path, 'r') as contact_data_list: # get contact data
         list_contact_data = load(contact_data_list) # parse contact data
@@ -183,14 +186,22 @@ def contactList(contact_path, type_):
         thread_list_contact.start() # start thread of lisofcontacts function
         speak('Opening contact list for you now\n') # speak
 
+# Function to open calculator GUI with subprocess
 def openCalculator():
-    python_path = path.join('marvin-env','bin','python2.7') # get path for any os
+    if system() == 'Windows':
+        python_path = path.join('marvin-env','Scripts','python.exe')
+    else:
+        python_path = path.join('marvin-env','bin','python2.7') # get path for any os
     calculator_path = path.join('marvin','calculator.py') # get path for any os
     calculator = Popen([python_path + ' ' + calculator_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
     (out, err) = calculator.communicate() # opening calculator file
 
+# Function to open Stopwatch GUI with subprocess
 def openStopwatch():
-    python_path = path.join('marvin-env','bin','python2.7') # get path for any os
+    if system() == 'Windows': # For windows os
+        python_path = path.join('marvin-env','Scripts','python.exe') # executable for windows
+    else: # for linux and unix
+        python_path = path.join('marvin-env','bin','python2.7') # get path for any os
     stopwatch_path = path.join('marvin','stopwatch.py') # get path for any os
     stopwatch = Popen([python_path + ' ' + stopwatch_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
     (out, err) = stopwatch.communicate() # opening stopwatch file

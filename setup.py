@@ -130,20 +130,19 @@ elif check_os == 'Windows':
     if os.path.isfile(pip_path) == False:
         print('You need to install pip. \nDownload the pip install file here: https://bootstrap.pypa.io/get-pip.py and run it with python')
         exit()
-    os.system(pip_path + ' install -r requirements.txt')
+    os.system(pip_path + ' install virtualenv==16.0.0')
+    os.system('virtualenv --python=' + python_path + ' marvin-env')
+    fixed_pip_path = (path + '\\marvin-env\\Scripts\\pip.exe')
+    os.system(fixed_pip_path + ' install -r requirements.txt')
     with open(pass_path, 'w') as outfile2:
         var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
         dump(var1, outfile2)
     os.system(path + '\\marvin-env\\Scripts\\python.exe marvin\\create_files.py')
-    with open('Os.json', 'r') as os_data:
-        os_data_loaded = load(os_data)
-    with open('Os.json', 'w') as outfile:
-        os_data_loaded = {"python_path":python_path}
-        dump(os_data_loaded, outfile)
     out = open('marvin.bat', 'w')
     out.write('@echo off\n')
     out.write('cd ' + path)
-    out.write(python_path + ' ' + path + '\\Marvin_Script.py')
+    out.write('\n')
+    out.write(path + '\\marvin-env\\Scripts\\python.exe ' + path + '\\Marvin_Script.py')
     out.close()
     print('\n\nAll files and installs completed\nYou can now run Marvin by typing marvin in this folder or add this ' + path + ' to a new line in your path enviorment variable and type marvin')
 else:

@@ -4,11 +4,12 @@ from platform import system # find os type
 from subprocess import Popen, PIPE # subprocess for playing audio
 from speech_recognition import Recognizer, Microphone, UnknownValueError, RequestError # speech_recognition to turn speech to string
 
+
 ################################
 # File for essential functions #
 ################################
 
-class MarvinEssentials(Exception): pass # class for breaking loops in Marvin_Script.py
+
 def speak(spokenString):
     print(spokenString) # string to speak
     tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts

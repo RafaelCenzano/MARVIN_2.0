@@ -46,7 +46,7 @@ while True:
         # part that will run when while loop resets
             speak('Choose an option')
             print(' \nOPTIONS:\n1. voice commands\n2. chat commands\n3. standby\n4. quit\n ')
-            beg_input = nput(">")
+            beg_input = input(">")
         # end of part that will run when while loop resets
 
             if beg_input == '1' or 'voice' in beg_input: # once recording data is done and marvin completed commands it will restart the loop and ask 'would you like to do voice commands'

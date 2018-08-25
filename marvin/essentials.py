@@ -1,11 +1,11 @@
 # Imports
-import misc
-from wave import open as play # play wav file
+from os import remove, path # to remove existsing speak file
+from misc import checkcontact # check user
 from json import load # to open contacts.json to see contacts to be able to send email
 from gtts import gTTS # gtts for text to speech
 from smtplib import SMTP # smtplib for connection and sending of email
-from pyaudio import PyAudio # play wav file
 from platform import system # find os type
+from playsound import playsound
 from subprocess import Popen, PIPE # subprocess for playing audio
 from email.mime.text import MIMEText # MIMEText for formatting
 from email.mime.multipart import MIMEMultipart # MIMEMultipart changing sender
@@ -18,22 +18,13 @@ from speech_recognition import Recognizer, Microphone, UnknownValueError, Reques
 class MarvinEssentials(Exception): pass # class for breaking loops in Marvin_Script.py
 def speak(spokenString):
     print(spokenString) # string to speak
+    if path.exists("Speak.mp3"):
+        remove("Speak.mp3")
     tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts
+    tts.save('Speak.mp3') # save gtts audio as Speak.mp3
     if system() == 'Windows':
-        tts.save('Speak.wav') # save gtts as wav
-        chunk = 1024 # define stream chunk
-        f = play(r"Speak.wav","rb") # open a wav format music
-        p = PyAudio() # instantiate PyAudio
-        stream = PyAudio().open(format = PyAudio().get_format_from_width(f.getsampwidth()), channels = f.getnchannels(), rate = f.getframerate(), output = True)
-        data = f.readframes(chunk) # read data
-        while data: # play stream
-            stream.write(data)
-            data = f.readframes(chunk)
-        stream.stop_stream() # stop stream
-        stream.close() # close stream
-        PyAudio().terminate() # close PyAudio
+        playsound('Speak.mp3')
     else:
-        tts.save('Speak.mp3') # save gtts audio as Speak.mp3
         proc = Popen(['mpg321 Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True) # Popen command with terminal command arguments
         (out, err) = proc.communicate() # opening speak file
 
@@ -67,7 +58,7 @@ def email(recipient, subject, email_message, pass_path, contact_path):
         data = load(email_user_data) # load json
         email_user = data['email_address'] # get email address
         email_pass = data['email_password'] # get email password
-    user = misc.checkcontact(contact_path, recipient)
+    user = checkcontact(contact_path, recipient)
     if user != 'None':
         recipient_email = contact_data['contacts'][user]['email'] # get email address of recipient
         #message area
@@ -91,4 +82,5 @@ def email(recipient, subject, email_message, pass_path, contact_path):
     else: # recipient not in contacts
         speak(recipient + ' is not in our contacts use the "add contacts" command to add them') # user not found message
 
-speak('Hello my name is marvin')
+if __name__ == '__main__':
+    speak('Hello my name is marvin') # test

@@ -3,11 +3,12 @@ from os import system, path # for getting paths for any os and system for runnin
 from time import sleep as wait # to have a pause
 from json import load, dump # parse and add json data
 from codecs import encode # to create new passwords
-import socket # import socket to get ip address
+from socket import socket, AF_INET, SOCK_DGRAM # import socket to get ip address
 from hashlib import sha512 # to create new passwords
 from platform import system # find os type
 from threading import Thread # thread to maximize efficency of marvin
-from webscrape import getVersion # webscrape version
+#import essentials
+#from webscrape import getVersion # webscrape version
 from essentials import speak # speak to user
 from subprocess import Popen, PIPE # to run GUI with terminal command
 
@@ -19,7 +20,7 @@ from subprocess import Popen, PIPE # to run GUI with terminal command
 
 # Function to get ip of local device on network no 127.0.0.1
 def get_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # defining socket
+    s = socket(AF_INET, SOCK_DGRAM) # defining socket
     try:
         # doesn't even have to be reachable
         s.connect(('10.255.255.255', 1)) # connect
@@ -205,3 +206,6 @@ def openStopwatch():
     stopwatch_path = path.join('marvin','stopwatch.py') # get path for any os
     stopwatch = Popen([python_path + ' ' + stopwatch_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
     (out, err) = stopwatch.communicate() # opening stopwatch file
+
+if __name__ == '__main__':
+    print(get_ip()) # test

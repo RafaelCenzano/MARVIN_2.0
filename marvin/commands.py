@@ -24,7 +24,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
 
     # Website Commands #
 
-    if 'open reddit' in command:
+    if 'open reddit' in command or 'open subreddit' in command:
         subreddit = command.split(" ")[2:] # split for anything after 'open reddit'
         subreddit_joined = (" ").join(subreddit) # joining anything that was split from after 'open reddit'
         essentials.speak('Opening subreddit ' + subreddit_joined) # saying the subreddit page
@@ -37,13 +37,11 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         rotten_joined = (" ").join(rotten_search)
         webscrape.scrapeRottentomatoes(rotten_joined)
 
-    elif 'imdb' in command:
-        IMDb_search = command.split(" ")[1:] # split for anything after 'rotten tomatoes'
-        IMDb_joined = (" ").join(IMDb_search)
-        webscrape.IMDb(IMDb_joined)
-
-    elif 'imdb rating' in command:
-        IMDb_search = command.split(" ")[2:] # split for anything after 'imdb rating'
+    elif 'imdb' in command or 'imdb rating' in command:
+        if 'imdb rating' in command:
+            IMDb_search = command.split(" ")[2:] # split for anything after 'idbm rating'
+        elif 'idbm' in command:
+            IMDb_search = command.split(" ")[1:] # split for anything after 'idbm'
         IMDb_joined = (" ").join(IMDb_search)
         webscrape.IMDb(IMDb_joined)
 

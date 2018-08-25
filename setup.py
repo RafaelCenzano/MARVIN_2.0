@@ -15,9 +15,9 @@ while True:
         break
 
 path = os.getcwd()
-def unix_linux(pass_path):
+def unix_linux(pass_path, python_path):
     os.system('pip install virtualenv==16.0.0')
-    os.system('virtualenv --python=/usr/bin/python2.7 marvin-env')
+    os.system('virtualenv --' + python_path + ' marvin-env')
     os.system('chmod 755 .installs.sh')
     os.system('./.installs.sh')
     env = ('source ' + path + '/marvin-env/bin/activate')
@@ -113,7 +113,20 @@ elif check_os == 'Darwin':
     os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
     print('Installing portaudio')
     os.system('brew install portaudio')
-    unix_linux(pass_path)
+    print('If the following is a path please input the highest version that has a path\nExample: usr/bin/local/python3')
+    print(os.system('which python3.3'))
+    print(os.system('which python3.4'))
+    print(os.system('which python3.5'))
+    print(os.system('which python3.6'))
+    print(os.system('which python3.7'))
+    print('Type the path to your python3.7 or python3 executable')
+    input_python_path = raw_input('Please paste the path to the highest version of python3 that you have\n>')
+    if(os.path.isfile(input_python_path))
+        unix_linux(pass_path, input_python_path)
+    elif(os.path.isfile('/usr/local/bin/python3'))
+        unix_linux(pass_path, '/usr/local/bin/python3')
+    else:
+        os.system('brew install python')
 
 elif check_os == 'Windows':
     python_path = os.path.join('C:','\\Python27','python.exe')

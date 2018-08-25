@@ -112,11 +112,11 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
     # Sending based Commands
 
     elif command == 'contact list' or command == 'contacts':
-        contacts.contactList(contact_path, 0)
+        marvin.contacts.contactList(contact_path, 0)
 
     elif command == 'delete contact' or command == 'remove contact':
         try:
-            contacts.contactList(contact_path, 1)
+            marvin.contacts.contactList(contact_path, 1)
             print('input cancel to cancel delete contact') # cancel message
             speak('Who would you like to delete from your contacts?')
             delete_contact = commandInput(type_of_input).lower() # function for listen or raw_input
@@ -130,11 +130,11 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             with open(contact_path, 'w') as outfile:
                 dump(del_contact_data, outfile)
         except Exception as e:
-            print('cancelling')
+            print('Cancelling')
 
     elif command == 'add contact' or command == 'new contact':
         try:
-            contacts.contactList(contact_path, 1)
+            marvin.contacts.contactList(contact_path, 1)
             print('input cancel to cancel add contact') # cancel message
             speak('Who would you like to add to you contacts?')
             print('First name please')
@@ -154,20 +154,21 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             if 'quit' == nick_lower or 'exit' == nick_lower or 'cancel' == nick_lower: raise ValueError # check message for cancel
             with open(contact_path, 'r') as contact_data:
                 new_contact_data = load(contact_data) # read data
+            add_contact_lowered = add_contact.lower()
             if 'none' != nick_lower:
                 new_contact_data['nicks'][nick_lower] = {"real_name":add_contact_lowered}
             speak('Creating contact')
-            add_contact_lowered = add_contact.lower()
             with open(contact_path, 'w') as outfile:
                 new_contact_data['contacts'][add_contact_lowered] = {"email":new_email, "number":new_phone_number} # new data to add
                 dump(new_contact_data, outfile) # add data
             print('Contact Created!')
         except Exception as e:
-            print('cancelling')
+            print('Cancelling')
+            print(e)
 
     elif command == 'send email':
         try:
-            contacts.contactList(contact_path, 'email')
+            marvin.contacts.contactList(contact_path, 'email')
             print('input cancel to cancel send email') # cancel message
             speak('Who would you like to send this email to?')
             email_recipient = commandInput(type_of_input) # function for listen or raw_input
@@ -180,11 +181,12 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             speak('What is the message you would like to send to ' + email_recipient)
             email_body = commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == email_body.lower() or 'exit' == email_body.lower() or 'cancel' == email_body.lower(): raise ValueError # check message for cancel
-            send = send_email.Email(contact_path, pass_path, email_recipient)
-            thread_email = Thread(target = send.email, args = (email_subject, email_body,))
+            new_send_email = Email(contact_path, pass_path, email_recipient, email_subject, email_body)
+            Email_Service = EmailService()
+            thread_email = Thread(target = Email_Service.sendemail, args = (new_send_email,))
             thread_email.start()
         except Exception as e:
-            print('cancelling')
+            print('Cancelling')
 
     # Misc Commands #
     elif command == 'what time is it':

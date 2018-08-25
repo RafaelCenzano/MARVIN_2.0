@@ -1,4 +1,5 @@
 # Imports
+from os import path, remove # import os
 from gtts import gTTS # gtts for text to speech
 from platform import system # find os type
 from playsound import playsound
@@ -13,7 +14,7 @@ from speech_recognition import Recognizer, Microphone, UnknownValueError, Reques
 
 def speak(spokenString):
     print(spokenString) # string to speak
-    if path.exists("Speak.mp3"):
+    if path.isfile("Speak.mp3"):
         remove("Speak.mp3")
     tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts
     tts.save('Speak.mp3') # save gtts audio as Speak.mp3
@@ -45,7 +46,5 @@ def commandInput(type_of_input):
         input_to_return = listen() # listen
         return input_to_return # return recognized audio as string
     if type_of_input == 0: # 0 for type input
-        input_to_return = raw_input('') # get input
-        return input_to_return # return text input
         input_to_return = input('') # get input
         return input_to_return # return text input

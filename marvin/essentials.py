@@ -1,6 +1,7 @@
 # Imports
 from gtts import gTTS # gtts for text to speech
 from platform import system # find os type
+from playsound import playsound
 from subprocess import Popen, PIPE # subprocess for playing audio
 from speech_recognition import Recognizer, Microphone, UnknownValueError, RequestError # speech_recognition to turn speech to string
 
@@ -12,11 +13,13 @@ from speech_recognition import Recognizer, Microphone, UnknownValueError, Reques
 
 def speak(spokenString):
     print(spokenString) # string to speak
+    if path.exists("Speak.mp3"):
+        remove("Speak.mp3")
     tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts
+    tts.save('Speak.mp3') # save gtts audio as Speak.mp3
     if system() == 'Windows':
-        pass
+        playsound('Speak.mp3')
     else:
-        tts.save('Speak.mp3') # save gtts audio as Speak.mp3
         proc = Popen(['mpg321 Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True) # Popen command with terminal command arguments
         (out, err) = proc.communicate() # opening speak file
 
@@ -42,5 +45,7 @@ def commandInput(type_of_input):
         input_to_return = listen() # listen
         return input_to_return # return recognized audio as string
     if type_of_input == 0: # 0 for type input
+        input_to_return = raw_input('') # get input
+        return input_to_return # return text input
         input_to_return = input('') # get input
         return input_to_return # return text input

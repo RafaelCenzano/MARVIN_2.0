@@ -1,5 +1,5 @@
 # Imports
-import socket # import socket to get ip address
+from socket import socket, AF_NET, SOCKDGRAM # import socket to get ip address
 from platform import system # find os type
 from subprocess import Popen, PIPE # to run GUI with terminal command
 
@@ -11,7 +11,7 @@ from subprocess import Popen, PIPE # to run GUI with terminal command
 
 # Function to get ip of local device on network no 127.0.0.1
 def get_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # defining socket
+    s = socket(AF_INET, SOCK_DGRAM) # defining socket
     try:
         # doesn't even have to be reachable
         s.connect(('10.255.255.255', 1)) # connect

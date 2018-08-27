@@ -36,8 +36,8 @@ def equalpress(): # Function to evaluate the final expression
         equation.set(total) # show answer
         # initialze the expression variable
         # by empty string
-        expression = ""
-        show_expression = ""
+        expression = total
+        show_expression = total
     # if error is generate then handle
     # by the except block
     except:

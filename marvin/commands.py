@@ -58,7 +58,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         video = command.split(" ")[1:] # split for anything after 'youtube'
         video_joined = (" ").join(video) # joining anything that was split from after 'youtube'
         speak('Opening first video for ' + video_joined + ' on YouTube') # saying what it will open
-        marvin.webscrape.scrapeYoutube(video_joined) # function to scrape urls
+        Youtube_Scrape = marvin.webscrape.Youtube(video_joined)
+        Youtube_Scrape.scrapeYoutube(video_joined) # function to scrape urls
 
     elif 'where is' in command:
         location = command.split(" ")[2:] # split for anything after 'where is'

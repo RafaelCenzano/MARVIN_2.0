@@ -11,25 +11,28 @@ from urllib.parse import urlparse
 # File for webscraping #
 ########################
 
-def is_absolute(url):
-    return bool(urlparse(url).netloc)
 
-def scrapeYoutube(search_query):
-    url = ('https://www.youtube.com/results?search_query=' + search_query)# combine url with search query from command
-    r = requests.get(url) # request page
-    page = r.text # formatting
-    soup = bs(page, 'html.parser') # parse html
-    vids = soup.findAll(attrs={'class':'yt-uix-tile-link'}) # search for class yt-uix-tile-link in html from page
-    videolist=[] # create empty list
-    for v in vids: #for loop for finding all videos that show up
-        if is_absolute(v['href']) == True:
-            pass
-        else:
-            tmp = 'https://www.youtube.com' + v['href'] # create url to add to list with links from html
-            videolist.append(tmp) # add the newly created url to list
-    watchurl = videolist[0] # take the first url
-    webbrowser.open(watchurl, new = 2) # open the url
-    print('Done!') # finish message
+class Youtube:
+    def __init__(self, search_query):
+        self.videolist = [] # create empty list
+        self.url = ('https://www.youtube.com/results?search_query=' + search_query)# combine url with search query from command
+        r = requests.get(self.url) # request page
+        page = r.text # formatting
+        soup = bs(page, 'html.parser') # parse html
+        self.vids = soup.findAll(attrs={'class':'yt-uix-tile-link'}) # search for class yt-uix-tile-link in html from page
+
+    def is_absolute(self, url):
+        return bool(urlparse(url).netloc)
+
+    def scrapeYoutube(self, search_query):
+        for v in self.vids: #for loop for finding all videos that show up
+            if self.is_absolute(v['href']) == True:
+                pass
+            else:
+                tmp = 'https://www.youtube.com' + v['href'] # create url to add to list with links from html
+                self.videolist.append(tmp) # add the newly created url to list
+        webbrowser.open(self.videolist[0], new = 2) # open the url
+        print('Done!') # finish message
 
 def scrapeRottentomatoes(search_query):
     spliting = search_query.split(" ")[0:]

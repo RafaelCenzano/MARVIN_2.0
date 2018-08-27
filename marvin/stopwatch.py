@@ -1,21 +1,21 @@
-from Tkinter import *
+from tkinter import *
 import time
 
-class StopWatch(Frame):  
-    """ Implements a stop watch frame widget. """                                                                
-    def __init__(self, parent=None, **kw):        
+class StopWatch(Frame):
+    """ Implements a stop watch frame widget. """
+    def __init__(self, parent=None, **kw):
         Frame.__init__(self, parent, kw)
-        self._start = 0.0        
+        self._start = 0.0
         self._elapsedtime = 0.0
         self._running = 0
-        self.timestr = StringVar()               
-        self.makeWidgets()      
+        self.timestr = StringVar()
+        self.makeWidgets()
 
-    def makeWidgets(self):                         
+    def makeWidgets(self):
         """ Make the time label. """
         l = Label(self, textvariable=self.timestr)
         self._setTime(self._elapsedtime)
-        l.pack(fill=X, expand=NO, pady=2, padx=2)                      
+        l.pack(fill=X, expand=NO, pady=2, padx=2)
     
     def _update(self): 
         """ Update the label with elapsed time. """
@@ -27,39 +27,43 @@ class StopWatch(Frame):
         """ Set the time string to Minutes:Seconds:Hundreths """
         minutes = int(elap/60)
         seconds = int(elap - minutes*60.0)
-        hseconds = int((elap - minutes*60.0 - seconds)*100)                
+        hseconds = int((elap - minutes*60.0 - seconds)*100)
         self.timestr.set('%02d:%02d:%02d' % (minutes, seconds, hseconds))
         
-    def Start(self):                                                     
+    def Start(self):
         """ Start the stopwatch, ignore if running. """
-        if not self._running:            
+        if not self._running:
             self._start = time.time() - self._elapsedtime
             self._update()
-            self._running = 1        
+            self._running = 1
     
-    def Stop(self):                                    
+    def Stop(self):
         """ Stop the stopwatch, ignore if stopped. """
         if self._running:
-            self.after_cancel(self._timer)            
-            self._elapsedtime = time.time() - self._start    
+            self.after_cancel(self._timer)
+            self._elapsedtime = time.time() - self._start
             self._setTime(self._elapsedtime)
             self._running = 0
     
-    def Reset(self):                                  
+    def Reset(self):
         """ Reset the stopwatch. """
-        self._start = time.time()         
-        self._elapsedtime = 0.0    
+        self._start = time.time()
+        self._elapsedtime = 0.0
         self._setTime(self._elapsedtime)
 
-root = Tk()
-sw = StopWatch(root)
-sw.pack(side=TOP)
-root.title('Marvin Stopwatch')
-root['bg'] = '#3E4149'
+if __name__ == "__main__":
+    # create a GUI window
+    gui = Tk()
+    gui.configure(background="light green")     # set the background colour of GUI window
+    gui.title("Marvin Stopwatch") # set the title of GUI window
+    gui.geometry("280x200") # set the configuration of GUI window
 
-Button(root, text='Start', highlightbackground='#3E4149',command=sw.Start).pack(side=LEFT)
-Button(root, text='Stop', highlightbackground='#3E4149',command=sw.Stop).pack(side=LEFT)
-Button(root, text='Reset', highlightbackground='#3E4149',command=sw.Reset).pack(side=LEFT)
-Button(root, text='Quit', highlightbackground='#3E4149',command=root.quit).pack(side=LEFT)
+    sw = StopWatch(gui)
+    sw.grid(row=0, column=0, columnspan=2)
 
-root.mainloop()
+    Button(gui, text='Start', height=5, width=15, highlightbackground='light green',command=sw.Start).grid(row=1, column=0)
+    Button(gui, text='Stop', height=5, width=15, highlightbackground='light green',command=sw.Stop).grid(row=1, column=1)
+    Button(gui, text='Reset', height=5, width=15, highlightbackground='light green',command=sw.Reset).grid(row=2, column=0)
+    Button(gui, text='Quit', height=5, width=15, highlightbackground='light green',command=gui.quit).grid(row=2, column=1)
+
+    gui.mainloop()

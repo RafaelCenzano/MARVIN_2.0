@@ -18,14 +18,14 @@ def checkcontact(contact_path, name):
     if name_low in name_check['contacts']:
         return name
     elif name_low in name_check['nicks']:
-        real_name = ['nicks'][name_low]['real_name']
+        real_name = name_check['nicks'][name_low]['real_name']
         return real_name
     else:
         return 'None'
 
 # Function to show contacts with variables to determine what extra information to show
 def listofcontacts(contact_list, type_):
-    wait(0.7) # delay so it starts speaking first
+    wait(0.5) # delay so it starts speaking first
     for c in contact_list: # loop for however many contacts
         c_letters = list(c) # break contacts into letters
         c_letter_first = c_letters[0] # get first letter 
@@ -53,4 +53,4 @@ def contactList(contact_path, type_):
     else: # there are contacts and there was a file
         thread_list_contact = Thread(target = listofcontacts, args = (contact_list, type_,)) # thread arguments to print list while speaking because of slow speak times
         thread_list_contact.start() # start thread of lisofcontacts function
-        speak('Opening contact list for you now\n') # speak
+        speak('Opening contact list\n') # speak

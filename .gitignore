@@ -1,6 +1,6 @@
 *.mp3
-*.wav
 *.pyc
+__pycache__
 marvin/json/contacts.json
 marvin/json/pass.json
 Os.json

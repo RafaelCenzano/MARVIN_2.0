@@ -129,6 +129,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             del del_contact_data['contacts'][delete_contact]
             with open(contact_path, 'w') as outfile:
                 dump(del_contact_data, outfile)
+            speak(delete_contact + ' has been removed')
         except Exception as e:
             print('Cancelling')
 
@@ -164,14 +165,13 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             print('Contact Created!')
         except Exception as e:
             print('Cancelling')
-            print(e)
 
     elif command == 'send email':
         try:
             marvin.contacts.contactList(contact_path, 'email')
             print('input cancel to cancel send email') # cancel message
             speak('Who would you like to send this email to?')
-            email_recipient = commandInput(type_of_input) # function for listen or raw_input
+            email_recipient = commandInput(type_of_input).lower() # function for listen or raw_input
             if 'quit' == email_recipient.lower() or 'exit' == email_recipient.lower() or 'cancel' == email_recipient.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel send email') # cancel message
             speak('What is the subject of the email?')
@@ -181,8 +181,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
             speak('What is the message you would like to send to ' + email_recipient)
             email_body = commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == email_body.lower() or 'exit' == email_body.lower() or 'cancel' == email_body.lower(): raise ValueError # check message for cancel
-            new_send_email = Email(contact_path, pass_path, email_recipient, email_subject, email_body)
-            Email_Service = EmailService()
+            new_send_email = marvin.send_email.Email(contact_path, pass_path, email_recipient, email_subject, email_body)
+            Email_Service = marvin.send_email.EmailService()
             thread_email = Thread(target = Email_Service.sendemail, args = (new_send_email,))
             thread_email.start()
         except Exception as e:
@@ -195,7 +195,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
     elif command == 'what is the date':
         speak('The date is ' + datetime.now().strftime('%A %B %-d %Y'))
 
-    elif command == "day of the week":
+    elif command == "day of the week" or command == 'what day is it':
         speak(datetime.now().strftime('%A'))
 
     elif command == "week number":

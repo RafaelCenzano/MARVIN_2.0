@@ -1,8 +1,9 @@
 # Imports
 from json import load # to open contacts.json to see contacts to be able to send email
 from smtplib import SMTP # smtplib for connection and sending of email
-from marvin.contacts import checkcontact
+from marvin.contacts import checkcontact # import check contact function
 from email.mime.text import MIMEText # MIMEText for formatting
+from marvin.essentials import speak # import speak
 from email.mime.multipart import MIMEMultipart # MIMEMultipart changing sender
 
 
@@ -21,6 +22,8 @@ class Email:
             self.email_user = data['email_address'] # get email address
             self.email_pass = data['email_password'] # get email password
         if self.contact_check != 'None':
+            with open(contact_path, 'r') as contact_data_list: # get contact data
+                contact_data = load(contact_data_list) # parse contact data
             self.recipient_email = contact_data['contacts'][self.contact_check]['email'] # get email address of recipient
             # message area
             marvin_name = ('Marvin <' + self.email_user + '>')
@@ -31,7 +34,7 @@ class Email:
             msg.attach(MIMEText(email_message,'plain')) # add body
             self.message = msg.as_string() # format all text
         else: # recipient not in contacts
-            speak('This user is not in our contacts use the "add contacts" command to add them') # user not found message
+            speak('This user is not in our contacts use the "add contacts" command to add ' + email_recipient) # user not found message
             raise Exception
 
 class EmailService():

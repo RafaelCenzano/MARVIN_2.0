@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup as bs # process html
 import requests # to request page url code
 import webbrowser # webbrowser to open websites
 import time # for pause between requests
-import marvin.essentials # import speak and listen
+from marvin.essentials import speak # import speak and listen
 
 
 ########################
@@ -35,19 +35,20 @@ def scrapeRottentomatoes(search_query):
     try:
         if vids == []: raise Exception
         raiting = vids[0].getText()
-        essentials.speak('Rotten Tomatoes gave '+ search_query + ' ' + raiting)
+        speak('Rotten Tomatoes gave '+ search_query + ' ' + raiting)
         people_score = soup.findAll('span', attrs={'class':'superPageFontColor', 'style':'vertical-align:top'})
         score = people_score[0].getText()
         want_or_like = soup.findAll('div', attrs={'class':'smaller bold hidden-xs superPageFontColor'})
         like_or_want = want_or_like[0].getText()
         if like_or_want == 'liked it':
-            essentials.speak('\n' + score + ' of people liked ' + search_query)
+            speak('\n' + score + ' of people liked ' + search_query)
         elif like_or_want == 'want to see':
-            essentials.speak('\n' + score + ' want to see ' + search_query)
+            speak('\n' + score + ' want to see ' + search_query)
         else:
             print('\nError\nI web scraped the wrong data or Rotten Tomatoes changed their format please report this issue immediatly so we can fix it')
     except Exception as e:
-        essentials.speak('\nI ran into a problem\nThe name of the movie was probably input incorrectly')
+        speak('\nI ran into a problem\nThe name of the movie was probably input incorrectly')
+        print(e)
 
 def IMDb(search_query):
     spliting = search_query.split(" ")[0:]
@@ -60,9 +61,9 @@ def IMDb(search_query):
     try:
         if pg_up == []: raise Exception
         up_pg = pg_up[0].getText()
-        essentials.speak('\n' + search_query + ' got a IMDb' + up_pg)
+        speak('\n' + search_query + ' got a IMDb' + up_pg)
     except Exception as e:
-        essentials.speak('\nI ran into a problem\nThe name of the movie was probably input incorrectly')
+        speak('\nI ran into a problem\nThe name of the movie was probably input incorrectly')
 
 def getVersion():
     url = ('https://github.com/SavageCoder77/MARVIN_2.0/blob/master/marvin/json/marvin_version.txt')

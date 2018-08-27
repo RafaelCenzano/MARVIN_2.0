@@ -1,115 +1,248 @@
-#-*-coding: utf-8-*-
-from Tkinter import * # Tkinter for GUI
-import math # math for calculations
+from tkinter import * # import everything from tkinter module
+import math # import square root and pi
 
 
-#######################
-# File for calculator #
-#######################
+###############################
+# File to open GUI calculator #
+###############################
 
 
-class calc:
- def getandreplace(self):
-  """replace x with * and ÷ with /"""
-  
-  self.expression = self.e.get()
-  self.newtext=self.expression.replace(self.newdiv,'/')
-  self.newtext=self.newtext.replace('x','*')
+expression = "" # globally declare the expression variable
+show_expression = "" # globally declare show expression variable
 
- def equals(self):
-  """when the equal button is pressed"""
+# Function to update expression
+# in the text entry box
+def press(num):
+    global expression # point out the global expression variable
+    global show_expression # point out the global expression variable
+    expression = expression + str(num)# concatenation of string
+    show_expression = show_expression + str(num)# concatenation of string
+    equation.set(show_expression)# update the expression by using set method
 
-  self.getandreplace()
-  try: 
-   self.value= eval(self.newtext) #evaluate the expression using the eval function
-  except SyntaxError or NameErrror:
-   self.e.delete(0,END)
-   self.e.insert(0,'Invalid Input!')
-  else:
-   self.e.delete(0,END)
-   self.e.insert(0,self.value)
+def equalpress(): # Function to evaluate the final expression
+    # Try and except statement is used
+    # for handling the errors like zero
+    # division error etc.
  
- def squareroot(self):
-  """squareroot method"""
-  
-  self.getandreplace()
-  try: 
-   self.value= eval(self.newtext) #evaluate the expression using the eval function
-  except SyntaxError or NameErrror:
-   self.e.delete(0,END)
-   self.e.insert(0,'Invalid Input!')
-  else:
-   self.sqrtval=math.sqrt(self.value)
-   self.e.delete(0,END)
-   self.e.insert(0,self.sqrtval)
+    # Put that code inside the try block
+    # which may generate the error
+    try:
+        global expression # point out the global expression variable
+        global show_expression # point out the global expression variable
+        # eval function evaluate the expression
+        # and str function convert the result
+        # into string
+        total = str(eval(expression)) # set showing equation as answer
+        equation.set(total) # show answer
+        # initialze the expression variable
+        # by empty string
+        expression = ""
+        show_expression = ""
+    # if error is generate then handle
+    # by the except block
+    except:
+        equation.set(" error ") # error message
+        expression = "" # reset all text
+        show_expression = "" # reset all text
 
- def square(self):
-  """square method"""
-  
-  self.getandreplace()
-  try: 
-   self.value= eval(self.newtext) #evaluate the expression using the eval function
-  except SyntaxError or NameErrror:
-   self.e.delete(0,END)
-   self.e.insert(0,'Invalid Input!')
-  else:
-   self.sqval=math.pow(self.value,2)
-   self.e.delete(0,END)
-   self.e.insert(0,self.sqval)
- 
- def clearall(self): 
-  """when clear button is pressed,clears the text input area"""
-  self.e.delete(0,END)
- 
- def clear1(self):
-  self.txt=self.e.get()[:-1]
-  self.e.delete(0,END)
-  self.e.insert(0,self.txt)
+def cuberoot():
+    try:
+        global expression # point out the global expression variable
+        global show_expression # point out the global expression variable
+        answer = float(expression) ** (1. / 3)
+        if (answer).is_integer(): # remove .0 if number is integer
+            fixed_answer = int(answer)
+        else: # leave number as float if its a float
+            fixed_answer = answer
+        equation.set(str(fixed_answer)) # set showing equation as answer
+        expression = str(fixed_answer) # set showing equation as answer
+        show_expression = str(fixed_answer) # set showing equation as answer
+    # if error is generate then handle
+    # by the except block
+    except:
+        equation.set(" error ") # error message
+        expression = "" # reset all text
+        show_expression = "" # reset all text
 
- def action(self,argi): 
-  """pressed button's value is inserted into the end of the text area"""
-  self.e.insert(END,argi)
- 
- def __init__(self,master):
-  """Constructor method"""
-  master.title('Marvin Calulator')
-  master.geometry()
-  master['bg'] = '#3E4149'
-  self.e = Entry(master)
-  self.e.grid(row=0,column=0,columnspan=6,pady=3)
-  self.e.focus_set() #Sets focus on the input text area
-    
-  self.div='÷'
-  self.newdiv=self.div.decode('utf-8')
+def percent():
+    try:
+        global expression # point out the global expression variable
+        global show_expression # point out the global expression variable
+        answer = (float(expression) / 100)
+        if (answer).is_integer(): # remove .0 if number is integer
+            fixed_answer = int(answer)
+        else: # leave number as float if its a float
+            fixed_answer = answer
+        equation.set(str(fixed_answer)) # set showing equation as answer
+        expression = str(fixed_answer) # set showing equation as answer
+        show_expression = str(fixed_answer) # set showing equation as answer
+    # if error is generate then handle
+    # by the except block
+    except:
+        equation.set(" error ") # error message
+        expression = "" # reset all text
+        show_expression = "" # reset all text
 
-  #Generating Buttons
-  Button(master,text="=",width=13,highlightbackground='#3E4149',command=lambda:self.equals()).grid(row=4, column=4,columnspan=2)
-  Button(master,text='AC',width=5,highlightbackground='#3E4149',command=lambda:self.clearall()).grid(row=1, column=4)
-  Button(master,text='C',width=5,highlightbackground='#3E4149',command=lambda:self.clear1()).grid(row=1, column=5)
-  Button(master,text="+",width=5,highlightbackground='#3E4149',command=lambda:self.action('+')).grid(row=4, column=3)
-  Button(master,text="x",width=5,highlightbackground='#3E4149',command=lambda:self.action('x')).grid(row=2, column=3)
-  Button(master,text="-",width=5,highlightbackground='#3E4149',command=lambda:self.action('-')).grid(row=3, column=3)
-  Button(master,text="÷",width=5,highlightbackground='#3E4149',command=lambda:self.action(self.newdiv)).grid(row=1, column=3) 
-  Button(master,text="%",width=4,highlightbackground='#3E4149',command=lambda:self.action('%')).grid(row=4, column=2)
-  Button(master,text="7",width=4,highlightbackground='#3E4149',command=lambda:self.action('7')).grid(row=1, column=0)
-  Button(master,text="8",width=4,highlightbackground='#3E4149',command=lambda:self.action(8)).grid(row=1, column=1)
-  Button(master,text="9",width=4,highlightbackground='#3E4149',command=lambda:self.action(9)).grid(row=1, column=2)
-  Button(master,text="4",width=4,highlightbackground='#3E4149',command=lambda:self.action(4)).grid(row=2, column=0)
-  Button(master,text="5",width=4,highlightbackground='#3E4149',command=lambda:self.action(5)).grid(row=2, column=1)
-  Button(master,text="6",width=4,highlightbackground='#3E4149',command=lambda:self.action(6)).grid(row=2, column=2)
-  Button(master,text="1",width=4,highlightbackground='#3E4149',command=lambda:self.action(1)).grid(row=3, column=0)
-  Button(master,text="2",width=4,highlightbackground='#3E4149',command=lambda:self.action(2)).grid(row=3, column=1)
-  Button(master,text="3",width=4,highlightbackground='#3E4149',command=lambda:self.action(3)).grid(row=3, column=2)
-  Button(master,text="0",width=4,highlightbackground='#3E4149',command=lambda:self.action(0)).grid(row=4, column=0)
-  Button(master,text=".",width=4,highlightbackground='#3E4149',command=lambda:self.action('.')).grid(row=4, column=1)
-  Button(master,text="(",width=5,highlightbackground='#3E4149',command=lambda:self.action('(')).grid(row=2, column=4)
-  Button(master,text=")",width=5,highlightbackground='#3E4149',command=lambda:self.action(')')).grid(row=2, column=5)
-  Button(master,text="√",width=5,highlightbackground='#3E4149',command=lambda:self.squareroot()).grid(row=3, column=5)
-  Button(master,text="x²",width=5,highlightbackground='#3E4149',command=lambda:self.square()).grid(row=3, column=4)
-  Button(master, text='Quit',width=22,highlightbackground='#3E4149',command=root.quit).grid(row=5, column=1,columnspan=4)
+def addpi(): # add pi to equation
+    try:
+        global expression # point out the global expression variable
+        global show_expression # point out the global expression variable
+        if expression == "": # if no numbers have been input
+            expression = str(math.pi) # set showing equation as answer
+            show_expression = 'π' # set showing equation as answer
+            equation.set('π') # set showing equation as answer
+        else: # if numbers have been input
+            expression = expression + str(math.pi) # set showing equation as answer
+            show_expression = show_expression + 'π' # set showing equation as answer
+            equation.set(show_expression) # set showing equation as answer
+    # if error is generate then handle
+    # by the except block
+    except:
+        equation.set(" error ") # error message
+        expression = "" # reset all text
+        show_expression = "" # reset all text
 
+def squareroot_number2():
+    try:
+        global expression # point out the global expression variable
+        global show_expression # point out the global expression variable
+        answer = math.sqrt(float(expression))
+        if (answer).is_integer(): # remove .0 if number is integer
+            fixed_answer = int(answer)
+        else: # leave number as float if its a float
+            fixed_answer = answer
+        equation.set(str(fixed_answer)) # set showing equation as answer
+        expression = str(fixed_answer) # set showing equation as answer
+        show_expression = str(fixed_answer) # set showing equation as answer
+    # if error is generate then handle
+    # by the except block
+    except:
+        equation.set(" error ") # error message
+        expression = "" # reset all text
+        show_expression = "" # reset all text
 
-# main function
-root = Tk()
-obj=calc(root) # object instantiated
-root.mainloop()
+def square():
+    try:
+        global expression # point out the global expression variable
+        global show_expression # point out the global expression variable
+        answer = math.pow(float(expression), 2.0)
+        if (answer).is_integer(): # remove .0 if number is integer
+            fixed_answer = int(answer)
+        else: # leave number as float if its a float
+            fixed_answer = answer
+        equation.set(str(fixed_answer)) # set showing equation as answer
+        expression = str(fixed_answer) # set showing equation as answer
+        show_expression = str(fixed_answer) # set showing equation as answer
+    # if error is generate then handle
+    # by the except block
+    except:
+        equation.set(" error ") # error message
+        expression = "" # reset all text
+        show_expression = "" # reset all text
+
+def cube():
+    try:
+        global expression # point out the global expression variable
+        global show_expression # point out the global expression variable
+        answer = math.pow(float(expression), 3.0)
+        if (answer).is_integer(): # remove .0 if number is integer
+            fixed_answer = int(answer)
+        else: # leave number as float if its a float
+            fixed_answer = answer
+        equation.set(str(fixed_answer)) # set showing equation as answer
+        expression = str(fixed_answer) # set hidden equation as answer
+        show_expression = str(fixed_answer) # set showing equation as answer
+    # if error is generate then handle
+    # by the except block
+    except:
+        equation.set(" error ") # error message
+        expression = "" # reset all text
+        show_expression = "" # reset all text
+
+# Function to clear the contents
+# of text entry box
+def clear():
+    global expression # point out the global expression variable
+    global show_expression # point out the global expression variable
+    expression = "" # reset all text
+    show_expression = "" # reset all text
+    equation.set('enter your expression') # reset all text in equation box
+
+# Driver code
+if __name__ == "__main__":
+    # create a GUI window
+    gui = Tk()
+    gui.configure(background="light green")     # set the background colour of GUI window
+    gui.title("Marvin Calculator") # set the title of GUI window
+    gui.geometry("252x340") # set the configuration of GUI window
+
+    # StringVar() is the variable class
+    # we create an instance of this class
+    equation = StringVar()
+
+    # create the text entry box for
+    # showing the expression .
+    expression_field = Entry(gui, textvariable=equation)
+    gui.focus_set() # Sets focus on the input text area
+
+    # grid method is used for placing
+    # the widgets at respective positions
+    # in table like structure .
+    expression_field.grid(columnspan=5, ipadx=0)
+    equation.set('enter your expression')
+
+    # create a Buttons and place at a particular
+    # location inside the root window .
+    # when user press the button, the command or
+    # function affiliated to that button is executed .
+    button1 = Button(gui, text=' 1 ', fg='black', bg='red',command=lambda: press(1), height=3, width=5, highlightbackground="light green")
+    button1.grid(row=4, column=0)
+    button2 = Button(gui, text=' 2 ', fg='black', bg='red',command=lambda: press(2), height=3, width=5, highlightbackground="light green")
+    button2.grid(row=4, column=1)
+    button3 = Button(gui, text=' 3 ', fg='black', bg='red',command=lambda: press(3), height=3, width=5, highlightbackground="light green")
+    button3.grid(row=4, column=2)
+    button4 = Button(gui, text=' 4 ', fg='black', bg='red',command=lambda: press(4), height=3, width=5, highlightbackground="light green")
+    button4.grid(row=3, column=0)
+    button5 = Button(gui, text=' 5 ', fg='black', bg='red',command=lambda: press(5), height=3, width=5, highlightbackground="light green")
+    button5.grid(row=3, column=1)
+    button6 = Button(gui, text=' 6 ', fg='black', bg='red',command=lambda: press(6), height=3, width=5, highlightbackground="light green")
+    button6.grid(row=3, column=2)
+    button7 = Button(gui, text=' 7 ', fg='black', bg='red',command=lambda: press(7), height=3, width=5, highlightbackground="light green")
+    button7.grid(row=2, column=0)
+    button8 = Button(gui, text=' 8 ', fg='black', bg='red',command=lambda: press(8), height=3, width=5, highlightbackground="light green")
+    button8.grid(row=2, column=1)
+    button9 = Button(gui, text=' 9 ', fg='black', bg='red',command=lambda: press(9), height=3, width=5, highlightbackground="light green")
+    button9.grid(row=2, column=2)
+    button0 = Button(gui, text=' 0 ', fg='black', bg='red',command=lambda: press(0), height=3, width=11, highlightbackground="light green")
+    button0.grid(row=5, column=0, columnspan=2)
+    plus = Button(gui, text=' + ', fg='black', bg='red',command=lambda: press("+"), height=3, width=5, highlightbackground="light green")
+    plus.grid(row=1, column=3)
+    minus = Button(gui, text=' - ', fg='black', bg='red',command=lambda: press("-"), height=3, width=5, highlightbackground="light green")
+    minus.grid(row=2, column=3)
+    multiply = Button(gui, text=' X ', fg='black', bg='red',command=lambda: press("*"), height=3, width=5, highlightbackground="light green")
+    multiply.grid(row=3, column=3)
+    divide = Button(gui, text=' / ', fg='black', bg='red',command=lambda: press("/"), height=3, width=5, highlightbackground="light green")
+    divide.grid(row=4, column=3)
+    equal = Button(gui, text=' = ', fg='black', bg='red',command=equalpress, height=3, width=5, highlightbackground="light green")
+    equal.grid(row=5, column=3)
+    clear = Button(gui, text='Clear', fg='black', bg='red',command=clear, height=3, width=11, highlightbackground="light green")
+    clear.grid(row=1, column=0, columnspan=2)
+    percent = Button(gui, text=' % ', fg='black', bg='red',command=percent, height=3, width=5, highlightbackground="light green")
+    percent.grid(row=1, column=2)
+    quit = Button(gui, text='Quit', fg='black', bg='red',command=gui.quit, height=3, width=22, highlightbackground="light green")
+    quit.grid(row=6, column=0, columnspan=4)
+    squareroot = Button(gui, text=' √ ', fg='black', bg='red',command=squareroot_number2, height=3, width=5, highlightbackground="light green")
+    squareroot.grid(row=1, column=4)
+    cuberoot = Button(gui, text=' ∛ ', fg='black', bg='red',command=cuberoot, height=3, width=5, highlightbackground="light green")
+    cuberoot.grid(row=2, column=4)
+    pi = Button(gui, text=' π ', fg='black', bg='red',command=addpi, height=3, width=5, highlightbackground="light green")
+    pi.grid(row=3, column=4)
+    dot = Button(gui, text=' . ', fg='black', bg='red',command=lambda: press('.'), height=3, width=5, highlightbackground="light green")
+    dot.grid(row=5, column=2)
+    square = Button(gui, text=' a² ', fg='black', bg='red',command=square, height=3, width=5, highlightbackground="light green")
+    square.grid(row=4, column=4)
+    cubed = Button(gui, text=' a³ ', fg='black', bg='red',command=cube, height=3, width=5, highlightbackground="light green")
+    cubed.grid(row=5, column=4)
+
+    # start the GUI
+    gui.mainloop()

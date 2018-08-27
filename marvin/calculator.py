@@ -172,7 +172,8 @@ def clear():
 if __name__ == "__main__":
     # create a GUI window
     gui = Tk()
-    gui.configure(background="light green")     # set the background colour of GUI window
+    gui.configure(background="light green") # set the background colour of GUI window
+    gui.resizable(width=False, height=False) # stop resizing of window
     gui.title("Marvin Calculator") # set the title of GUI window
     gui.geometry("252x340") # set the configuration of GUI window
 

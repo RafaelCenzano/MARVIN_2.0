@@ -66,4 +66,5 @@ if __name__ == "__main__":
     Button(gui, text='Reset', height=5, width=15, highlightbackground='light green',command=sw.Reset).grid(row=2, column=0)
     Button(gui, text='Quit', height=5, width=15, highlightbackground='light green',command=gui.quit).grid(row=2, column=1)
 
+    gui.resizable(width=False, height=False)
     gui.mainloop()

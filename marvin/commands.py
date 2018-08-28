@@ -36,7 +36,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
     elif 'rotten tomatoes' in command:
         rotten_search = command.split(" ")[2:] # split for anything after 'rotten tomatoes'
         rotten_joined = (" ").join(rotten_search)
-        marvin.webscrape.scrapeRottentomatoes(rotten_joined)
+        TomatoeScrape = marvin.webscrape.Tomatoe(rotten_joined)
+        TomatoeScrape.scrapeRottentomatoes()
 
     elif 'imdb' in command or 'imdb rating' in command:
         if 'imdb rating' in command:
@@ -44,7 +45,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         elif 'idbm' in command:
             IMDb_search = command.split(" ")[1:] # split for anything after 'idbm'
         IMDb_joined = (" ").join(IMDb_search)
-        marvin.webscrape.IMDb(IMDb_joined)
+        TomatoeScrape = marvin.webscrape.Tomatoe(IMDb_joined)
+        TomatoeScrape.IMDb()
 
     elif 'google search' in command:
         gsearch = command.split(" ")[2:] # split for anything after 'google search'

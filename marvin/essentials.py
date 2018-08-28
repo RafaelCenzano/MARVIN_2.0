@@ -1,6 +1,7 @@
 # Imports
 from os import path, remove # import os
 from gtts import gTTS # gtts for text to speech
+from pyttsx3 import init # pyttsx3 for male voice
 from platform import system # find os type
 from playsound import playsound
 from subprocess import Popen, PIPE # subprocess for playing audio
@@ -12,17 +13,22 @@ from speech_recognition import Recognizer, Microphone, UnknownValueError, Reques
 ################################
 
 
-def speak(spokenString):
+def speak(spokenString, voice):
     print(spokenString) # string to speak
-    if path.isfile("Speak.mp3"):
-        remove("Speak.mp3")
-    tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts
-    tts.save('Speak.mp3') # save gtts audio as Speak.mp3
-    if system() == 'Windows':
-        playsound('Speak.mp3')
+    if voice == 'female':
+        if path.isfile("Speak.mp3"):
+            remove("Speak.mp3")
+        tts = gTTS(text = spokenString, lang = 'en-uk') # create string into mp3 file using gtts
+        tts.save('Speak.mp3') # save gtts audio as Speak.mp3
+        if system() == 'Windows':
+            playsound('Speak.mp3')
+        else:
+            proc = Popen(['mpg321 Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True) # Popen command with terminal command arguments
+            (out, err) = proc.communicate() # opening speak file
     else:
-        proc = Popen(['mpg321 Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True) # Popen command with terminal command arguments
-        (out, err) = proc.communicate() # opening speak file
+        engine = init()
+        engine.say(spokenString)
+        engine.runAndWait()
 
 def listen():
     r = Recognizer() # less writing

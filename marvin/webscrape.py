@@ -24,7 +24,7 @@ class Youtube:
     def is_absolute(self, url):
         return bool(urlparse(url).netloc)
 
-    def scrapeYoutube(self, search_query):
+    def scrapeYoutube(self):
         for v in self.vids: #for loop for finding all videos that show up
             if self.is_absolute(v['href']) == True:
                 pass

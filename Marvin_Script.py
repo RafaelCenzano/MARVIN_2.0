@@ -11,6 +11,9 @@ import os
 # LOGIN
 contact_path = os.path.join('marvin','json','contacts.json')
 pass_path = os.path.join('marvin','json','pass.json')
+with open('Os.json', 'r') as os_data:
+    os_type_loaded = load(os_data)
+    os_type = os_type_loaded['Os_data']['OS']
 
 while True:
     try:
@@ -54,7 +57,7 @@ while True:
                     while 1:
                         print('\nAwaiting commands')
                         data = listen() #use listen function in commands.py
-                        marvin.commands.dataCommands(data.lower(), 1, pass_path, contact_path) # check for command and lower what was just said
+                        marvin.commands.dataCommands(data.lower(), 1, pass_path, contact_path, os_type) # check for command and lower what was just said
                 except marvin.commands.MarvinCommands: # except and pass to resume stanby
                     pass # restart loop
             elif beg_input == '2' or 'chat' in beg_input:
@@ -62,7 +65,7 @@ while True:
                     while 1:
                         print('\nAwaiting commands')
                         data = input('')
-                        marvin.commands.dataCommands(data.lower(), 0, pass_path, contact_path) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
+                        marvin.commands.dataCommands(data.lower(), 0, pass_path, contact_path, os_type) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
                 except marvin.commands.MarvinCommands: # except and pass to resume stanby
                     pass #restart loop
             elif beg_input == '3' or 'standby' in beg_input: # standby no recording

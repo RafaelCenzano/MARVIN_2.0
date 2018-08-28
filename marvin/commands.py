@@ -20,82 +20,74 @@ import marvin.send_email
 
 class MarvinCommands(Exception): pass
 class MarvinRelog(Exception): pass
-def dataCommands(command, type_of_input, pass_path, contact_path):
+def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
 
     # Website Commands #
 
     if 'open reddit' in command or 'open subreddit' in command:
-        subreddit = splitJoin(command, 2)
+        subreddit = splitJoin(command, 2) # function to split and rejoin command
         speak('Opening subreddit ' + subreddit + ' for you') # saying the subreddit page
         webopen('https://www.reddit.com/r/' + subreddit, new = 2) # open url in browser
         print('Done!')
 
     elif 'define' in command or 'what is the definition of' in command:
         if 'what is the definition of' in command:
-            define_search = command.split(" ")[5:]
+            define = splitJoin(command, 5)
         elif 'define' in command:
-            define_search = command.split(" ")[1:]
-        define_joined = (" ").join(define_search)
-        speak('Opening the definition of ' + define_joined + ' for you')
-        url = ('https://www.dictionary.com/browse/' + define_joined +'?s=t')
+            define = splitJoin(command, 1)
+        speak('Opening the definition of ' + define + ' for you')
+        url = ('https://www.dictionary.com/browse/' + define +'?s=t')
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
     elif 'google search' in command:
-        gsearch = command.split(" ")[2:] # split for anything after 'google search'
-        gsearch_joined = (" ").join(gsearch) # joining anything that was split from after 'google search'
-        speak('Opening Google search for ' + gsearch_joined) # saying what it will open
-        url = ('https://www.google.com/search?q=' + gsearch_joined + '&rlz=1C5CHFA_enUS770US770&oq=' + gsearch_joined + '&aqs=chrome..69i57.1173j0j8&sourceid=chrome&ie=UTF-8') # url with search
+        gsearch = splitJoin(command, 2) # function to split and rejoin command
+        speak('Opening Google search for ' + gsearch) # saying what it will open
+        url = ('https://www.google.com/search?q=' + gsearch + '&rlz=1C5CHFA_enUS770US770&oq=' + gsearch + '&aqs=chrome..69i57.1173j0j8&sourceid=chrome&ie=UTF-8') # url with search
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
     elif 'where is' in command:
-        location = command.split(" ")[2:] # split for anything after 'where is'
-        location_joined = (" ").join(location) # joining anything that was split from after 'where is'
-        speak('Hold on, I will show you where ' + location_joined + ' is.') # saying the location heard
-        url = ('https://www.google.nl/maps/place/' + location_joined + '/&amp;') # url with location
+        location = splitJoin(command, 2) # function to split and rejoin command
+        speak('Hold on, I will show you where ' + location + ' is.') # saying the location heard
+        url = ('https://www.google.nl/maps/place/' + location + '/&amp;') # url with location
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
     elif 'amazon' in command:
-        amazon = command.split(" ")[1:] # split for anything after 'amazon'
-        amazon_search = (" ").join(amazon) # join all anything after 
-        speak('Searching amazon for ' + amazon_search) # saying what it will look for
-        url = ('https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + amazon_search) # url with amazon search
+        amazon = splitJoin(command, 1) # function to split and rejoin command
+        speak('Searching amazon for ' + amazon) # saying what it will look for
+        url = ('https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + amazon) # url with amazon search
         webopen(url, new = 2) # open in browser
         print('Done!')
 
     elif 'time in' in command:
-        time_in = command.split(" ")[2:] # split for anything after 'time in'
-        time_in_location = (" ").join(time_in) # joiing anything after 'time in'
-        speak('Showing time in '+ time_in_location) # saying what its opening
-        url = ('https://time.is/' + time_in_location) # url to time.is with the location
+        time_in = splitJoin(command, 1) # function to split and rejoin command
+        speak('Showing time in '+ time_in) # saying what its opening
+        url = ('https://time.is/' + time_in) # url to time.is with the location
         webopen(url, new = 2) # open in browser
         print('Done!')
 
     # Marvin Webscrape Commands #
 
     elif 'rotten tomatoes' in command:
-        rotten_search = command.split(" ")[2:] # split for anything after 'rotten tomatoes'
-        rotten_joined = (" ").join(rotten_search)
-        TomatoeScrape = marvin.webscrape.Tomatoe(rotten_joined)
+        rotten_search = splitJoin(command, 1) # function to split and rejoin command
+        TomatoeScrape = marvin.webscrape.Tomatoe(rotten_search)
         TomatoeScrape.scrapeRottentomatoes()
 
     elif 'imdb' in command:
         if 'imdb rating' in command:
-            IMDb_search = command.split(" ")[2:] # split for anything after 'idbm rating'
+            IMDb = splitJoin(command, 2) # function to split and rejoin command
         elif 'imdb' in command:
-            IMDb_search = command.split(" ")[1:] # split for anything after 'idbm'
-        IMDb_joined = (" ").join(IMDb_search)
-        TomatoeScrape = marvin.webscrape.Tomatoe(IMDb_joined)
+            IMDb = splitJoin(command, 1) # function to split and rejoin command
+        TomatoeScrape = marvin.webscrape.Tomatoe(IMDb)
         TomatoeScrape.IMDb()
 
     elif 'youtube' in command:
-        video = command.split(" ")[1:] # split for anything after 'youtube'
-        video_joined = (" ").join(video) # joining anything that was split from after 'youtube'
-        speak('Opening first video for ' + video_joined + ' on YouTube') # saying what it will open
-        Youtube_Scrape = marvin.webscrape.Youtube(video_joined)
-        Youtube_Scrape.scrapeYoutube(video_joined) # function to scrape urls
+        video = splitJoin(command, 1) # function to split and rejoin command
+        speak('Opening first video for ' + video + ' on YouTube') # saying what it will open
+        Youtube_Scrape = marvin.webscrape.Youtube(video)
+        Youtube_Scrape.scrapeYoutube() # function to scrape urls
 
     # Marvin Function Commands #
 
@@ -112,14 +104,11 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         raise MarvinRelog
 
     elif command == 'ls' or command == 'dir':
-        with open('Os.json', 'r') as os_data:
-            os_system_data = load(os_data)
-        os_system = os_system_data['Os_data']['OS']
-        if os_system == 'Linux':
+        if os_type == 'Linux':
             os.system('ls')
-        elif os_system == 'Darwin':
+        elif os_type == 'Darwin':
             os.system('ls')
-        elif os_system == 'Windows':
+        elif os_type == 'Windows':
             os.system('dir')
 
     # Sending based Commands
@@ -201,7 +190,30 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         except Exception as e:
             print('Cancelling')
 
+    # Open Apps Commands #
+
+    elif command == 'open spotify':
+        if os_type == 'Windows':
+            pass
+        elif os_type == 'Darwin':
+            if os.path.isdir('/Applications/Spotify.app/') == True:
+                speak('Opening Spotify for you')
+                os.system('open /Applications/Spotify.app')
+            else:
+                speak('You don\'t have Spotify installed')
+        elif os_type == 'Linux':
+            pass
+
+    elif command == 'close spotify':
+        if os_type == 'Windows':
+            pass
+        elif os_type == 'Darwin':
+            os.system('osascript -e \'quit app "Spotify"\'')
+        elif os_type == 'Linux':
+            pass
+
     # Misc Commands #
+
     elif command == 'what time is it':
         speak('The time is ' + datetime.now().strftime('%-I:%M %p'))
 

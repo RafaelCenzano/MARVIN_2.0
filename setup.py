@@ -15,11 +15,15 @@ while True:
         break
 
 path = os.getcwd()
-def unix_linux(pass_path, python_path):
+def unix_linux(pass_path, python_path, os):
     os.system('pip install virtualenv==16.0.0')
     os.system('virtualenv --' + python_path + ' marvin-env')
-    os.system('chmod 755 .installs.sh')
-    os.system('./.installs.sh')
+    if os == 'Darwin':
+        os.system('chmod 755 .mac_installs.sh')
+        os.system('./.mac_installs.sh')
+    else:
+        os.system('chmod 755 .linux_installs.sh')
+        os.system('./.linux_installs.sh')
     env = ('source ' + path + '/marvin-env/bin/activate')
     script = (path + '/marvin-env/bin/python2.7 ' + path + '/Marvin_Script.py')
     cd = ('cd ' + path)
@@ -94,7 +98,7 @@ if check_os == 'Linux':
     os.system('source ' + bashrc)
     print('\nGoing to install tkinter for GUI')
     os.system('sudo apt-get install python-tk')
-    unix_linux(pass_path)
+    unix_linux(pass_path, 'Linux')
 
 elif check_os == 'Darwin':
     alias = ('alias marvin="' + path + '/marvin_run.sh"')
@@ -122,11 +126,12 @@ elif check_os == 'Darwin':
     print('Type the path to your python3.7 or python3 executable')
     input_python_path = raw_input('Please paste the path to the highest version of python3 that you have\n>')
     if(os.path.isfile(input_python_path))
-        unix_linux(pass_path, input_python_path)
+        unix_linux(pass_path, input_python_path, 'Darwin')
     elif(os.path.isfile('/usr/local/bin/python3'))
-        unix_linux(pass_path, '/usr/local/bin/python3')
+        unix_linux(pass_path, '/usr/local/bin/python3', 'Darwin')
     else:
         os.system('brew install python')
+        unix_linux(pass_path, '/usr/local/bin/python3', 'Darwin')
 
 elif check_os == 'Windows':
     python_path = os.path.join('C:','\\Python27','python.exe')

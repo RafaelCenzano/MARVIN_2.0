@@ -48,3 +48,8 @@ def commandInput(type_of_input):
     if type_of_input == 0: # 0 for type input
         input_to_return = input('') # get input
         return input_to_return # return text input
+
+def splitJoin(command, how_many):
+    split_command = command.split(" ")[how_many:] # split for anything after any unnecessary words
+    joined_command = (" ").join(split_command) # joining anything that was split from after any unnecessary words
+    return joined_command # return rejoined command

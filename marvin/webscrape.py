@@ -36,10 +36,11 @@ class Youtube:
 
 class Tomatoe:
     def __init__(self, search_query):
+        self.search_query = search_query
         spliting = search_query.split(" ")[0:]
         search_query_with_under_scores = ("_").join(spliting)
         self.url = ('https://www.rottentomatoes.com/m/' + search_query_with_under_scores)# combine url with search query from command
-        r = requests.get(url) # request page
+        r = requests.get(self.url) # request page
         page = r.text # formatting
         self.soup = bs(page, 'html.parser') # parse html
 
@@ -49,15 +50,15 @@ class Tomatoe:
         try:
             if rt == []: raise Exception
             raiting = rt[0].getText()
-            speak('Rotten Tomatoes gave '+ search_query + ' ' + raiting)
+            speak('Rotten Tomatoes gave '+ self.search_query + ' ' + raiting)
             people_score = self.soup.findAll('span', attrs={'class':'superPageFontColor', 'style':'vertical-align:top'})
             score = people_score[0].getText()
             want_or_like = self.soup.findAll('div', attrs={'class':'smaller bold hidden-xs superPageFontColor'})
             like_or_want = want_or_like[0].getText()
             if like_or_want == 'liked it':
-                speak('\n' + score + ' of people liked ' + search_query)
+                speak('\n' + score + ' of people liked ' + self.search_query)
             elif like_or_want == 'want to see':
-                speak('\n' + score + ' want to see ' + search_query)
+                speak('\n' + score + ' want to see ' + self.search_query)
             else:
                 print('\nError\nI web scraped the wrong data or Rotten Tomatoes changed their format please report this issue immediatly so we can fix it')
         except Exception as e:
@@ -69,7 +70,7 @@ class Tomatoe:
         try:
             if pg_up == []: raise Exception
             up_pg = pg_up[0].getText()
-            speak('\n' + search_query + ' got a IMDb' + up_pg)
+            speak('\n' + self.search_query + ' got a IMDb' + up_pg)
         except Exception as e:
             speak('\nI ran into a problem\nThe name of the movie was probably input incorrectly')
 

@@ -44,7 +44,7 @@ while True:
         # core loop this is the part that will be looped to check user wants to keep using voice commands
         # it will always ask the user the prompt below when the while loop goes back to the start
         # part that will run when while loop resets
-            speak('Choose an option')
+            speak('\nChoose an option')
             print(' \nOPTIONS:\n1. voice commands\n2. chat commands\n3. standby\n4. quit\n ')
             beg_input = input(">")
         # end of part that will run when while loop resets

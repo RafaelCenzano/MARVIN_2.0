@@ -1,6 +1,6 @@
 #Imports
 from webbrowser import open as webopen # webbrowser to open websites
-from marvin.essentials import speak, commandInput # import speak and listen
+from marvin.essentials import speak, commandInput, splitJoin # import speak and listen
 import marvin.webscrape # import webscrape functions
 from json import load, dump # import json load
 from threading import Thread
@@ -22,31 +22,24 @@ class MarvinCommands(Exception): pass
 class MarvinRelog(Exception): pass
 def dataCommands(command, type_of_input, pass_path, contact_path):
 
-
     # Website Commands #
 
     if 'open reddit' in command or 'open subreddit' in command:
-        subreddit = command.split(" ")[2:] # split for anything after 'open reddit'
-        subreddit_joined = (" ").join(subreddit) # joining anything that was split from after 'open reddit'
-        speak('Opening subreddit ' + subreddit_joined) # saying the subreddit page
-        url = ('https://www.reddit.com/r/' + subreddit_joined) # url with reddit page
-        webopen(url, new = 2) # open url in browser
+        subreddit = splitJoin(command, 2)
+        speak('Opening subreddit ' + subreddit + ' for you') # saying the subreddit page
+        webopen('https://www.reddit.com/r/' + subreddit, new = 2) # open url in browser
         print('Done!')
 
-    elif 'rotten tomatoes' in command:
-        rotten_search = command.split(" ")[2:] # split for anything after 'rotten tomatoes'
-        rotten_joined = (" ").join(rotten_search)
-        TomatoeScrape = marvin.webscrape.Tomatoe(rotten_joined)
-        TomatoeScrape.scrapeRottentomatoes()
-
-    elif 'imdb' in command or 'imdb rating' in command:
-        if 'imdb rating' in command:
-            IMDb_search = command.split(" ")[2:] # split for anything after 'idbm rating'
-        elif 'idbm' in command:
-            IMDb_search = command.split(" ")[1:] # split for anything after 'idbm'
-        IMDb_joined = (" ").join(IMDb_search)
-        TomatoeScrape = marvin.webscrape.Tomatoe(IMDb_joined)
-        TomatoeScrape.IMDb()
+    elif 'define' in command or 'what is the definition of' in command:
+        if 'what is the definition of' in command:
+            define_search = command.split(" ")[5:]
+        elif 'define' in command:
+            define_search = command.split(" ")[1:]
+        define_joined = (" ").join(define_search)
+        speak('Opening the definition of ' + define_joined + ' for you')
+        url = ('https://www.dictionary.com/browse/' + define_joined +'?s=t')
+        webopen(url, new = 2) # open url in browser
+        print('Done!')
 
     elif 'google search' in command:
         gsearch = command.split(" ")[2:] # split for anything after 'google search'
@@ -55,13 +48,6 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         url = ('https://www.google.com/search?q=' + gsearch_joined + '&rlz=1C5CHFA_enUS770US770&oq=' + gsearch_joined + '&aqs=chrome..69i57.1173j0j8&sourceid=chrome&ie=UTF-8') # url with search
         webopen(url, new = 2) # open url in browser
         print('Done!')
-
-    elif 'youtube' in command:
-        video = command.split(" ")[1:] # split for anything after 'youtube'
-        video_joined = (" ").join(video) # joining anything that was split from after 'youtube'
-        speak('Opening first video for ' + video_joined + ' on YouTube') # saying what it will open
-        Youtube_Scrape = marvin.webscrape.Youtube(video_joined)
-        Youtube_Scrape.scrapeYoutube(video_joined) # function to scrape urls
 
     elif 'where is' in command:
         location = command.split(" ")[2:] # split for anything after 'where is'
@@ -87,6 +73,30 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         webopen(url, new = 2) # open in browser
         print('Done!')
 
+    # Marvin Webscrape Commands #
+
+    elif 'rotten tomatoes' in command:
+        rotten_search = command.split(" ")[2:] # split for anything after 'rotten tomatoes'
+        rotten_joined = (" ").join(rotten_search)
+        TomatoeScrape = marvin.webscrape.Tomatoe(rotten_joined)
+        TomatoeScrape.scrapeRottentomatoes()
+
+    elif 'imdb' in command:
+        if 'imdb rating' in command:
+            IMDb_search = command.split(" ")[2:] # split for anything after 'idbm rating'
+        elif 'imdb' in command:
+            IMDb_search = command.split(" ")[1:] # split for anything after 'idbm'
+        IMDb_joined = (" ").join(IMDb_search)
+        TomatoeScrape = marvin.webscrape.Tomatoe(IMDb_joined)
+        TomatoeScrape.IMDb()
+
+    elif 'youtube' in command:
+        video = command.split(" ")[1:] # split for anything after 'youtube'
+        video_joined = (" ").join(video) # joining anything that was split from after 'youtube'
+        speak('Opening first video for ' + video_joined + ' on YouTube') # saying what it will open
+        Youtube_Scrape = marvin.webscrape.Youtube(video_joined)
+        Youtube_Scrape.scrapeYoutube(video_joined) # function to scrape urls
+
     # Marvin Function Commands #
 
     elif 'standby' in command:
@@ -102,7 +112,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path):
         raise MarvinRelog
 
     elif command == 'ls' or command == 'dir':
-        with open('.Os.json', 'r') as os_data:
+        with open('Os.json', 'r') as os_data:
             os_system_data = load(os_data)
         os_system = os_system_data['Os_data']['OS']
         if os_system == 'Linux':

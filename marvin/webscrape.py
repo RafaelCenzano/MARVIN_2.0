@@ -36,9 +36,9 @@ class Youtube:
 
 class Tomatoe:
     def __init__(self, search_query):
-        self.url = ('https://www.rottentomatoes.com/m/' + search_query_with_under_scores)# combine url with search query from command
         spliting = search_query.split(" ")[0:]
         search_query_with_under_scores = ("_").join(spliting)
+        self.url = ('https://www.rottentomatoes.com/m/' + search_query_with_under_scores)# combine url with search query from command
         r = requests.get(url) # request page
         page = r.text # formatting
         self.soup = bs(page, 'html.parser') # parse html

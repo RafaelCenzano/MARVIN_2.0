@@ -13,7 +13,7 @@ from email.mime.multipart import MIMEMultipart # MIMEMultipart changing sender
 
 
 class Email:
-    def __init__(self, contact_path, pass_path, email_recipient, subject, email_message):
+    def __init__(self, contact_path, pass_path, email_recipient, subject, email_message, speak_type):
         self.email_recipient = email_recipient
         self.pass_path = pass_path
         self.contact_check = checkcontact(contact_path, email_recipient)
@@ -34,7 +34,7 @@ class Email:
             msg.attach(MIMEText(email_message,'plain')) # add body
             self.message = msg.as_string() # format all text
         else: # recipient not in contacts
-            speak('This user is not in our contacts use the "add contacts" command to add ' + email_recipient) # user not found message
+            speak('This user is not in our contacts use the "add contacts" command to add ' + email_recipient, speak_type) # user not found message
             raise Exception
 
 class EmailService():

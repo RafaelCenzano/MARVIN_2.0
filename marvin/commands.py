@@ -20,13 +20,13 @@ import marvin.send_email
 
 class MarvinCommands(Exception): pass
 class MarvinRelog(Exception): pass
-def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
+def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak_type):
 
     # Website Commands #
 
     if 'open reddit' in command or 'open subreddit' in command:
         subreddit = splitJoin(command, 2) # function to split and rejoin command
-        speak('Opening subreddit ' + subreddit + ' for you') # saying the subreddit page
+        speak('Opening subreddit ' + subreddit + ' for you', speak_type) # saying the subreddit page
         webopen('https://www.reddit.com/r/' + subreddit, new = 2) # open url in browser
         print('Done!')
 
@@ -35,35 +35,35 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
             define = splitJoin(command, 5)
         elif 'define' in command:
             define = splitJoin(command, 1)
-        speak('Opening the definition of ' + define + ' for you')
+        speak('Opening the definition of ' + define + ' for you', speak_type)
         url = ('https://www.dictionary.com/browse/' + define +'?s=t')
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
     elif 'google search' in command:
         gsearch = splitJoin(command, 2) # function to split and rejoin command
-        speak('Opening Google search for ' + gsearch) # saying what it will open
+        speak('Opening Google search for ' + gsearch, speak_type) # saying what it will open
         url = ('https://www.google.com/search?q=' + gsearch + '&rlz=1C5CHFA_enUS770US770&oq=' + gsearch + '&aqs=chrome..69i57.1173j0j8&sourceid=chrome&ie=UTF-8') # url with search
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
     elif 'where is' in command:
         location = splitJoin(command, 2) # function to split and rejoin command
-        speak('Hold on, I will show you where ' + location + ' is.') # saying the location heard
+        speak('Hold on, I will show you where ' + location + ' is.', speak_type) # saying the location heard
         url = ('https://www.google.nl/maps/place/' + location + '/&amp;') # url with location
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
     elif 'amazon' in command:
         amazon = splitJoin(command, 1) # function to split and rejoin command
-        speak('Searching amazon for ' + amazon) # saying what it will look for
+        speak('Searching amazon for ' + amazon, speak_type) # saying what it will look for
         url = ('https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + amazon) # url with amazon search
         webopen(url, new = 2) # open in browser
         print('Done!')
 
     elif 'time in' in command:
         time_in = splitJoin(command, 1) # function to split and rejoin command
-        speak('Showing time in '+ time_in) # saying what its opening
+        speak('Showing time in '+ time_in, speak_type) # saying what its opening
         url = ('https://time.is/' + time_in) # url to time.is with the location
         webopen(url, new = 2) # open in browser
         print('Done!')
@@ -72,7 +72,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
 
     elif 'rotten tomatoes' in command:
         rotten_search = splitJoin(command, 1) # function to split and rejoin command
-        TomatoeScrape = marvin.webscrape.Tomatoe(rotten_search)
+        TomatoeScrape = marvin.webscrape.Tomatoe(rotten_search, speak_type)
         TomatoeScrape.scrapeRottentomatoes()
 
     elif 'imdb' in command:
@@ -80,27 +80,27 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
             IMDb = splitJoin(command, 2) # function to split and rejoin command
         elif 'imdb' in command:
             IMDb = splitJoin(command, 1) # function to split and rejoin command
-        TomatoeScrape = marvin.webscrape.Tomatoe(IMDb)
+        TomatoeScrape = marvin.webscrape.Tomatoe(IMDb, speak_type)
         TomatoeScrape.IMDb()
 
     elif 'youtube' in command:
         video = splitJoin(command, 1) # function to split and rejoin command
-        speak('Opening first video for ' + video + ' on YouTube') # saying what it will open
+        speak('Opening first video for ' + video + ' on YouTube', speak_type) # saying what it will open
         Youtube_Scrape = marvin.webscrape.Youtube(video)
         Youtube_Scrape.scrapeYoutube() # function to scrape urls
 
     # Marvin Function Commands #
 
     elif 'standby' in command:
-        speak('Going on standby')
+        speak('Going on standby', speak_type)
         raise MarvinCommands # raise exeption so class passes and restarts loop
 
     elif command == 'exit' or command == 'quit' or command == 'leave' or command == 'close':
-        speak('Shutting down')
+        speak('Shutting down', speak_type)
         exit() # leave program
 
     elif command == 'relog' or command == 'logout' or command == 'log out':
-        speak('logging out')
+        speak('logging out', speak_type)
         raise MarvinRelog
 
     elif command == 'ls' or command == 'dir':
@@ -114,13 +114,13 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
     # Sending based Commands
 
     elif command == 'contact list' or command == 'contacts':
-        marvin.contacts.contactList(contact_path, 0)
+        marvin.contacts.contactList(contact_path, 0, speak_type)
 
     elif command == 'delete contact' or command == 'remove contact':
         try:
-            marvin.contacts.contactList(contact_path, 1)
+            marvin.contacts.contactList(contact_path, 1, speak_type)
             print('input cancel to cancel delete contact') # cancel message
-            speak('Who would you like to delete from your contacts?')
+            speak('Who would you like to delete from your contacts?', speak_type)
             delete_contact = commandInput(type_of_input).lower() # function for listen or raw_input
             if 'quit' == delete_contact.lower() or 'exit' == delete_contact.lower() or 'cancel' == delete_contact.lower(): raise ValueError # check message for cancel
             with open(contact_path, 'r') as contact_del_list:
@@ -131,27 +131,27 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
             del del_contact_data['contacts'][delete_contact]
             with open(contact_path, 'w') as outfile:
                 dump(del_contact_data, outfile)
-            speak(delete_contact + ' has been removed')
+            speak(delete_contact + ' has been removed', speak_type)
         except Exception as e:
             print('Cancelling')
 
     elif command == 'add contact' or command == 'new contact':
         try:
-            marvin.contacts.contactList(contact_path, 1)
+            marvin.contacts.contactList(contact_path, 1, speak_type)
             print('input cancel to cancel add contact') # cancel message
-            speak('Who would you like to add to you contacts?')
+            speak('Who would you like to add to you contacts?', speak_type)
             print('First name please')
             add_contact = commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == add_contact.lower() or 'exit' == add_contact.lower() or'cancel' == add_contact.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel add contact') # cancel message
-            speak('What is ' + add_contact + '\'s email?')
+            speak('What is ' + add_contact + '\'s email?', speak_type)
             new_email = commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == new_email.lower() or 'exit' == new_email.lower() or 'cancel' == new_email.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel add contact') # cancel message
-            speak('What is ' + add_contact + '\'s phone number? If you don\'t have it or you dont want to input respond with None')
+            speak('What is ' + add_contact + '\'s phone number? If you don\'t have it or you dont want to input respond with None', speak_type)
             new_phone_number = commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == new_phone_number.lower() or 'exit' == new_phone_number.lower() or 'cancel' == new_phone_number.lower(): raise ValueError # check message for cancel
-            speak('Does this contact have a nickname you like to add? If they don\'t have one type none')
+            speak('Does this contact have a nickname you like to add? If they don\'t have one type none', speak_type)
             nick = commandInput(type_of_input) # function for listen or raw_input
             nick_lower = nick.lower()
             if 'quit' == nick_lower or 'exit' == nick_lower or 'cancel' == nick_lower: raise ValueError # check message for cancel
@@ -160,7 +160,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
             add_contact_lowered = add_contact.lower()
             if 'none' != nick_lower:
                 new_contact_data['nicks'][nick_lower] = {"real_name":add_contact_lowered}
-            speak('Creating contact')
+            speak('Creating contact', speak_type)
             with open(contact_path, 'w') as outfile:
                 new_contact_data['contacts'][add_contact_lowered] = {"email":new_email, "number":new_phone_number} # new data to add
                 dump(new_contact_data, outfile) # add data
@@ -170,20 +170,20 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
 
     elif command == 'send email':
         try:
-            marvin.contacts.contactList(contact_path, 'email')
+            marvin.contacts.contactList(contact_path, 'email', speak_type)
             print('input cancel to cancel send email') # cancel message
-            speak('Who would you like to send this email to?')
+            speak('Who would you like to send this email to?', speak_type)
             email_recipient = commandInput(type_of_input).lower() # function for listen or raw_input
             if 'quit' == email_recipient.lower() or 'exit' == email_recipient.lower() or 'cancel' == email_recipient.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel send email') # cancel message
-            speak('What is the subject of the email?')
+            speak('What is the subject of the email?', speak_type)
             email_subject = commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == email_subject.lower() or 'exit' == email_subject.lower() or 'cancel' == email_subject.lower(): raise ValueError # check message for cancel
             print('input cancel to cancel send email') # cancel message
-            speak('What is the message you would like to send to ' + email_recipient)
+            speak('What is the message you would like to send to ' + email_recipient, speak_type)
             email_body = commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == email_body.lower() or 'exit' == email_body.lower() or 'cancel' == email_body.lower(): raise ValueError # check message for cancel
-            new_send_email = marvin.send_email.Email(contact_path, pass_path, email_recipient, email_subject, email_body)
+            new_send_email = marvin.send_email.Email(contact_path, pass_path, email_recipient, email_subject, email_body, speak_type)
             Email_Service = marvin.send_email.EmailService()
             thread_email = Thread(target = Email_Service.sendemail, args = (new_send_email,))
             thread_email.start()
@@ -197,10 +197,10 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
             pass
         elif os_type == 'Darwin':
             if os.path.isdir('/Applications/Spotify.app/') == True:
-                speak('Opening Spotify for you')
+                speak('Opening Spotify for you', speak_type)
                 os.system('open /Applications/Spotify.app')
             else:
-                speak('You don\'t have Spotify installed')
+                speak('You don\'t have Spotify installed', speak_type)
         elif os_type == 'Linux':
             pass
 
@@ -215,16 +215,16 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
     # Misc Commands #
 
     elif command == 'what time is it':
-        speak('The time is ' + datetime.now().strftime('%-I:%M %p'))
+        speak('The time is ' + datetime.now().strftime('%-I:%M %p'), speak_type)
 
     elif command == 'what is the date':
-        speak('The date is ' + datetime.now().strftime('%A %B %-d %Y'))
+        speak('The date is ' + datetime.now().strftime('%A %B %-d %Y'), speak_type)
 
     elif command == "day of the week" or command == 'what day is it':
-        speak(datetime.now().strftime('%A'))
+        speak(datetime.now().strftime('%A'), speak_type)
 
     elif command == "week number":
-        speak(datetime.now().strftime('%W'))
+        speak(datetime.now().strftime('%W'), speak_type)
 
     elif command == 'open calculator' or command == 'run calculator' or command == 'calculator':
         thread_calculator = Thread(target = marvin.misc.openCalculator) # run calculator code from calculator.py
@@ -237,4 +237,4 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type):
         thread_stopwatch.start() # start 2nd thread with calulator so you can run commands along with the calculator open
 
     elif command == 'hello' or command == 'hi':
-        speak('Hello!')
+        speak('Hello!', speak_type)

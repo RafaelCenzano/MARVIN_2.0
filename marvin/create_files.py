@@ -9,7 +9,7 @@ os_release = release()
 marvin_version = webscrape.getVersion()
 try:
     with open('Os.json', 'w') as outfile:
-        var2 = {"Marvin_Release":marvin_version,"Os_data":{"OS":check_os,"os_release":os_release},"apps":{"IOS":"INACTIVE"}}
+        var2 = {"Marvin_Release":marvin_version,"Os_data":{"OS":check_os,"os_release":os_release},"apps":{"IOS":"INACTIVE"},"voice":"female"}
         json.dump(var2, outfile)
     with open(contacts_path, 'w') as outfile1:
         var = {"contacts":{},"nicks":{}}

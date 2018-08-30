@@ -42,7 +42,7 @@ def listofcontacts(contact_list, type_):
                 print('    ' + email_c + '\n') # print only email
 
 # Function to open contact file and help sort for what information needed from listofcontacts()
-def contactList(contact_path, type_):
+def contactList(contact_path, type_, speak_type):
     with open(contact_path, 'r') as contact_data_list: # get contact data
         list_contact_data = load(contact_data_list) # parse contact data
         contact_list = list_contact_data['contacts'] # put all contacts in variable
@@ -53,4 +53,4 @@ def contactList(contact_path, type_):
     else: # there are contacts and there was a file
         thread_list_contact = Thread(target = listofcontacts, args = (contact_list, type_,)) # thread arguments to print list while speaking because of slow speak times
         thread_list_contact.start() # start thread of lisofcontacts function
-        speak('Opening contact list\n') # speak
+        speak('Opening contact list\n', speak_type) # speak

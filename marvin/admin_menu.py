@@ -4,6 +4,7 @@ from json import load, dump # parse and add json data
 from codecs import encode # to create new passwords
 from hashlib import sha512 # to create new passwords
 from marvin.misc import get_ip # get ip function
+from marvin.essentials import speak # speak function
 from marvin.webscrape import getVersion # webscrape version
 
 
@@ -12,12 +13,12 @@ from marvin.webscrape import getVersion # webscrape version
 ############################
 
 # Function to show ADMIN Menu
-def ADMIN(contact_path, pass_path): # ADMIN MENU
+def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
     bob = True
     while True: # loop for MENU so you don't have to keep reopening it
         try:
             print('\nOnly use ADMIN acount for administrative tasks') # message to remind you can't use marvins command without a real user
-            print('\n######## ADMIN MENU ########\n\n1. Create New User     2. Delete a User\n3. Update Marvin       4. Marvin APPS\n5. Leave ADMIN Menu    6. Exit program') # show options
+            print('\n######## ADMIN MENU ########\n\n1. Create New User     2. Delete a User\n3. Update Marvin       4. Marvin APPS\n5. Voice Settings      6. Leave ADMIN Menu\n7. Exit program') # show options
             ADMIN_input = input('>') # prompt for input
 
             if ADMIN_input == '1' or 'user' in ADMIN_input.lower(): # check if user wants to create a user
@@ -138,11 +139,35 @@ def ADMIN(contact_path, pass_path): # ADMIN MENU
                     elif deactivate_input.lower() == 'y' or deactivate_input == 'y':
                         pass
 
-            elif ADMIN_input == '5' or 'exit' in ADMIN_input.lower() or 'leave' in ADMIN_input.lower() or 'quit' in ADMIN_input.lower(): # check if user wants to leave Menu
+            elif ADMIN_input == '5' or 'voice' in ADMIN_input:
+                with open('Os.json', 'r') as voice_settings:
+                    voice_loaded = load(voice_settings)
+                print('\nVoice currently set to ' + voice_loaded['voice'])
+                if voice_loaded['voice'] == 'female':
+                    print('\nWould you like to change to a male voice?')
+                    voice = input('>')
+                    if 'y' in voice:
+                        print('Changing to male voice')
+                        speak('This is what I sound like now', 'male')
+                        print(voice_loaded['voice'])
+                        with open('Os.json', 'w') as outfile:
+                            var = voice_loaded['voice'] = 'male'
+                            dump(voice_loaded, outfile)
+                else:
+                    print('\nWould you like to change to a female voice?')
+                    voice = input('>')
+                    if 'y' in voice:
+                        print('Changing to female voice')
+                        speak('This is what I sound like now', 'female')
+                        with open('Os.json', 'w') as outfile:
+                            var = voice_loaded['voice'] = 'female'
+                            dump(voice_loaded, outfile)
+
+            elif ADMIN_input == '6' or 'exit' in ADMIN_input.lower() or 'leave' in ADMIN_input.lower() or 'quit' in ADMIN_input.lower(): # check if user wants to leave Menu
                 print('Exiting ADMIN MENU') # exit menu message
                 break # break loop to leave ADMIN MENU
 
-            elif ADMIN_input == '6': # if you want to exit
+            elif ADMIN_input == '7': # if you want to exit
                 print('Exiting program') # exit message
                 bob = False # close program
                 break

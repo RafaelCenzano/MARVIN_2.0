@@ -3,7 +3,7 @@ from os import system, path # for getting paths for any os and system for runnin
 from json import load, dump # parse and add json data
 from codecs import encode # to create new passwords
 from hashlib import sha512 # to create new passwords
-from marvin.misc import get_ip # get ip function
+from marvin.network import get_ip # get ip function
 from marvin.essentials import speak # speak function
 from marvin.webscrape import getVersion # webscrape version
 

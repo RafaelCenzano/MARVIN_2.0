@@ -4,8 +4,8 @@ from gtts import gTTS # gtts for text to speech
 from pyttsx3 import init # pyttsx3 for male voice
 from platform import system # find os type
 from playsound import playsound # play sounds for windows gtts
-from marvin.misc import checkConnection # check internet
 from subprocess import Popen, PIPE # subprocess for playing audio
+from marvin.network import checkConnection # check internet
 from speech_recognition import Recognizer, Microphone, UnknownValueError, RequestError # speech_recognition to turn speech to string
 
 

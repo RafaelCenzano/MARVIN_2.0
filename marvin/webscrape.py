@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 ########################
 
 
-class Youtube:
+class YoutubeScrape:
     def __init__(self, search_query):
         self.videolist = [] # create empty list
         self.url = ('https://www.youtube.com/results?search_query=' + search_query)# combine url with search query from command
@@ -34,7 +34,7 @@ class Youtube:
         webbrowser.open(self.videolist[0], new = 2) # open the url
         print('Done!') # finish message
 
-class Tomatoe:
+class TomatoeScrape:
     def __init__(self, search_query, speak_type):
         self.search_query = search_query
         self.speak_type = speak_type

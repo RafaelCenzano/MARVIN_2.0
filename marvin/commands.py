@@ -72,7 +72,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
 
     elif 'rotten tomatoes' in command:
         rotten_search = splitJoin(command, 1) # function to split and rejoin command
-        TomatoeScrape = marvin.webscrape.Tomatoe(rotten_search, speak_type)
+        TomatoeScrape = marvin.webscrape.TomatoeScrape(rotten_search, speak_type)
         TomatoeScrape.scrapeRottentomatoes()
 
     elif 'imdb' in command:
@@ -80,13 +80,13 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
             IMDb = splitJoin(command, 2) # function to split and rejoin command
         elif 'imdb' in command:
             IMDb = splitJoin(command, 1) # function to split and rejoin command
-        TomatoeScrape = marvin.webscrape.Tomatoe(IMDb, speak_type)
+        TomatoeScrape = marvin.webscrape.TomatoeScrape(IMDb, speak_type)
         TomatoeScrape.IMDb()
 
     elif 'youtube' in command:
         video = splitJoin(command, 1) # function to split and rejoin command
         speak('Opening first video for ' + video + ' on YouTube', speak_type) # saying what it will open
-        Youtube_Scrape = marvin.webscrape.Youtube(video)
+        Youtube_Scrape = marvin.webscrape.YoutubeScrape(video)
         Youtube_Scrape.scrapeYoutube() # function to scrape urls
 
     # Marvin Function Commands #
@@ -114,11 +114,13 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
     # Sending based Commands
 
     elif command == 'contact list' or command == 'contacts':
-        marvin.contacts.contactList(contact_path, 0, speak_type)
+        ContactService = marvin.contacts.ContactShow(contact_path, 0, speak_type)
+        ContactService.contactList()
 
     elif command == 'delete contact' or command == 'remove contact':
         try:
-            marvin.contacts.contactList(contact_path, 1, speak_type)
+            ContactService = marvin.contacts.ContactShow(contact_path, 1, speak_type)
+            ContactService.contactList()
             print('input cancel to cancel delete contact') # cancel message
             speak('Who would you like to delete from your contacts?', speak_type)
             delete_contact = commandInput(type_of_input).lower() # function for listen or raw_input
@@ -137,7 +139,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
 
     elif command == 'add contact' or command == 'new contact':
         try:
-            marvin.contacts.contactList(contact_path, 1, speak_type)
+            ContactService = marvin.contacts.ContactShow(contact_path, 1, speak_type)
+            ContactService.contactList()
             print('input cancel to cancel add contact') # cancel message
             speak('Who would you like to add to you contacts?', speak_type)
             print('First name please')
@@ -170,7 +173,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
 
     elif command == 'send email':
         try:
-            marvin.contacts.contactList(contact_path, 'email', speak_type)
+            ContactService = marvin.contacts.ContactShow(contact_path, 'email', speak_type)
+            ContactService.contactList()
             print('input cancel to cancel send email') # cancel message
             speak('Who would you like to send this email to?', speak_type)
             email_recipient = commandInput(type_of_input).lower() # function for listen or raw_input

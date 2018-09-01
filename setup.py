@@ -1,6 +1,6 @@
 # Imports
 import os
-from platform import system, release
+from platform import system, release, python_version
 from json import dump, load
 from hashlib import sha512
 import sys
@@ -57,7 +57,6 @@ def unix_linux(pass_path, python_path, os):
     os.system('chmod 755 marvin/rest-server/start_rest.sh')
     os.system('chmod 755 marvin_run.sh')
     os.system('chmod 755 setup.sh')
-    os.system('./setup.sh')
     with open(pass_path, 'w') as outfile2:
         var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
         dump(var1, outfile2)
@@ -99,21 +98,14 @@ if check_os == 'Linux':
             out.close()
     os.system('source ' + bashrc)
     print('\nGoing to install tkinter for GUI')
+    os.system('sudo apt-get update')
     os.system('sudo apt-get install python-tk')
-    if '3.7' in sys.version():
-        unix_linux(pass_path, '/usr/bin/python3.7', 'Linux')
-    elif '3.6' in sys.version():
-        unix_linux(pass_path, '/usr/bin/python3.6', 'Linux')
-    elif '3.5' in sys.version():
-        unix_linux(pass_path, '/usr/bin/python3.5', 'Linux')
-    elif '3.4' in sys.version():
-        unix_linux(pass_path, '/usr/bin/python3.4', 'Linux')
-    elif '3.3' in sys.version():
-        unix_linux(pass_path, '/usr/bin/python3.3', 'Linux')
+    if '3' in python_version():
+        unix_linux(pass_path, '/usr/bin/python3', 'Linux')
     else:
         print('Error python3 version not found please type full absolute path to your python3')
-        python_path = input('>')
-        unix_linux(pass_path, python_path, 'Linux')
+        os.system('sudo apt-get install python3.7')
+        unix_linux(pass_path, '/usr/bin/python3', 'Linux')
 
 elif check_os == 'Darwin':
     alias = ('alias marvin="' + path + '/marvin_run.sh"')
@@ -132,20 +124,10 @@ elif check_os == 'Darwin':
     os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
     print('Installing portaudio')
     os.system('brew install portaudio')
-    print('If the following is a path please input the highest version that has a path\nExample: usr/bin/local/python3')
-    print(os.system('which python3.3'))
-    print(os.system('which python3.4'))
-    print(os.system('which python3.5'))
-    print(os.system('which python3.6'))
-    print(os.system('which python3.7'))
-    print('Type the path to your python3.7 or python3 executable')
-    input_python_path = input('Please paste the path to the highest version of python3 that you have\n>')
-    if(os.path.isfile(input_python_path)):
-        unix_linux(pass_path, input_python_path, 'Darwin')
-    elif(os.path.isfile('/usr/local/bin/python3')):
+    if '3' in python_version():
         unix_linux(pass_path, '/usr/local/bin/python3', 'Darwin')
     else:
-        os.system('brew install python')
+        os.system('brew install python3')
         unix_linux(pass_path, '/usr/local/bin/python3', 'Darwin')
 
 elif check_os == 'Windows':

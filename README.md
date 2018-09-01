@@ -15,6 +15,10 @@
 ## Description
 Marvin2.0 is a python program that can open websites and do simple webscrape tasks. Full command list at the bottom of the README.
 
+
+Speech Recognition is currently not working because the library is outdated.
+
+
 ## Installation
 You need python3.7 and pip.
 

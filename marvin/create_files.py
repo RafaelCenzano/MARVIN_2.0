@@ -1,4 +1,4 @@
-import webscrape
+import marvin.webscrape
 from platform import system, release
 import json
 import os

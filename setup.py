@@ -131,19 +131,19 @@ elif check_os == 'Darwin':
         unix_linux(pass_path, '/usr/local/bin/python3', 'Darwin')
 
 elif check_os == 'Windows':
-    python_path = os.path.join('C:','\\Python27','python.exe')
+    python_path = os.path.join('C:','\\Users','savag','AppData','Local','Programs','Python','Python37','python.exe')
     if os.path.isfile(python_path) == False:
-        print("Python2.7 not installed or is not in the default location. Please input your path to python.exe in your Python27 folder. \nExample:\nC:\\Documents\\Programming\\Python27\\python.exe\n\nIf you do not have python installed please close the program and install it here: https://www.python.org/ftp/python/2.7.15/python-2.7.15.msi and install it in the default location")
+        print("Python3.7 not installed or is not in the default location. Please input your path to python.exe in your Python37 folder. \nExample:\nC:\\Documents\\Programming\\Python37\\python.exe\n\nIf you do not have python installed please close the program and install it here: https://www.python.org/downloads/windows/ and install it in the default location")
         python_path = input('>')
         if os.path.isfile(python_path) == False:
-            print('Please install python2.7 here: https://www.python.org/ftp/python/2.7.15/python-2.7.15.msi')
+            print('Please install python2.7 here: https://www.python.org/downloads/windows/')
             exit()
     python_path_list = python_path.split("\\")
     python_path_list.remove('python.exe')
     fixed_python_path = ("\\").join(python_path_list)
     pip_path = (fixed_python_path + '\\Scripts\\pip.exe')
     if os.path.isfile(pip_path) == False:
-        print('You need to install pip. \nDownload the pip install file here: https://bootstrap.pypa.io/get-pip.py and run it with python')
+        print('You need to install pip')
         exit()
     os.system(pip_path + ' install virtualenv==16.0.0')
     os.system('virtualenv --python=' + python_path + ' marvin-env')

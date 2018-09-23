@@ -27,7 +27,7 @@ Make sure to run the setup.py in the MARVIN2.0 directory
 This project uses has a setup.py that should work on MAC, Windows, and most Linux distributions:
 ```
 git clone https://github.com/SavageCoder77/MARVIN_2.0.git
-python2.7 setup.py
+python3.7 setup.py
 ```
 
 ## Usage

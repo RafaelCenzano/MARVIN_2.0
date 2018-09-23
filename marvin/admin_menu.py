@@ -3,14 +3,16 @@ from os import system, path # for getting paths for any os and system for runnin
 from json import load, dump # parse and add json data
 from codecs import encode # to create new passwords
 from hashlib import sha512 # to create new passwords
+from marvin.misc import MarvinExit # class to exit program
 from marvin.network import get_ip # get ip function
-from marvin.essentials import speak # speak function
 from marvin.webscrape import getVersion # webscrape version
+from marvin.essentials import speak # speak function
 
 
 ############################
 # File for ADMIN Menu code #
 ############################
+
 
 # Function to show ADMIN Menu
 def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
@@ -28,6 +30,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                 print('Showing all Users') # print user printing user message
                 for x in search_login: # loop for all users
                     (x) # print all users
+
                 print('You will choose a username and password for the new user\nType a User') # prompt for new usr and pass
                 new_user = input('>') # type user
                 if new_user in search_login: # check if user exists
@@ -35,6 +38,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                 elif 'quit' == new_user.lower() or 'exit' == new_user.lower() or 'cancel' == new_user.lower(): 
                     raise ValueError # check message for cancel
                 else: # user doesn't exist
+
                     while True: # loop until password over 5 characters
                         print('\nType a password for the new user thats over 5 characters') # message that pass have to be over 5 length
                         new_user_pass = input('>') # input for new user pass
@@ -44,6 +48,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                             print('Make your password over 5 characters please') # more characters message
                         else: # password over 5 characters
                             break # break loop
+
                     while True: # loop until correct passward
                         print('\nType your ADMIN password again to confirm this action') # ask for admin password
                         login_pass = input('>') # input password
@@ -56,7 +61,8 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                             print('Incorect Credentials') # wrong password message
                             i = i + 1 # add tries
                             if i >= 5: # if over 5 tries
-                                exit() # exit
+                                raise marvin.misc.MarvinExit
+
                     new_login = encode(new_user, 'rot13') # encode user name
                     new_user_pass_encrypted = sha512(new_user_pass.encode('utf-8') + new_login.encode('utf-8')).hexdigest() # hash password
                     print('Creating User') # print creating messsage
@@ -91,7 +97,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                             print('Incorect Credentials') # wrong password message
                             i = i + 1 # add tries
                             if i >= 5: # if over 5 tries
-                                exit() # exit
+                                raise marvin.misc.MarvinExit
                     del new_user_data['logins'][del_user] # del user and data
                     with open(pass_path, 'w') as outfile: # open file
                         dump(new_user_data, outfile) # add updated file
@@ -111,7 +117,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                     with open('Os.json', 'w') as outfile: # open .Os.json to change marvin version
                         marvin_ver['Marvin_Release'] = online_marvin_version # change marvin version
                         dump(marvin_ver, outfile) # add new version number
-                    exit() # exit to restart
+                    raise marvin.misc.MarvinExit
                 else: # versions match
                     print('No update found\n##############\nYou are up to date') # versions match message
 
@@ -174,4 +180,4 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
         except:
             pass
     if bob == False:
-        exit()
+        raise marvin.misc.MarvinExit

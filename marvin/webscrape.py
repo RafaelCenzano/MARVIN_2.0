@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup as bs # process html
 import requests # to request page url code
 import webbrowser # webbrowser to open websites
 import time # for pause between requests
-from marvin.essentials import speak # import speak and listen
+from marvin.essentials import speak, splitJoin # import speak and splitJoin
 from urllib.parse import urlparse
 
 
@@ -13,9 +13,11 @@ from urllib.parse import urlparse
 
 
 class YoutubeScrape:
-    def __init__(self, search_query):
+    def __init__(self, speak_type, command):
+        self.search_query = splitJoin(command, 1) # function to split and rejoin command
+        self.speak_type = speak_type
         self.videolist = [] # create empty list
-        self.url = ('https://www.youtube.com/results?search_query=' + search_query)# combine url with search query from command
+        self.url = ('https://www.youtube.com/results?search_query=' + self.search_query)# combine url with search query from command
         r = requests.get(self.url) # request page
         page = r.text # formatting
         soup = bs(page, 'html.parser') # parse html
@@ -25,6 +27,7 @@ class YoutubeScrape:
         return bool(urlparse(url).netloc)
 
     def scrapeYoutube(self):
+        speak('Opening first video for ' + self.search_query + ' on YouTube', self.speak_type) # saying what it will open
         for v in self.vids: #for loop for finding all videos that show up
             if self.is_absolute(v['href']) == True:
                 pass
@@ -35,8 +38,8 @@ class YoutubeScrape:
         print('Done!') # finish message
 
 class TomatoeScrape:
-    def __init__(self, search_query, speak_type):
-        self.search_query = search_query
+    def __init__(self, search_query, speak_type, command, split_num):
+        self.search_query = splitJoin(command, split_num) # function to split and rejoin command
         self.speak_type = speak_type
         spliting = search_query.split(" ")[0:]
         search_query_with_under_scores = ("_").join(spliting)

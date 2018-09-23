@@ -8,6 +8,7 @@ from subprocess import Popen, PIPE # to run GUI with terminal command
 # File for miscellaneous code #
 ###############################
 
+class MarvinExit(Exception): pass # class to exit program
 
 # Function to open calculator GUI with subprocess
 def openCalculator():

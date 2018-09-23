@@ -9,6 +9,7 @@ import marvin.misc
 import time
 from datetime import datetime
 import marvin.send_email
+import difflib
 
 
 #####################
@@ -16,11 +17,21 @@ import marvin.send_email
 #####################
 
 
+command_list = ['open reddit', 'open subreddit', 'define', 'what is the definition of','google search','google this','where is','amazon',
+                    'time in','rotten tomatoes','imdb','imdb rating','youtube','standby','exit','quit','leave','close','relog','logout','ls',
+                    'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','open spotify',
+                    'close spotify','what time is it','current time','what is the date','what\'s the date','current date','date today',
+                    'day of the week','week number','open calculator','run calculator','calculator','open stopwatch','run stopwatch','stopwatch'
+                ]
+
+
 #COMMANDS
 
-class MarvinCommands(Exception): pass
-class MarvinRelog(Exception): pass
+class MarvinCommands(Exception): pass # class to choose different input type
+class MarvinRelog(Exception): pass # class to restart main loop to login
 def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak_type):
+
+    bob = False
 
     # Website Commands #
 
@@ -40,7 +51,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
-    elif 'google search' in command:
+    elif 'google search' in command or 'google this' in command:
         gsearch = splitJoin(command, 2) # function to split and rejoin command
         speak('Opening Google search for ' + gsearch, speak_type) # saying what it will open
         url = ('https://www.google.com/search?q=' + gsearch + '&rlz=1C5CHFA_enUS770US770&oq=' + gsearch + '&aqs=chrome..69i57.1173j0j8&sourceid=chrome&ie=UTF-8') # url with search
@@ -71,22 +82,19 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
     # Marvin Webscrape Commands #
 
     elif 'rotten tomatoes' in command:
-        rotten_search = splitJoin(command, 1) # function to split and rejoin command
-        TomatoeScrape = marvin.webscrape.TomatoeScrape(rotten_search, speak_type)
+        TomatoeScrape = marvin.webscrape.TomatoeScrape(speak_type, command, 1)
         TomatoeScrape.scrapeRottentomatoes()
 
     elif 'imdb' in command:
         if 'imdb rating' in command:
-            IMDb = splitJoin(command, 2) # function to split and rejoin command
+            num_type = 2
         elif 'imdb' in command:
-            IMDb = splitJoin(command, 1) # function to split and rejoin command
-        TomatoeScrape = marvin.webscrape.TomatoeScrape(IMDb, speak_type)
+            num_type = 1
+        TomatoeScrape = marvin.webscrape.TomatoeScrape(speak_type, command, num_type)
         TomatoeScrape.IMDb()
 
     elif 'youtube' in command:
-        video = splitJoin(command, 1) # function to split and rejoin command
-        speak('Opening first video for ' + video + ' on YouTube', speak_type) # saying what it will open
-        Youtube_Scrape = marvin.webscrape.YoutubeScrape(video)
+        Youtube_Scrape = marvin.webscrape.YoutubeScrape(speak_type, command)
         Youtube_Scrape.scrapeYoutube() # function to scrape urls
 
     # Marvin Function Commands #
@@ -99,7 +107,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
         speak('Shutting down', speak_type)
         exit() # leave program
 
-    elif command == 'relog' or command == 'logout' or command == 'log out':
+    elif command == 'relog' or command == 'logout':
         speak('logging out', speak_type)
         raise MarvinRelog
 
@@ -218,13 +226,13 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
 
     # Misc Commands #
 
-    elif command == 'what time is it':
+    elif command == 'what time is it' or command == 'current time':
         speak('The time is ' + datetime.now().strftime('%-I:%M %p'), speak_type)
 
-    elif command == 'what is the date':
+    elif command == 'what is the date' or command == 'what\'s the date' or command == 'current date' or command == 'date today':
         speak('The date is ' + datetime.now().strftime('%A %B %-d %Y'), speak_type)
 
-    elif command == "day of the week" or command == 'what day is it':
+    elif "day of the week" in command or command == 'what day is it':
         speak(datetime.now().strftime('%A'), speak_type)
 
     elif command == "week number":
@@ -242,3 +250,35 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
 
     elif command == 'hello' or command == 'hi':
         speak('Hello!', speak_type)
+
+    else:
+        bob = True
+
+
+    if bob == False:
+        return 'null'
+    elif bob == True:
+        auto_corrected_list = difflib.get_close_matches(command, command_list, 1)
+        if auto_corrected_list != []:
+            auto_corrected = auto_corrected_list[0]
+            speak('Did you mean ' + auto_corrected + '?', speak_type)
+            y_n = commandInput(type_of_input) # function for listen or raw_input
+            if 'y' in y_n:
+                split_autocorrected = auto_corrected.split(" ") # split find how many words there are
+                length_auto_corrected = len(split_autocorrected)
+                length_needed = length_auto_corrected - 1
+                split_command_for_data = command.split(" ")[length_needed:]
+                if split_command_for_data != []:
+                    joined_command_data = (" ").join(split_command_for_data) # joining anything that was split from after any unnecessary words
+                    return auto_corrected + joined_command_data
+                else:
+                    return auto_corrected
+            else:
+                print('Command not found')
+                return 'null'
+        else:
+            print('Command not found')
+            return 'null'
+    else:
+        print('Error missing variable')
+        raise MarvinRelog

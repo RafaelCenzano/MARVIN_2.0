@@ -78,7 +78,7 @@ while True:
                         print('\nAwaiting commands') # prompt for command
                         data = listen() #use listen function in commands.py
                         marvin_command_data = marvin.commands.dataCommands(data.lower(), 1, pass_path, contact_path, os_type, speak_type) # check for command and lower what was just said
-                        if marvin_command_data != null: # when command was spelled incorrectly
+                        if marvin_command_data != 'null': # when command was spelled incorrectly
                             marvin_command_run_2 = marvin.commands.dataCommands(marvin_command_data.lower(), 1, pass_path, contact_path, os_type, speak_type) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
 
                 except marvin.commands.MarvinCommands: # except and pass to resume stanby

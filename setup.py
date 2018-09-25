@@ -18,7 +18,7 @@ while True:
 path = os.getcwd()
 def unix_linux(pass_path, python_path, os):
     os.system('pip install virtualenv==16.0.0')
-    os.system('virtualenv --' + python_path + ' marvin-env')
+    os.system('virtualenv --python=' + python_path + ' marvin-env')
     if os == 'Darwin':
         os.system('chmod 755 .mac_installs.sh')
         os.system('./.mac_installs.sh')

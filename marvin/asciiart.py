@@ -66,3 +66,71 @@ def tailCoin():
           `""=,__             __,=""'
                ``""=========""''
         ''')
+
+def diceRoll1():
+    print('''
+    [---------]
+    |         |
+    |    *    |
+    |         |
+    [---------]
+        ''')
+
+def diceRoll2():
+    print('''
+    [---------]
+    |       * |
+    |         |
+    | *       |
+    [---------]
+        ''')
+
+def diceRoll3():
+    print('''
+    [---------]
+    |       * |
+    |    *    |
+    | *       |
+    [---------]
+        ''')
+
+def diceRoll4():
+    print('''
+    [---------]
+    | *     * |
+    |         |
+    | *     * |
+    [---------]
+        ''')
+
+def diceRoll5():
+    print('''
+    [---------]
+    | *     * |
+    |    *    |
+    | *     * |
+    [---------]
+        ''')
+
+def diceRoll6():
+    print('''
+    [---------]
+    | *     * |
+    | *     * |
+    | *     * |
+    [---------]
+        ''')
+
+def d6Roll(num_rolled):
+    if num_rolled == 1:
+        diceRoll1()
+    elif num_rolled == 2:
+        diceRoll2()
+    elif num_rolled == 3:
+        diceRoll3()
+    elif num_rolled == 4:
+        diceRoll4()
+    elif num_rolled == 5:
+        diceRoll5()
+    else:
+        diceRoll6()

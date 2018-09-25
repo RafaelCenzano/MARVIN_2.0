@@ -265,6 +265,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
     elif command == 'roll a die' or command == 'd6' or command == '6 sided dice' or command == 'roll a d6' or command == 'roll a 6 sided die':
         rand_roll = random.randint(1, 6)
         speak('You rolled a ' + str(rand_roll), speak_type)
+        marvin.asciiart.d6Roll(rand_roll)
 
     elif command == 'flip a coin' or command == 'flip coin':
         rand_coin = random.randint(1, 2)

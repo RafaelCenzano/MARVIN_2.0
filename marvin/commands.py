@@ -9,6 +9,8 @@ from marvin.misc import openCalculator, openStopwatch # functions to open Gui
 from marvin.webscrape import TomatoeScrape, YoutubeScrape # import webscrape functions
 from marvin.send_email import Email, EmailService # import email classes
 from marvin.essentials import speak, commandInput, splitJoin # import speak and listen
+import random
+import marvin.asciiart
 
 
 #####################
@@ -18,9 +20,10 @@ from marvin.essentials import speak, commandInput, splitJoin # import speak and 
 
 command_list = ['open reddit', 'open subreddit', 'define', 'what is the definition of','google','where is','amazon',
                     'time in','rotten tomatoes','imdb','imdb rating','youtube','search youtube','standby','exit','quit','leave','close','relog','logout','ls',
-                    'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','open spotify',
-                    'close spotify','what time is it','current time','what is the date','what\'s the date','current date','date today',
-                    'day of the week','week number','open calculator','run calculator','calculator','open stopwatch','run stopwatch','stopwatch'
+                    'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','open spotify','roll a die',
+                    'close spotify','what time is it','current time','what is the date','what\'s the date','current date','date today','d6','6 sided die',
+                    'day of the week','week number','open calculator','run calculator','calculator','open stopwatch','run stopwatch','stopwatch','roll a d6',
+                    'roll a 6 sided die','dice','what dice can I roll','flip coin','flip a coin'
                 ]
 
 
@@ -256,12 +259,25 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
     elif command == 'hello' or command == 'hi':
         speak('Hello!', speak_type)
 
-    elif command == 'roll a die':
+    elif command == 'dice' or command == 'what dice can I roll':
+        speak('You can roll a \nd4, d6, d8, d10, d12, d20', speak_type)
 
+    elif command == 'roll a die' or command == 'd6' or command == '6 sided dice' or command == 'roll a d6' or command == 'roll a 6 sided die':
+        rand_roll = random.randint(1, 6)
+        speak('You rolled a ' + str(rand_roll), speak_type)
 
-
-    elif command == 'flip a coin':
-
+    elif command == 'flip a coin' or command == 'flip coin':
+        rand_coin = random.randint(1, 2)
+        if rand_coin == 1:
+            speak('You flipped head', speak_type)
+            rand_face = random.randint(1, 2)
+            if rand_face == 1:
+                marvin.asciiart.head1Coin()
+            else:
+                marvin.asciiart.head2Coin()
+        else:
+            speak('You flipped tails', speak_type)
+            marvin.asciiart.tailCoin()
 
     else:
         bob = True
@@ -274,8 +290,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
         if auto_corrected_list != []:
             auto_corrected = auto_corrected_list[0]
             speak('Did you mean ' + auto_corrected + '?', speak_type)
-            y_n = commandInput(type_of_input) # function for listen or raw_input
-            if 'y' in y_n:
+            input_auto_correct = commandInput(type_of_input) # function for listen or raw_input
+            if 'y' in input_auto_correct:
                 split_autocorrected = auto_corrected.split(" ") # split find how many words there are
                 length_auto_corrected = len(split_autocorrected)
                 length_needed = length_auto_corrected - 1

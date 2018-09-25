@@ -13,8 +13,8 @@ from urllib.parse import urlparse
 
 
 class YoutubeScrape:
-    def __init__(self, speak_type, command):
-        self.search_query = splitJoin(command, 1) # function to split and rejoin command
+    def __init__(self, speak_type, command, split_num):
+        self.search_query = splitJoin(command, split_num) # function to split and rejoin command
         self.speak_type = speak_type
         self.videolist = [] # create empty list
         self.url = ('https://www.youtube.com/results?search_query=' + self.search_query)# combine url with search query from command

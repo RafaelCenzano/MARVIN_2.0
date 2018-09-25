@@ -17,8 +17,8 @@ import difflib
 #####################
 
 
-command_list = ['open reddit', 'open subreddit', 'define', 'what is the definition of','google search','google this','where is','amazon',
-                    'time in','rotten tomatoes','imdb','imdb rating','youtube','standby','exit','quit','leave','close','relog','logout','ls',
+command_list = ['open reddit', 'open subreddit', 'define', 'what is the definition of','google','where is','amazon',
+                    'time in','rotten tomatoes','imdb','imdb rating','youtube','search youtube','standby','exit','quit','leave','close','relog','logout','ls',
                     'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','open spotify',
                     'close spotify','what time is it','current time','what is the date','what\'s the date','current date','date today',
                     'day of the week','week number','open calculator','run calculator','calculator','open stopwatch','run stopwatch','stopwatch'
@@ -51,8 +51,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
-    elif 'google search' in command or 'google this' in command:
-        gsearch = splitJoin(command, 2) # function to split and rejoin command
+    elif 'google' in command:
+        gsearch = splitJoin(command, 1) # function to split and rejoin command
         speak('Opening Google search for ' + gsearch, speak_type) # saying what it will open
         url = ('https://www.google.com/search?q=' + gsearch + '&rlz=1C5CHFA_enUS770US770&oq=' + gsearch + '&aqs=chrome..69i57.1173j0j8&sourceid=chrome&ie=UTF-8') # url with search
         webopen(url, new = 2) # open url in browser
@@ -94,7 +94,13 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
         TomatoeScrape.IMDb()
 
     elif 'youtube' in command:
-        Youtube_Scrape = marvin.webscrape.YoutubeScrape(speak_type, command)
+        if 'search youtube' in command:
+            num_type = 2
+        elif 'play in youtube' in commands:
+            num_type = 3
+        elif 'youtube' in command:
+            num_type = 1
+        Youtube_Scrape = marvin.webscrape.YoutubeScrape(speak_type, command, num_type)
         Youtube_Scrape.scrapeYoutube() # function to scrape urls
 
     # Marvin Function Commands #

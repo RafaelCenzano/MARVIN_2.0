@@ -1,10 +1,9 @@
 #Imports
 from bs4 import BeautifulSoup as bs # process html
-import requests # to request page url code
-import webbrowser # webbrowser to open websites
-import time # for pause between requests
+from requests import get # to request page url code
+from webbrowser import open as webopen # webbrowser to open websites
+from urllib.parse import urlparse # urlparse to parse url data
 from marvin.essentials import speak, splitJoin # import speak and splitJoin
-from urllib.parse import urlparse
 
 
 ########################
@@ -18,7 +17,7 @@ class YoutubeScrape:
         self.speak_type = speak_type
         self.videolist = [] # create empty list
         self.url = ('https://www.youtube.com/results?search_query=' + self.search_query)# combine url with search query from command
-        r = requests.get(self.url) # request page
+        r = get(self.url) # request page
         page = r.text # formatting
         soup = bs(page, 'html.parser') # parse html
         self.vids = soup.findAll(attrs={'class':'yt-uix-tile-link'}) # search for class yt-uix-tile-link in html from page
@@ -34,7 +33,7 @@ class YoutubeScrape:
             else:
                 tmp = 'https://www.youtube.com' + v['href'] # create url to add to list with links from html
                 self.videolist.append(tmp) # add the newly created url to list
-        webbrowser.open(self.videolist[0], new = 2) # open the url
+        webopen(self.videolist[0], new = 2) # open the url
         print('Done!') # finish message
 
 class TomatoeScrape:
@@ -44,7 +43,7 @@ class TomatoeScrape:
         spliting = search_query.split(" ")[0:]
         search_query_with_under_scores = ("_").join(spliting)
         self.url = ('https://www.rottentomatoes.com/m/' + search_query_with_under_scores)# combine url with search query from command
-        r = requests.get(self.url) # request page
+        r = get(self.url) # request page
         page = r.text # formatting
         self.soup = bs(page, 'html.parser') # parse html
 
@@ -80,7 +79,7 @@ class TomatoeScrape:
 
 def getVersion():
     url = ('https://github.com/SavageCoder77/MARVIN_2.0/blob/master/marvin/json/marvin_version.txt')
-    r = requests.get(url) # request page
+    r = get(url) # request page
     page = r.text
     soup = bs(page, 'html.parser') # parse html
     vids = soup.findAll('td', attrs={'id':'LC1', 'class':'blob-code blob-code-inner js-file-line'}) # search for class meter-value superPageFontColor in html from page

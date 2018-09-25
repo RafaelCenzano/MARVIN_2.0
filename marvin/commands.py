@@ -1,15 +1,14 @@
 #Imports
-from webbrowser import open as webopen # webbrowser to open websites
-from marvin.essentials import speak, commandInput, splitJoin # import speak and listen
-import marvin.webscrape # import webscrape functions
+from os import system, path # run terminal commands and find files in path
 from json import load, dump # import json load
-from threading import Thread
-import os
-import marvin.misc
-import time
-from datetime import datetime
-import marvin.send_email
-import difflib
+from difflib import get_close_matches # import close matches functions
+from datetime import datetime # import datetime to show date and time
+from threading import Thread # import threading to run more than one job at a time
+from webbrowser import open as webopen # webbrowser to open websites
+from marvin.misc import openCalculator, openStopwatch # functions to open Gui
+from marvin.webscrape import TomatoeScrape, YoutubeScrape # import webscrape functions
+from marvin.send_email import Email, EmailService # import email classes
+from marvin.essentials import speak, commandInput, splitJoin # import speak and listen
 
 
 #####################
@@ -82,7 +81,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
     # Marvin Webscrape Commands #
 
     elif 'rotten tomatoes' in command:
-        TomatoeScrape = marvin.webscrape.TomatoeScrape(speak_type, command, 1)
+        TomatoeScrape = TomatoeScrape(speak_type, command, 1)
         TomatoeScrape.scrapeRottentomatoes()
 
     elif 'imdb' in command:
@@ -90,7 +89,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
             num_type = 2
         elif 'imdb' in command:
             num_type = 1
-        TomatoeScrape = marvin.webscrape.TomatoeScrape(speak_type, command, num_type)
+        TomatoeScrape = TomatoeScrape(speak_type, command, num_type)
         TomatoeScrape.IMDb()
 
     elif 'youtube' in command:
@@ -100,7 +99,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
             num_type = 3
         elif 'youtube' in command:
             num_type = 1
-        Youtube_Scrape = marvin.webscrape.YoutubeScrape(speak_type, command, num_type)
+        Youtube_Scrape = YoutubeScrape(speak_type, command, num_type)
         Youtube_Scrape.scrapeYoutube() # function to scrape urls
 
     # Marvin Function Commands #
@@ -119,11 +118,11 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
 
     elif command == 'ls' or command == 'dir':
         if os_type == 'Linux':
-            os.system('ls')
+            system('ls')
         elif os_type == 'Darwin':
-            os.system('ls')
+            system('ls')
         elif os_type == 'Windows':
-            os.system('dir')
+            system('dir')
 
     # Sending based Commands
 
@@ -201,8 +200,8 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
             speak('What is the message you would like to send to ' + email_recipient, speak_type)
             email_body = commandInput(type_of_input) # function for listen or raw_input
             if 'quit' == email_body.lower() or 'exit' == email_body.lower() or 'cancel' == email_body.lower(): raise ValueError # check message for cancel
-            new_send_email = marvin.send_email.Email(contact_path, pass_path, email_recipient, email_subject, email_body, speak_type)
-            Email_Service = marvin.send_email.EmailService()
+            new_send_email = Email(contact_path, pass_path, email_recipient, email_subject, email_body, speak_type)
+            Email_Service = EmailService()
             thread_email = Thread(target = Email_Service.sendemail, args = (new_send_email,))
             thread_email.start()
         except Exception as e:
@@ -214,9 +213,9 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
         if os_type == 'Windows':
             pass
         elif os_type == 'Darwin':
-            if os.path.isdir('/Applications/Spotify.app/') == True:
+            if path.isdir('/Applications/Spotify.app/') == True:
                 speak('Opening Spotify for you', speak_type)
-                os.system('open /Applications/Spotify.app')
+                system('open /Applications/Spotify.app')
             else:
                 speak('You don\'t have Spotify installed', speak_type)
         elif os_type == 'Linux':
@@ -245,17 +244,24 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
         speak(datetime.now().strftime('%W'), speak_type)
 
     elif command == 'open calculator' or command == 'run calculator' or command == 'calculator':
-        thread_calculator = Thread(target = marvin.misc.openCalculator) # run calculator code from calculator.py
+        thread_calculator = Thread(target = openCalculator) # run calculator code from calculator.py
         print('Calculator Opened!') # open message
         thread_calculator.start() # start 2nd thread with calulator so you can run commands along with the calculator open
 
     elif command == 'open stopwatch' or command == 'run stopwatch' or command == 'stopwatch':
-        thread_stopwatch = Thread(target = marvin.misc.openStopwatch) # run calculator code from calculator.py
+        thread_stopwatch = Thread(target = openStopwatch) # run calculator code from calculator.py
         print('Stopwatch Opened!') # open message
         thread_stopwatch.start() # start 2nd thread with calulator so you can run commands along with the calculator open
 
     elif command == 'hello' or command == 'hi':
         speak('Hello!', speak_type)
+
+    elif command == 'roll a die':
+
+
+
+    elif command == 'flip a coin':
+
 
     else:
         bob = True
@@ -264,7 +270,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
     if bob == False:
         return 'null'
     elif bob == True:
-        auto_corrected_list = difflib.get_close_matches(command, command_list, 1)
+        auto_corrected_list = get_close_matches(command, command_list, 1)
         if auto_corrected_list != []:
             auto_corrected = auto_corrected_list[0]
             speak('Did you mean ' + auto_corrected + '?', speak_type)

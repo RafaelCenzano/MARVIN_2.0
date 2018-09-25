@@ -61,7 +61,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                             print('Incorect Credentials') # wrong password message
                             i = i + 1 # add tries
                             if i >= 5: # if over 5 tries
-                                raise marvin.misc.MarvinExit
+                                raise MarvinExit
 
                     new_login = encode(new_user, 'rot13') # encode user name
                     new_user_pass_encrypted = sha512(new_user_pass.encode('utf-8') + new_login.encode('utf-8')).hexdigest() # hash password
@@ -97,7 +97,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                             print('Incorect Credentials') # wrong password message
                             i = i + 1 # add tries
                             if i >= 5: # if over 5 tries
-                                raise marvin.misc.MarvinExit
+                                raise MarvinExit
                     del new_user_data['logins'][del_user] # del user and data
                     with open(pass_path, 'w') as outfile: # open file
                         dump(new_user_data, outfile) # add updated file
@@ -117,7 +117,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                     with open('Os.json', 'w') as outfile: # open .Os.json to change marvin version
                         marvin_ver['Marvin_Release'] = online_marvin_version # change marvin version
                         dump(marvin_ver, outfile) # add new version number
-                    raise marvin.misc.MarvinExit
+                    raise MarvinExit
                 else: # versions match
                     print('No update found\n##############\nYou are up to date') # versions match message
 
@@ -180,4 +180,4 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
         except:
             pass
     if bob == False:
-        raise marvin.misc.MarvinExit
+        raise MarvinExit

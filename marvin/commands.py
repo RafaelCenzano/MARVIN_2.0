@@ -31,7 +31,7 @@ command_list = ['open reddit', 'open subreddit', 'define', 'what is the definiti
 
 class MarvinCommands(Exception): pass # class to choose different input type
 class MarvinRelog(Exception): pass # class to restart main loop to login
-def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak_type):
+def dataCommands(command, type_of_input, pass_path, contact_path, correction_path, os_type, speak_type):
 
     bob = False
 
@@ -256,8 +256,7 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
         print('Stopwatch Opened!') # open message
         thread_stopwatch.start() # start 2nd thread with calulator so you can run commands along with the calculator open
 
-    elif command == 'hello' or command == 'hi':
-        speak('Hello!', speak_type)
+# Chance commands
 
     elif command == 'dice' or command == 'what dice can I roll':
         speak('You can roll a \nd4, d6, d8, d10, d12, d20', speak_type)
@@ -280,8 +279,22 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
             speak('You flipped tails', speak_type)
             marvin.asciiart.tailCoin()
 
+# Marvin Interaction
+
+    elif command == 'hello' or command == 'hi':
+        speak('Hello!', speak_type)
+
+    elif command == 'who are you':
+        speak('I\'m Marvin a virtual assistant created by Rafael Cenzano to make everyday life better and easier', speak_type)
+
     else:
-        bob = True
+        with open(correction_path, 'r') as check_correction:
+            correction_check = load(check_correction)
+        if command in correction_check['corrections']:
+            correct_term = correction_check['corrections'][command]['correct']
+            return correct_term
+        else:
+            bob = True
 
 
     if bob == False:
@@ -295,12 +308,15 @@ def dataCommands(command, type_of_input, pass_path, contact_path, os_type, speak
             if 'y' in input_auto_correct:
                 split_autocorrected = auto_corrected.split(" ") # split find how many words there are
                 length_auto_corrected = len(split_autocorrected)
-                length_needed = length_auto_corrected - 1
+                length_needed = length_auto_corrected
                 split_command_for_data = command.split(" ")[length_needed:]
                 if split_command_for_data != []:
                     joined_command_data = (" ").join(split_command_for_data) # joining anything that was split from after any unnecessary words
-                    return auto_corrected + joined_command_data
+                    return auto_corrected + ' ' + joined_command_data
                 else:
+                    correction_check['corrections'][command] = {"correct":auto_corrected} # new data to add
+                    with open(correction_path, 'w') as outfile:
+                        dump(correction_check, outfile)
                     return auto_corrected
             else:
                 print('Command not found')

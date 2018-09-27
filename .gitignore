@@ -3,7 +3,9 @@
 __pycache__
 marvin/json/contacts.json
 marvin/json/pass.json
+marvin/json/correction.json
 Os.json
+
 marvin_run.sh
 marvin/rest-server/start_rest.sh
 marvin.bat

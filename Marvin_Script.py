@@ -16,6 +16,7 @@ It does logins and command input.
 
 contact_path = path.join('marvin','json','contacts.json') # Format Paths
 pass_path = path.join('marvin','json','pass.json') # Format Paths
+correction_path = path.join('marvin','json','correction.json') # Format Paths
 
 # Master Loop
 while True:
@@ -77,9 +78,9 @@ while True:
                     while 1: # loop to repeat listening commands
                         print('\nAwaiting commands') # prompt for command
                         data = listen() #use listen function in commands.py
-                        marvin_command_data = marvin.commands.dataCommands(data.lower(), 1, pass_path, contact_path, os_type, speak_type) # check for command and lower what was just said
+                        marvin_command_data = marvin.commands.dataCommands(data.lower(), 1, pass_path, contact_path, correction_path, os_type, speak_type) # check for command and lower what was just said
                         if marvin_command_data != 'null': # when command was spelled incorrectly
-                            marvin_command_run_2 = marvin.commands.dataCommands(marvin_command_data.lower(), 1, pass_path, contact_path, os_type, speak_type) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
+                            marvin_command_run_2 = marvin.commands.dataCommands(marvin_command_data, 1, pass_path, contact_path, correction_path, os_type, speak_type) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
 
                 except marvin.commands.MarvinCommands: # except and pass to resume stanby
                     pass # restart loop
@@ -90,9 +91,9 @@ while True:
                     while 1: # loop to repeat input for commands
                         print('\nAwaiting commands') # prompt for command
                         data = input('') # input of typed command
-                        marvin_command_data = marvin.commands.dataCommands(data.lower(), 0, pass_path, contact_path, os_type, speak_type) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
+                        marvin_command_data = marvin.commands.dataCommands(data.lower(), 0, pass_path, contact_path, correction_path, os_type, speak_type) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
                         if marvin_command_data != 'null': # when command was spelled incorrectly
-                            marvin_command_run_2 = marvin.commands.dataCommands(marvin_command_data.lower(), 0, pass_path, contact_path, os_type, speak_type) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
+                            marvin_command_run_2 = marvin.commands.dataCommands(marvin_command_data, 0, pass_path, contact_path, correction_path, os_type, speak_type) # check for command and lower what was just said and adds 0 value to show raw input and not talking commands
 
                 except marvin.commands.MarvinCommands: # except and pass to resume stanby
                     pass #restart loop

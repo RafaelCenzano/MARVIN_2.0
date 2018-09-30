@@ -18,12 +18,12 @@ import marvin.asciiart
 #####################
 
 
-command_list = ['open reddit', 'open subreddit', 'define', 'what is the definition of','google','where is','amazon',
+command_list = ['open reddit', 'open subreddit', 'define', 'what is the definition of','google','where is','amazon','open google docs','open google sheets',
                     'time in','rotten tomatoes','imdb','imdb rating','youtube','search youtube','standby','exit','quit','leave','close','relog','logout','ls',
-                    'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','open spotify','roll a die',
-                    'close spotify','what time is it','current time','what is the date','what\'s the date','current date','date today','d6','6 sided die',
+                    'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','roll a die',
+                    'what time is it','current time','what is the date','what\'s the date','current date','date today','d6','6 sided die',
                     'day of the week','week number','open calculator','run calculator','calculator','open stopwatch','run stopwatch','stopwatch','roll a d6',
-                    'roll a 6 sided die','dice','what dice can I roll','flip coin','flip a coin'
+                    'roll a 6 sided die','dice','what dice can I roll','flip coin','flip a coin','open twitter','open facebook','open github'
                 ]
 
 
@@ -53,6 +53,16 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
+    elif 'open google sheets' == command:
+        speak('Opening Google Sheets for you', speak_type) # saying what it will open twitter
+        webopen('https://docs.google.com/spreadsheets/u/0/', new = 2) # open url in browser
+        print('Done!')
+        
+    elif 'open google docs' == command:
+        speak('Opening Google Docs for you', speak_type) # saying what it will open twitter
+        webopen('https://docs.google.com/document/u/0/', new = 2) # open url in browser
+        print('Done!')
+        
     elif 'google' in command:
         gsearch = splitJoin(command, 1) # function to split and rejoin command
         speak('Opening Google search for ' + gsearch, speak_type) # saying what it will open
@@ -60,6 +70,26 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
         webopen(url, new = 2) # open url in browser
         print('Done!')
 
+    elif 'open twitter' == command:
+        speak('Opening Twitter for you', speak_type) # saying what it will open twitter
+        webopen('https://twitter.com/', new = 2) # open url in browser
+        print('Done!')
+        
+    elif 'open facebook' == command:
+        speak('Opening Facebook for you', speak_type) # saying what it will open twitter
+        webopen('https://www.facebook.com/', new = 2) # open url in browser
+        print('Done!')
+        
+    elif 'open github' == command:
+        speak('Opening Github for you', speak_type) # saying what it will open twitter
+        webopen('https://github.com/', new = 2) # open url in browser
+        print('Done!')
+        
+    elif 'open stack overflow' == command:
+        speak('Opening Stack Overflow for you', speak_type) # saying what it will open twitter
+        webopen('https://stackoverflow.com/', new = 2) # open url in browser
+        print('Done!')
+        
     elif 'where is' in command:
         location = splitJoin(command, 2) # function to split and rejoin command
         speak('Hold on, I will show you where ' + location + ' is.', speak_type) # saying the location heard
@@ -209,28 +239,6 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
             thread_email.start()
         except Exception as e:
             print('Cancelling')
-
-    # Open Apps Commands #
-
-    elif command == 'open spotify':
-        if os_type == 'Windows':
-            pass
-        elif os_type == 'Darwin':
-            if path.isdir('/Applications/Spotify.app/') == True:
-                speak('Opening Spotify for you', speak_type)
-                system('open /Applications/Spotify.app')
-            else:
-                speak('You don\'t have Spotify installed', speak_type)
-        elif os_type == 'Linux':
-            pass
-
-    elif command == 'close spotify':
-        if os_type == 'Windows':
-            pass
-        elif os_type == 'Darwin':
-            os.system('osascript -e \'quit app "Spotify"\'')
-        elif os_type == 'Linux':
-            pass
 
     # Misc Commands #
 

@@ -37,10 +37,10 @@ class YoutubeScrape:
         print('Done!') # finish message
 
 class TomatoeScrape:
-    def __init__(self, search_query, speak_type, command, split_num):
+    def __init__(self, speak_type, command, split_num):
         self.search_query = splitJoin(command, split_num) # function to split and rejoin command
         self.speak_type = speak_type
-        spliting = search_query.split(" ")[0:]
+        spliting = self.search_query.split(" ")[0:]
         search_query_with_under_scores = ("_").join(spliting)
         self.url = ('https://www.rottentomatoes.com/m/' + search_query_with_under_scores)# combine url with search query from command
         r = get(self.url) # request page
@@ -49,8 +49,8 @@ class TomatoeScrape:
 
 
     def scrapeRottentomatoes(self):
-        rt = self.soup.findAll('span', attrs={'class':'meter-value superPageFontColor'}) # search for class meter-value superPageFontColor in html from page
         try:
+            rt = self.soup.findAll('span', attrs={'class':'meter-value superPageFontColor'}) # search for class meter-value superPageFontColor in html from page
             if rt == []: raise Exception
             raiting = rt[0].getText()
             speak('Rotten Tomatoes gave '+ self.search_query + ' ' + raiting, self.speak_type)
@@ -63,19 +63,52 @@ class TomatoeScrape:
             elif like_or_want == 'want to see':
                 speak('\n' + score + ' want to see ' + self.search_query, self.speak_type)
             else:
-                print('\nError\nI web scraped the wrong data or Rotten Tomatoes changed their format please report this issue immediatly so we can fix it')
+                raise Exception
         except Exception as e:
             speak('\nI ran into a problem\nThe name of the movie was probably input incorrectly', self.speak_type)
             print(e)
 
     def IMDb(self):
-        pg_up = self.soup.findAll('li', attrs={'class':'meta-row clearfix'})
         try:
+            pg_up = self.soup.findAll('li', attrs={'class':'meta-row clearfix'})
             if pg_up == []: raise Exception
             up_pg = pg_up[0].getText()
             speak('\n' + self.search_query + ' got a IMDb' + up_pg, self.speak_type)
         except Exception as e:
             speak('\nI ran into a problem\nThe name of the movie was probably input incorrectly', self.speak_type)
+
+class DefinitionFind:
+    def __init__(self, speak_type, command, split_num):
+        self.search_query = splitJoin(command, split_num) # function to split and rejoin command
+        self.speak_type = speak_type
+        url = ('https://www.dictionary.com/browse/' + self.search_query + '?s=t')# combine url with search query from command
+        r = get(url) # request page
+        page = r.text # formatting
+        self.soup = bs(page, 'html.parser') # parse html
+
+    def scrapeDefinition(self):
+        try:
+            define_find_type = self.soup.findAll('span', attrs={'class':'luna-pos'})
+            define_find = self.soup.findAll('span', attrs={'class':'css-9sn2pa e10vl5dg6'})
+            if define_find == []: raise Exception
+            if define_find_type == []: raise Exception
+            definition_type = define_find_type[0].getText()
+            definition = define_find[0].getText()
+            definition_type_corrected = self.removeComma(definition_type)
+            speak(self.search_query + ' is a ' + definition_type_corrected + '\nThe definition is: ' + definition, self.speak_type)
+        except Exception as e:
+            speak('\nI ran into a problem\nThe name of the word was probably input incorrectly', self.speak_type)
+            print(e)
+
+    def removeComma(self, definition_type):
+        definition_type_letters = list(definition_type)
+        if ',' in definition_type_letters:
+            definition_type_letters.remove(',')
+            joined_definition_type = ("").join(definition_type_letters) # joining anything that was split from after any unnecessary words
+            return joined_definition_type
+        else:
+            return definition_type
+
 
 def getVersion():
     url = ('https://github.com/SavageCoder77/MARVIN_2.0/blob/master/marvin/json/marvin_version.txt')

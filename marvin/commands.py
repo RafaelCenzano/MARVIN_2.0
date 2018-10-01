@@ -6,7 +6,7 @@ from datetime import datetime # import datetime to show date and time
 from threading import Thread # import threading to run more than one job at a time
 from webbrowser import open as webopen # webbrowser to open websites
 from marvin.misc import openCalculator, openStopwatch # functions to open Gui
-from marvin.webscrape import TomatoeScrape, YoutubeScrape # import webscrape functions
+from marvin.webscrape import TomatoeScrape, YoutubeScrape, DefinitionFind # import webscrape functions
 from marvin.send_email import Email, EmailService # import email classes
 from marvin.essentials import speak, commandInput, splitJoin # import speak and listen
 import random
@@ -41,16 +41,6 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
         subreddit = splitJoin(command, 2) # function to split and rejoin command
         speak('Opening subreddit ' + subreddit + ' for you', speak_type) # saying the subreddit page
         webopen('https://www.reddit.com/r/' + subreddit, new = 2) # open url in browser
-        print('Done!')
-
-    elif 'define' in command or 'what is the definition of' in command:
-        if 'what is the definition of' in command:
-            define = splitJoin(command, 5)
-        elif 'define' in command:
-            define = splitJoin(command, 1)
-        speak('Opening the definition of ' + define + ' for you', speak_type)
-        url = ('https://www.dictionary.com/browse/' + define +'?s=t')
-        webopen(url, new = 2) # open url in browser
         print('Done!')
 
     elif 'google' in command:
@@ -104,6 +94,14 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
             num_type = 1
         Youtube_Scrape = YoutubeScrape(speak_type, command, num_type)
         Youtube_Scrape.scrapeYoutube() # function to scrape urls
+
+    elif 'define' in command or 'what is the definition of' in command:
+        if 'what is the definition of' in command:
+            num_type = 5
+        elif 'define' in command:
+            num_type = 1
+        Definition_Find = DefinitionFind(speak_type, command, num_type)
+        Definition_Find.scrapeDefinition() # function to scrape urls
 
     # Marvin Function Commands #
 

@@ -6,7 +6,7 @@ from datetime import datetime # import datetime to show date and time
 from threading import Thread # import threading to run more than one job at a time
 from webbrowser import open as webopen # webbrowser to open websites
 from marvin.misc import openCalculator, openStopwatch # functions to open Gui
-from marvin.webscrape import TomatoeScrape, YoutubeScrape # import webscrape functions
+from marvin.webscrape import TomatoeScrape, YoutubeScrape, DefinitionFind # import webscrape functions
 from marvin.send_email import Email, EmailService # import email classes
 from marvin.essentials import speak, commandInput, splitJoin # import speak and listen
 import random
@@ -20,7 +20,7 @@ import marvin.asciiart
 
 command_list = ['open reddit', 'open subreddit', 'define', 'what is the definition of','google','where is','amazon','open google docs','open google sheets',
                     'time in','rotten tomatoes','imdb','imdb rating','youtube','search youtube','standby','exit','quit','leave','close','relog','logout','ls',
-                    'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','roll a die',
+                    'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','roll a die','shut down','shutdown'
                     'what time is it','current time','what is the date','what\'s the date','current date','date today','d6','6 sided die',
                     'day of the week','week number','open calculator','run calculator','calculator','open stopwatch','run stopwatch','stopwatch','roll a d6',
                     'roll a 6 sided die','dice','what dice can I roll','flip coin','flip a coin','open twitter','open facebook','open github'
@@ -41,16 +41,6 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
         subreddit = splitJoin(command, 2) # function to split and rejoin command
         speak('Opening subreddit ' + subreddit + ' for you', speak_type) # saying the subreddit page
         webopen('https://www.reddit.com/r/' + subreddit, new = 2) # open url in browser
-        print('Done!')
-
-    elif 'define' in command or 'what is the definition of' in command:
-        if 'what is the definition of' in command:
-            define = splitJoin(command, 5)
-        elif 'define' in command:
-            define = splitJoin(command, 1)
-        speak('Opening the definition of ' + define + ' for you', speak_type)
-        url = ('https://www.dictionary.com/browse/' + define +'?s=t')
-        webopen(url, new = 2) # open url in browser
         print('Done!')
 
     elif 'open google sheets' == command:
@@ -135,13 +125,21 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
         Youtube_Scrape = YoutubeScrape(speak_type, command, num_type)
         Youtube_Scrape.scrapeYoutube() # function to scrape urls
 
+    elif 'define' in command or 'what is the definition of' in command:
+        if 'what is the definition of' in command:
+            num_type = 5
+        elif 'define' in command:
+            num_type = 1
+        Definition_Find = DefinitionFind(speak_type, command, num_type)
+        Definition_Find.scrapeDefinition() # function to scrape urls
+
     # Marvin Function Commands #
 
     elif 'standby' in command:
         speak('Going on standby', speak_type)
         raise MarvinCommands # raise exeption so class passes and restarts loop
 
-    elif command == 'exit' or command == 'quit' or command == 'leave' or command == 'close':
+    elif command == 'exit' or command == 'quit' or command == 'leave' or command == 'close' or command == 'shutdown' or command == 'shut down':
         speak('Shutting down', speak_type)
         exit() # leave program
 

@@ -13,7 +13,7 @@ from speech_recognition import Recognizer, Microphone, UnknownValueError, Reques
 ################################
 
 
-def speak(spokenString, voice, type='none'):
+def speak(spokenString, voice):
     python_path = path.join('marvin-env','bin','python3') # Format Paths
     speak_path = path.join('marvin','pyttsx3_speak.py') # Format Paths
     print(spokenString) # string to speak

@@ -3,6 +3,7 @@ from os import system, path # for getting paths for any os and system for runnin
 from json import load, dump # parse and add json data
 from codecs import encode # to create new passwords
 from hashlib import sha512 # to create new passwords
+from getpass import getpass # for hiding password input like sudo commands
 from marvin.network import get_ip # get ip function
 from marvin.webscrape import getVersion # webscrape version
 from marvin.essentials import speak # speak function
@@ -50,7 +51,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
 
                     while True: # loop until correct passward
                         print('\nType your ADMIN password again to confirm this action') # ask for admin password
-                        login_pass = input('>') # input password
+                        login_pass = getpass('>') # input password
                         login_pass2 = sha512(login_pass.encode('utf-8') + 'NQZVA').hexdigest() # hash password to match if in file
                         if login_pass2 == new_user_data['logins']['ADMIN']['pass']: # check if password matches
                             break # leave loop
@@ -86,7 +87,7 @@ def ADMIN(contact_path, pass_path, speak_type): # ADMIN MENU
                 elif del_user in search_login: # check if user exists
                     while True: # loop until correct passward
                         print('\nType your ADMIN password again to confirm this action') # ask for admin password
-                        login_pass = input('>') # input password
+                        login_pass = getpass('>') # input password
                         login_pass2 = sha512(login_pass.encode('utf-8') + 'NQZVA').hexdigest() # hash password to match if in file
                         if login_pass2 == new_user_data['logins']['ADMIN']['pass']: # check if password matches
                             break # leave loop

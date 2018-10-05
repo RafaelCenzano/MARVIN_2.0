@@ -1,10 +1,11 @@
 # Imports
 import marvin.misc # import MarvinExit class
+import marvin.commands # import all commands
 from os import path # path to create paths per os type
 from json import load # import json.load to format json data
-import marvin.commands # import all commands
 from codecs import encode # function to encode data
 from hashlib import sha512 # hash data
+from getpass import getpass # for hiding password input like sudo commands
 from marvin.admin_menu import ADMIN # import ADMIN menu
 from marvin.essentials import speak, listen # import speak and listen
 
@@ -48,7 +49,7 @@ while True:
 
             new_login = encode(login_usr, 'rot13') # encode user for salt
             print('Please Type Password') # type password prompt
-            login_pass = input('>') # take password input
+            login_pass = getpass('>')
             login_pass2 = sha512(login_pass.encode('utf-8') + new_login.encode('utf-8')).hexdigest() # hash
             if login_pass2 == new_login_data['logins'][login_usr]['pass']: # if passwords match allow login
                 if login_usr == 'ADMIN': # if user admin open admin menu

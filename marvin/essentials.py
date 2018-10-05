@@ -1,10 +1,9 @@
 # Imports
 from os import path, remove # import os
 from gtts import gTTS # gtts for text to speech
-from pyttsx3 import init # pyttsx3 for male voice
 from platform import system # find os type
 from playsound import playsound # play sounds for windows gtts
-from subprocess import Popen, PIPE # subprocess for playing audio
+from subprocess import Popen, PIPE, call # subprocess for playing audio
 from marvin.network import checkConnection # check internet
 from speech_recognition import Recognizer, Microphone, UnknownValueError, RequestError # speech_recognition to turn speech to string
 
@@ -14,7 +13,9 @@ from speech_recognition import Recognizer, Microphone, UnknownValueError, Reques
 ################################
 
 
-def speak(spokenString, voice):
+def speak(spokenString, voice, type='none'):
+    python_path = path.join('marvin-env','bin','python3') # Format Paths
+    speak_path = path.join('marvin','pyttsx3_speak.py') # Format Paths
     print(spokenString) # string to speak
     if voice == 'female' and checkConnection() == True:
         if path.isfile("Speak.mp3"):
@@ -27,14 +28,10 @@ def speak(spokenString, voice):
             proc = Popen(['mpg321 Speak.mp3'], stdout = PIPE, stderr = PIPE, shell = True) # Popen command with terminal command arguments
             (out, err) = proc.communicate() # opening speak file
     elif voice == 'male':
-        engine = init()
-        engine.say(spokenString)
-        engine.runAndWait()
+        call([python_path, speak_path, spokenString])
     else:
         print('No internet connection using offline speak')
-        engine = init()
-        engine.say(spokenString)
-        engine.runAndWait()
+        call([python_path, speak_path, spokenString])
 
 def listen():
     r = Recognizer() # less writing

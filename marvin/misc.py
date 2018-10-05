@@ -1,5 +1,4 @@
 # Imports
-import socket # import socket to get ip address
 from os import path
 from platform import system # find os type
 from subprocess import Popen, PIPE # to run GUI with terminal command

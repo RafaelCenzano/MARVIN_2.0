@@ -6,6 +6,7 @@ from datetime import datetime # import datetime to show date and time
 from threading import Thread # import threading to run more than one job at a time
 from webbrowser import open as webopen # webbrowser to open websites
 from marvin.misc import openCalculator, openStopwatch # functions to open Gui
+from marvin.timer import TimerService # functions to run a threaded timer
 from marvin.webscrape import TomatoeScrape, YoutubeScrape, DefinitionFind # import webscrape functions
 from marvin.send_email import Email, EmailService # import email classes
 from marvin.essentials import speak, commandInput, splitJoin # import speak and listen
@@ -21,7 +22,7 @@ import marvin.asciiart
 command_list = ['open reddit', 'open subreddit', 'define', 'what is the definition of','google','where is','amazon','open google docs','open google sheets',
                     'time in','rotten tomatoes','imdb','imdb rating','youtube','search youtube','standby','exit','quit','leave','close','relog','logout','ls',
                     'dir','contacts','contact list','remove contact','delete contact','add contact','new contact','send email','roll a die','shut down','shutdown'
-                    'what time is it','current time','what is the date','what\'s the date','current date','date today','d6','6 sided die',
+                    'what time is it','current time','what is the date','what\'s the date','current date','date today','d6','6 sided die','set a timer for'
                     'day of the week','week number','open calculator','run calculator','calculator','open stopwatch','run stopwatch','stopwatch','roll a d6',
                     'roll a 6 sided die','dice','what dice can I roll','flip coin','flip a coin','open twitter','open facebook','open github'
                 ]
@@ -249,8 +250,14 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
     elif "day of the week" in command or command == 'what day is it':
         speak(datetime.now().strftime('%A'), speak_type)
 
-    elif command == "week number":
+    elif command == 'week number':
         speak(datetime.now().strftime('%W'), speak_type)
+
+    elif  'set a timer for' in command:
+        time_for = splitJoin(command, 4) # function to split and rejoin command
+        Timer_Service = TimerService(time_for, speak_type)
+        thread_timer = Thread(target = Timer_Service.timerLogic)
+        thread_timer.start()
 
     elif command == 'open calculator' or command == 'run calculator' or command == 'calculator':
         thread_calculator = Thread(target = openCalculator) # run calculator code from calculator.py

@@ -35,13 +35,14 @@ To start Marvin you run if your in Linux and MacOS terminal:
 ```
 marvin
 ```
-From there you login with a User. If its your first time running Marvin you have to login with ADMIN to create a new User to login and use Marvin's [commands](#commands). After you login you read the instructions on screen and you should be able to run any [commands](#commands).
 
-To start on Windows you type:
+To start on Windows you type in the same folder as all the code or add the whole path to the MARVIN folder in your enviormental path variable:
 ```
 marvin
 ```
-in the same folder as all the code or add the whole path to the folder in your enviormental path variable.
+
+
+From there you login with a User. If its your first time running Marvin you have to login with ADMIN to create a new User to login and use Marvin's [commands](#commands). After you login you read the instructions on screen and you should be able to run any [commands](#commands).
 
 ## License
 This project is licensed under the terms of the Apache2.0 license. See the LICENSE file.

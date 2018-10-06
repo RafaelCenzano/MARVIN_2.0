@@ -28,8 +28,6 @@ def unix_linux(pass_path, python_path, os):
     env = ('source ' + path + '/marvin-env/bin/activate')
     script = (path + '/marvin-env/bin/python2.7 ' + path + '/Marvin_Script.py')
     cd = ('cd ' + path)
-    script2 = (path + '/marvin-env/bin/python2.7 ' + path + '/marvin/rest-server/rest-server.py')
-    cd2 = ('cd ' + path + '/marvin/rest-server')
     # marvin script start file
     out2 = open('marvin_run.sh', 'a')
     out2.write('#!/bin/bash')
@@ -42,21 +40,7 @@ def unix_linux(pass_path, python_path, os):
     out2.write('\n')
     out2.write('deactivate')
     out2.close()
-    # rest server start file
-    out3 = open('marvin/rest-server/start_rest.sh', 'a')
-    out3.write('#!/bin/bash')
-    out3.write('\n')
-    out3.write(env)
-    out3.write('\n')
-    out3.write(cd2)
-    out3.write('\n')
-    out3.write(script2)
-    out3.write('\n')
-    out3.write('deactivate')
-    out3.close()
-    os.system('chmod 755 marvin/rest-server/start_rest.sh')
     os.system('chmod 755 marvin_run.sh')
-    os.system('chmod 755 setup.sh')
     with open(pass_path, 'w') as outfile2:
         var1 = {"email_address":email_usr, "email_password":email_pass, "logins":{"ADMIN":{"pass":pass_new}}}
         dump(var1, outfile2)
@@ -100,7 +84,7 @@ if check_os == 'Linux':
     print('\nGoing to install tkinter for GUI')
     os.system('sudo apt-get update')
     os.system('sudo apt-get install python-tk')
-    if '3' in python_version():
+    if '3.7' in python_version():
         unix_linux(pass_path, '/usr/bin/python3', 'Linux')
     else:
         print('Error python3 version not found please type full absolute path to your python3')
@@ -124,8 +108,8 @@ elif check_os == 'Darwin':
     os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
     print('Installing portaudio')
     os.system('brew install portaudio')
-    if '3' in python_version():
-        unix_linux(pass_path, '/usr/local/bin/python3', 'Darwin')
+    if '3.7' in python_version():
+        unix_linux(pass_path, '/usr/local/bin/python3.7', 'Darwin')
     else:
         os.system('brew install python3')
         unix_linux(pass_path, '/usr/local/bin/python3', 'Darwin')

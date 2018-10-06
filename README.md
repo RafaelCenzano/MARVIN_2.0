@@ -13,7 +13,7 @@
 5. [Commands](#commands)
 
 ## Description
-Marvin2.0 is a python program that can open websites and do simple webscrape tasks. Full command list at the bottom of the README.
+Marvin2.0 is a python program that can open websites and do simple webscrape tasks. Full command list coming soon.
 
 
 Speech Recognition is currently not working because the library is outdated.

@@ -15,7 +15,7 @@ def openCalculator():
         python_path = path.join('marvin-env','Scripts','python.exe')
     else:
         python_path = path.join('marvin-env','bin','python') # get path for any os
-    calculator_path = path.join('marvin','calculator.py') # get path for any os
+    calculator_path = path.join('marvin','called_files','calculator.py') # get path for any os
     calculator = Popen([python_path + ' ' + calculator_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
     (out, err) = calculator.communicate() # opening calculator file
 
@@ -25,6 +25,6 @@ def openStopwatch():
         python_path = path.join('marvin-env','Scripts','python.exe') # executable for windows
     else: # for linux and unix
         python_path = path.join('marvin-env','bin','python') # get path for any os
-    stopwatch_path = path.join('marvin','stopwatch.py') # get path for any os
+    stopwatch_path = path.join('marvin','called_files','stopwatch.py') # get path for any os
     stopwatch = Popen([python_path + ' ' + stopwatch_path], stdout = PIPE, stderr = PIPE, shell = True) # terminal command to run in shell
     (out, err) = stopwatch.communicate() # opening stopwatch file

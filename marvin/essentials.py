@@ -15,7 +15,7 @@ from speech_recognition import Recognizer, Microphone, UnknownValueError, Reques
 
 def speak(spokenString, voice):
     python_path = path.join('marvin-env','bin','python3') # Format Paths
-    speak_path = path.join('marvin','pyttsx3_speak.py') # Format Paths
+    speak_path = path.join('marvin','called_files','pyttsx3_speak.py') # Format Paths
     print(spokenString) # string to speak
     if voice == 'female' and checkConnection() == True:
         if path.isfile("Speak.mp3"):

@@ -1,6 +1,6 @@
 #Imports
 from bs4 import BeautifulSoup as bs # process html
-from network import checkConnection # to make sure connected to internet
+from marvin.network import checkConnection # to make sure connected to internet
 from requests import get # to request page url code
 from webbrowser import open as webopen # webbrowser to open websites
 from urllib.parse import urlparse # urlparse to parse url data

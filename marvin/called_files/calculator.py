@@ -56,7 +56,8 @@ def cuberoot():
     try:
         global expression # point out the global expression variable
         global show_expression # point out the global expression variable
-        answer = float(expression) ** (1. / 3)
+        total = str(eval(expression)) # set showing equation as answer
+        answer = float(total) ** (1. / 3)
         if (answer).is_integer(): # remove .0 if number is integer
             fixed_answer = int(answer)
         else: # leave number as float if its a float
@@ -75,7 +76,8 @@ def percent():
     try:
         global expression # point out the global expression variable
         global show_expression # point out the global expression variable
-        answer = (float(expression) / 100)
+        total = str(eval(expression)) # set showing equation as answer
+        answer = (float(total) / 100)
         if (answer).is_integer(): # remove .0 if number is integer
             fixed_answer = int(answer)
         else: # leave number as float if its a float
@@ -113,7 +115,8 @@ def squareroot_number2():
     try:
         global expression # point out the global expression variable
         global show_expression # point out the global expression variable
-        answer = math.sqrt(float(expression))
+        total = str(eval(expression)) # set showing equation as answer
+        answer = math.sqrt(float(total))
         if (answer).is_integer(): # remove .0 if number is integer
             fixed_answer = int(answer)
         else: # leave number as float if its a float
@@ -132,7 +135,8 @@ def square():
     try:
         global expression # point out the global expression variable
         global show_expression # point out the global expression variable
-        answer = math.pow(float(expression), 2.0)
+        total = str(eval(expression)) # set showing equation as answer
+        answer = math.pow(float(total), 2.0)
         if (answer).is_integer(): # remove .0 if number is integer
             fixed_answer = int(answer)
         else: # leave number as float if its a float
@@ -151,7 +155,8 @@ def cube():
     try:
         global expression # point out the global expression variable
         global show_expression # point out the global expression variable
-        answer = math.pow(float(expression), 3.0)
+        total = str(eval(expression)) # set showing equation as answer
+        answer = math.pow(float(total), 3.0)
         if (answer).is_integer(): # remove .0 if number is integer
             fixed_answer = int(answer)
         else: # leave number as float if its a float

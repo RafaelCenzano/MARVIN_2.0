@@ -33,14 +33,21 @@ def equalpress(): # Function to evaluate the final expression
         # and str function convert the result
         # into string
         total = str(eval(expression)) # set showing equation as answer
-        equation.set(total) # show answer
+
+        if (float(total)).is_integer(): # remove .0 if number is integer
+            fixed_answer = int(float(total))
+        else: # leave number as float if its a float
+            fixed_answer = total
+
+        equation.set(str(fixed_answer)) # show answer
         # initialze the expression variable
         # by empty string
         expression = total
         show_expression = total
     # if error is generate then handle
     # by the except block
-    except:
+    except Exception as e:
+        print(e)
         equation.set(" error ") # error message
         expression = "" # reset all text
         show_expression = "" # reset all text

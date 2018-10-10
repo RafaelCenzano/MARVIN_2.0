@@ -5,7 +5,7 @@ from difflib import get_close_matches # import close matches functions
 from datetime import datetime # import datetime to show date and time
 from threading import Thread # import threading to run more than one job at a time
 from webbrowser import open as webopen # webbrowser to open websites
-from marvin.api import RetrieveApiService, ApiDataProcessing # classes to handle api work
+from marvin.api import ApiService # classes to handle api work
 from marvin.misc import openCalculator, openStopwatch # functions to open Gui
 from marvin.timer import TimerService # functions to run a threaded timer
 from marvin.webscrape import TomatoeScrape, YoutubeScrape, DefinitionFind # import webscrape functions
@@ -138,16 +138,14 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
     # Marvin Api Commands #
 
     elif 'full random taco' == command:
-        Api_Service = RetrieveApiService(speak_type)
-        api_data = Api_Service.tacoFullRand()
-        Api_Data_Processing = ApiDataProcessing()
-        Api_Data_Processing.dataTaco(api_data)
+        Api_Service = ApiService(speak_type)
+        Api_Service.tacoFullRand()
+        Api_Service.dataTaco()
 
     elif 'random taco' == command:
-        Api_Service = RetrieveApiService(speak_type)
-        api_data = Api_Service.tacoFullRand()
-        Api_Data_Processing = ApiDataProcessing()
-        Api_Data_Processing.dataTaco(api_data)
+        Api_Service = ApiService(speak_type)
+        Api_Service.tacoFullRand()
+        Api_Service.dataTaco()
 
     # Marvin Function Commands #
 

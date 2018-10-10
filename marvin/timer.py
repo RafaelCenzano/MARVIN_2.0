@@ -62,7 +62,7 @@ class TimerService():
         else:
             speak('You need to input a number for the timer', self.speak_type)
 
-    def timer(self, minutes_in_seconds):
+    def timer(self, delay):
         print('Timer Started')
-        time.sleep(float(minutes_in_seconds))
+        time.sleep(float(delay))
         speak('Timer Done!', self.speak_type)

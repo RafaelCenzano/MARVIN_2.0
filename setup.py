@@ -20,11 +20,10 @@ def unix_linux(pass_path, python_path, os):
     os.system('pip install virtualenv==16.0.0')
     os.system('virtualenv --python=' + python_path + ' marvin-env')
     if os == 'Darwin':
-        os.system('chmod 755 .mac_installs.sh')
-        os.system('./.mac_installs.sh')
+        os.system('marvin-env/bin/pip install --editable git+https://github.com/nateshmbhat/pyttsx3.git@master#egg=pyttsx3')
     else:
-        os.system('chmod 755 .linux_installs.sh')
-        os.system('./.linux_installs.sh')
+        os.system('marvin-env/bin/pip install pyttsx3')
+    os.system('marvin-env/bin/pip install -r requirements.txt')
     env = ('source ' + path + '/marvin-env/bin/activate')
     script = (path + '/marvin-env/bin/python2.7 ' + path + '/Marvin_Script.py')
     cd = ('cd ' + path)

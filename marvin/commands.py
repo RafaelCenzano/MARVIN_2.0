@@ -281,6 +281,12 @@ def dataCommands(command, type_of_input, pass_path, contact_path, correction_pat
         thread_stopwatch = Thread(target = openStopwatch) # run calculator code from calculator.py
         print('Stopwatch Opened!') # open message
         thread_stopwatch.start() # start 2nd thread with calulator so you can run commands along with the calculator open
+    
+    # Help commands
+
+    elif command == 'help':
+        for c in command_list:
+            print(c)
 
 # Chance commands
 
